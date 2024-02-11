@@ -7,9 +7,12 @@ export class NotionClient {
   private readonly client: AxiosInstance
   private readonly cache: NodeCache
 
-  constructor({ stdTTL = 3600 }: { stdTTL?: number } = {}) {
+  constructor({
+    NOTION_API_KEY = process.env.NOTION_API_KEY,
+    stdTTL = 3600
+  }: { NOTION_API_KEY?: string; stdTTL?: number } = {}) {
     if (!(process.env.NOTION_API_KEY != null)) {
-      throw new Error('Token is not set')
+      throw new Error('NOTION_API_KEY is not set')
     }
     this.client = axios.create({
       baseURL: 'https://api.notion.com',
@@ -77,6 +80,22 @@ export class NotionClient {
 
     this.set(url, data)
     return new BlockList(data, this)
+  }
+
+  async getHTML(
+    id: string,
+    options: {
+      forceRefresh: boolean
+    } = {
+      forceRefresh: false
+    }
+  ): Promise<string> {
+    const blockList = await this.blocksChildren(id, {
+      forceRefresh: options.forceRefresh,
+      recursive: true
+    })
+    const HTML = await blockList.toHTML()
+    return HTML
   }
 }
 
