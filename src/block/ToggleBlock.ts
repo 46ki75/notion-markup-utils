@@ -38,7 +38,6 @@ export class ToggleBlock extends Block {
 
   async toHTML(): Promise<string> {
     const data = await this.notion.blocksChildren(this.id)
-    console.log(data.results)
 
     const summaryPromises = this.toggle.rich_text.map(
       async (item) => await item.toHTML()

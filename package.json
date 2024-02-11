@@ -18,8 +18,12 @@
   },
   "prettier": "prettier-config-standard",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Chomolungma Shirayuki",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/46ki75/notion-markup-utils.git"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
