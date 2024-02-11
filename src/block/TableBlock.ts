@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#table
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 
 export interface TableBlockResponse extends BlockResponse {
@@ -18,8 +19,17 @@ export class TableBlock extends Block {
     has_row_header: boolean
   }
 
-  constructor(tableBlockResponse: TableBlockResponse) {
-    super(tableBlockResponse)
+  private readonly notion: NotionClient
+
+  constructor(tableBlockResponse: TableBlockResponse, notion: NotionClient) {
+    super(tableBlockResponse, notion)
     this.table = { ...tableBlockResponse.table }
+    this.notion = notion
+  }
+
+  async toHTML(): Promise<string> {
+    const data = await this.notion.blocksChildren(this.id)
+    const HTML = await data.toHTML()
+    return `<table class='notion-table'>${HTML}</table>`
   }
 }

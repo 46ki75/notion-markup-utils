@@ -1,4 +1,5 @@
 // @see  https://developers.notion.com/reference/block#to-do
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -21,16 +22,24 @@ export class ToDoBlock extends Block {
     children: Block[]
   }
 
-  constructor(toDoBlockResponse: ToDoBlockResponse) {
-    super(toDoBlockResponse)
+  constructor(toDoBlockResponse: ToDoBlockResponse, notion: NotionClient) {
+    super(toDoBlockResponse, notion)
     this.to_do = {
       ...toDoBlockResponse.to_do,
       rich_text: toDoBlockResponse.to_do.rich_text?.map(
-        (item) => new RichText(item)
+        (item) => new RichText(item) ?? []
       ),
       children: toDoBlockResponse.to_do.children?.map(
-        (child) => new Block(child)
+        (child) => new Block(child, notion)
       )
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.to_do.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<li class='notion-todo'>${HTML.join('')}</li>`
   }
 }

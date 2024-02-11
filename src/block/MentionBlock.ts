@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#mention
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 import { type RichTextMentionResponseMention } from './RichText'
 
@@ -11,8 +12,11 @@ export class MentionBlock extends Block {
   public readonly type = 'mention'
   public readonly mention: RichTextMentionResponseMention
 
-  constructor(mentionBlockResponse: MentionBlockResponse) {
-    super(mentionBlockResponse)
+  constructor(
+    mentionBlockResponse: MentionBlockResponse,
+    notion: NotionClient
+  ) {
+    super(mentionBlockResponse, notion)
     this.mention = { ...mentionBlockResponse.mention }
   }
 }

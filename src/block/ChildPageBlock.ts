@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#child-page
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 
 export interface ChildPageBlockResponse extends BlockResponse {
@@ -14,8 +15,11 @@ export class ChildPageBlock extends Block {
     title: string
   }
 
-  constructor(childPageBlockResponse: ChildPageBlockResponse) {
-    super(childPageBlockResponse)
+  constructor(
+    childPageBlockResponse: ChildPageBlockResponse,
+    notion: NotionClient
+  ) {
+    super(childPageBlockResponse, notion)
     this.child_page = { title: childPageBlockResponse.child_page.title }
   }
 }

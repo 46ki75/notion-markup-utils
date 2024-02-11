@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#image
+import { type NotionClient } from '../Client'
 import { File, type FileResponse } from '../other'
 import { Block, type BlockResponse } from './Block'
 
@@ -28,8 +29,12 @@ export class ImageBlock extends Block {
   public readonly type = 'image'
   public readonly image: File
 
-  constructor(imageBlockResponse: ImageBlockResponse) {
-    super(imageBlockResponse)
+  constructor(imageBlockResponse: ImageBlockResponse, notion: NotionClient) {
+    super(imageBlockResponse, notion)
     this.image = new File(imageBlockResponse.image)
+  }
+
+  async toHTML(): Promise<string> {
+    return `<img src='${this.image.file?.url ?? this.image.external?.url}' alt='' class='notion-image' />`
   }
 }

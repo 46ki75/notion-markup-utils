@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#embed
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 
 export interface EmbedBlockResponse extends BlockResponse {
@@ -14,8 +15,8 @@ export class EmbedBlock extends Block {
     url: string
   }
 
-  constructor(embedBlockResponse: EmbedBlockResponse) {
-    super(embedBlockResponse)
+  constructor(embedBlockResponse: EmbedBlockResponse, notion: NotionClient) {
+    super(embedBlockResponse, notion)
     this.embed = { url: embedBlockResponse.embed.url }
   }
 }

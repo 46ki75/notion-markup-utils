@@ -1,3 +1,4 @@
+import { type NotionClient } from '../Client'
 import { type UserResponse, type ParentResponse, User, Parent } from '../other'
 
 export interface BlockResponse {
@@ -25,7 +26,7 @@ export class Block {
   public readonly has_children: boolean
   public readonly archived: boolean
 
-  constructor(blockResponse: BlockResponse) {
+  constructor(blockResponse: BlockResponse, notion: NotionClient) {
     this.id = blockResponse.id
     this.parent = new Parent(blockResponse.parent)
     this.created_time = blockResponse.created_time
@@ -34,5 +35,26 @@ export class Block {
     this.last_edited_by = new User(blockResponse.last_edited_by)
     this.has_children = blockResponse.has_children
     this.archived = blockResponse.archived
+  }
+
+  async toHTML(): Promise<string> {
+    return await new Promise((resolve) => {
+      resolve('')
+    })
+  }
+
+  toJSON(): BlockResponse {
+    return {
+      object: this.object,
+      id: this.id,
+      parent: this.parent.toJSON(),
+      created_time: this.created_time,
+      last_edited_time: this.last_edited_time,
+      created_by: this.created_by.toJSON(),
+      last_edited_by: this.last_edited_by.toJSON(),
+      has_children: this.has_children,
+      archived: this.archived,
+      type: 'block'
+    }
   }
 }

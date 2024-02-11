@@ -25,6 +25,31 @@ export class RichText {
     this.plain_text = richTextResponse.plain_text
     this.href = richTextResponse.href
   }
+
+  async toHTML(): Promise<string> {
+    let HTML = this.plain_text
+    if (this.annotations.code) {
+      HTML = `<code>${HTML}</code>`
+    }
+    if (this.annotations.bold) {
+      HTML = `<strong>${HTML}</strong>`
+    }
+    if (this.annotations.italic) {
+      HTML = `<em>${HTML}</em>`
+    }
+    if (this.annotations.underline) {
+      HTML = `<ins>${HTML}</ins>`
+    }
+    if (this.annotations.strikethrough) {
+      HTML = `<del>${HTML}</del>`
+    }
+
+    return `<span class='notion-rich-text ${this.annotations.color}'>${HTML}</span>`
+  }
+
+  toPlainText(): string {
+    return this.plain_text
+  }
 }
 
 export class RichTextText extends RichText {

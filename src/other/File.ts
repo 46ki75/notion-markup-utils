@@ -7,35 +7,28 @@ export type FileResponse = FileFileResponse | FileExternalResponse
 export class File {
   public readonly type: 'file' | 'external'
   public readonly caption: RichTextResponse[]
+  public readonly file?: {
+    url: string
+    expiry_time?: string
+  }
+
+  public readonly external?: {
+    url: string
+  }
 
   constructor(fileResponse: FileResponse) {
     this.type = fileResponse.type
     this.caption = fileResponse.caption
-  }
-}
-
-export class FileFile extends File {
-  public readonly type = 'file'
-  public readonly file: {
-    url: string
-    expiry_time: string
-  }
-
-  constructor(fileFileResponse: FileFileResponse) {
-    super(fileFileResponse)
-    this.file = fileFileResponse.file
-  }
-}
-
-export class FileExternal extends File {
-  public readonly type = 'file'
-  public readonly external: {
-    url: string
-  }
-
-  constructor(fileExternalResponse: FileExternalResponse) {
-    super(fileExternalResponse)
-    this.external = fileExternalResponse.external
+    if (this.type === 'file' && 'file' in fileResponse) {
+      this.file = {
+        url: fileResponse.file.url,
+        expiry_time: fileResponse.file.expiry_time
+      }
+    } else if (this.type === 'external' && 'external' in fileResponse) {
+      this.external = {
+        url: fileResponse.external.url
+      }
+    }
   }
 }
 

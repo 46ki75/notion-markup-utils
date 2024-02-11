@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#code
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -7,8 +8,8 @@ export interface CodeBlockResponse extends BlockResponse {
   code: {
     caption: []
     rich_text: RichTextResponse[]
+    language: Language
   }
-  language: Language
 }
 
 export class CodeBlock extends Block {
@@ -16,19 +17,28 @@ export class CodeBlock extends Block {
   public readonly code: {
     caption: RichText[]
     rich_text: RichText[]
+    language: Language
   }
 
-  public readonly language: Language
-
-  constructor(codeBlockResponse: CodeBlockResponse) {
-    super(codeBlockResponse)
+  constructor(codeBlockResponse: CodeBlockResponse, notion: NotionClient) {
+    super(codeBlockResponse, notion)
     this.code = {
-      caption: codeBlockResponse.code.caption.map((item) => new RichText(item)),
-      rich_text: codeBlockResponse.code.rich_text.map(
-        (item) => new RichText(item)
-      )
+      caption: codeBlockResponse.code.caption.map(
+        (item) => new RichText(item) ?? []
+      ),
+      rich_text: codeBlockResponse.code.rich_text?.map(
+        (item) => new RichText(item) ?? []
+      ),
+      language: codeBlockResponse.code.language
     }
-    this.language = codeBlockResponse.language
+  }
+
+  async toHTML(): Promise<string> {
+    const text = this.code.rich_text.map((item) => item.toPlainText()).join('')
+    const headerBlock = `<div class='notion-code-header class='notion-code-language''><div>${this.code.language}</div><div class='notion-code-copy'></div></div>`
+    const codeBlock = `<pre class='${this.code.language}'><code class='language-${this.code.language}'>${text}</code></pre>`
+    const captionBlock = `<div class='notion-code-caption'>${this.code.caption.map((item) => item.toPlainText()).join('')}</div>`
+    return `<div class='notion-code'>${headerBlock}${codeBlock}${captionBlock}</div>`
   }
 }
 

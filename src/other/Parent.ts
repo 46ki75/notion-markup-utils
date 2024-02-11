@@ -3,72 +3,70 @@
  *
  * Represents the parent of a Notion object.
  */
-export type ParentResponse =
-  | DatabaseParentResponse
-  | PageParentResponse
-  | WorkspaceParentResponse
-  | BlockParentResponse
+
+export interface ParentResponse {
+  type: 'database_id' | 'page_id' | 'workspace' | 'block_id'
+  database_id?: string
+  page_id?: string
+  workspace?: boolean
+  block_id?: string
+}
 
 export class Parent {
-  public readonly type: 'database_id' | 'page_id' | 'workspace' | 'block_id'
+  public type: 'database_id' | 'page_id' | 'workspace' | 'block_id'
+  public database_id?: string
+  public page_id?: string
+  public workspace?: boolean
+  public block_id?: string
 
   constructor(parentResponse: ParentResponse) {
     this.type = parentResponse.type
+    switch (this.type) {
+      case 'database_id':
+        this.database_id = (
+          parentResponse as DatabaseParentResponse
+        ).database_id
+        break
+      case 'page_id':
+        this.page_id = (parentResponse as PageParentResponse).page_id
+        break
+      case 'workspace':
+        this.workspace = (parentResponse as WorkspaceParentResponse).workspace
+        break
+      case 'block_id':
+        this.block_id = (parentResponse as BlockParentResponse).block_id
+        break
+    }
+  }
+
+  toJSON(): ParentResponse {
+    switch (this.type) {
+      case 'database_id':
+        return { type: this.type, database_id: this.database_id }
+      case 'page_id':
+        return { type: this.type, page_id: this.page_id }
+      case 'workspace':
+        return { type: this.type, workspace: this.workspace }
+      case 'block_id':
+        return { type: this.type, block_id: this.block_id }
+      default:
+        throw new Error('Invalid parent type')
+    }
   }
 }
 
-export class DatabaseParent extends Parent {
-  public readonly database_id: string
-
-  constructor(parentResponse: DatabaseParentResponse) {
-    super(parentResponse)
-    this.database_id = parentResponse.database_id
-  }
-}
-
-export class PageParent extends Parent {
-  public readonly page_id: string
-
-  constructor(parentResponse: PageParentResponse) {
-    super(parentResponse)
-    this.page_id = parentResponse.page_id
-  }
-}
-
-export class WorkspaceParent extends Parent {
-  public readonly workspace: boolean
-
-  constructor(parentResponse: WorkspaceParentResponse) {
-    super(parentResponse)
-    this.workspace = parentResponse.workspace
-  }
-}
-
-export class BlockParent extends Parent {
-  public readonly block_id: string
-
-  constructor(parentResponse: BlockParentResponse) {
-    super(parentResponse)
-    this.block_id = parentResponse.block_id
-  }
-}
-
-export interface DatabaseParentResponse {
-  type: 'database_id'
+export interface DatabaseParentResponse extends ParentResponse {
   database_id: string
 }
 
-export interface PageParentResponse {
-  type: 'page_id'
+export interface PageParentResponse extends ParentResponse {
   page_id: string
 }
 
-export interface WorkspaceParentResponse {
-  type: 'workspace'
+export interface WorkspaceParentResponse extends ParentResponse {
   workspace: boolean
 }
 
-export interface BlockParentResponse {
-  type: 'block_id'
+export interface BlockParentResponse extends ParentResponse {
   block_id: string
 }

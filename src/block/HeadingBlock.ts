@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#headings
+import { type NotionClient } from '../Client'
 import { type Color } from '../other'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
@@ -21,15 +22,26 @@ export class Heading1Block extends Block {
     is_toggleable: boolean
   }
 
-  constructor(heading1BlockResponse: Heading1BlockResponse) {
-    super(heading1BlockResponse)
+  constructor(
+    heading1BlockResponse: Heading1BlockResponse,
+    notion: NotionClient
+  ) {
+    super(heading1BlockResponse, notion)
     this.type = heading1BlockResponse.type
     this.heading_1 = {
       ...heading1BlockResponse.heading_1,
-      rich_text: heading1BlockResponse.heading_1.rich_text.map(
-        (item) => new RichText(item)
+      rich_text: heading1BlockResponse.heading_1.rich_text?.map(
+        (item) => new RichText(item) ?? []
       )
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.heading_1.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<h1 class='notion-heading-1'>${HTML.join('')}</h1>`
   }
 }
 
@@ -51,15 +63,26 @@ export class Heading2Block extends Block {
     is_toggleable: boolean
   }
 
-  constructor(heading2BlockResponse: Heading2BlockResponse) {
-    super(heading2BlockResponse)
+  constructor(
+    heading2BlockResponse: Heading2BlockResponse,
+    notion: NotionClient
+  ) {
+    super(heading2BlockResponse, notion)
     this.type = heading2BlockResponse.type
     this.heading_2 = {
       ...heading2BlockResponse.heading_2,
-      rich_text: heading2BlockResponse.heading_2.rich_text.map(
-        (item) => new RichText(item)
+      rich_text: heading2BlockResponse.heading_2.rich_text?.map(
+        (item) => new RichText(item) ?? []
       )
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.heading_2.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<h2 class='notion-heading-2'>${HTML.join('')}</h2>`
   }
 }
 
@@ -81,14 +104,25 @@ export class Heading3Block extends Block {
     is_toggleable: boolean
   }
 
-  constructor(heading3BlockResponse: Heading3BlockResponse) {
-    super(heading3BlockResponse)
+  constructor(
+    heading3BlockResponse: Heading3BlockResponse,
+    notion: NotionClient
+  ) {
+    super(heading3BlockResponse, notion)
     this.type = heading3BlockResponse.type
     this.heading_3 = {
       ...heading3BlockResponse.heading_3,
-      rich_text: heading3BlockResponse.heading_3.rich_text.map(
-        (item) => new RichText(item)
+      rich_text: heading3BlockResponse.heading_3.rich_text?.map(
+        (item) => new RichText(item) ?? []
       )
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.heading_3.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<h3 class='notion-heading-3'>${HTML.join('')}</h3>`
   }
 }

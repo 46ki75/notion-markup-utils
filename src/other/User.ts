@@ -43,4 +43,14 @@ export class User {
     this.name = userResponse.name
     this.avatar_url = userResponse.avatar_url
   }
+
+  toJSON(): UserResponse {
+    return {
+      object: this.object,
+      id: this.id,
+      type: this.type,
+      name: this.name,
+      avatar_url: this.avatar_url
+    }
+  }
 }

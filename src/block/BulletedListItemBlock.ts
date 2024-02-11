@@ -1,5 +1,6 @@
 // @see https://developers.notion.com/reference/block#bulleted-list-item
 import { type RichTextResponse, type BlockResponse, Block, RichText } from '.'
+import { type NotionClient } from '../Client'
 import { type Color } from '../other'
 
 export interface BulletedListItemBlockResponse extends BlockResponse {
@@ -19,16 +20,28 @@ export class BulletedListItemBlock extends Block {
     children: Block[]
   }
 
-  constructor(bulletedListItemBlockResponse: BulletedListItemBlockResponse) {
-    super(bulletedListItemBlockResponse)
+  constructor(
+    bulletedListItemBlockResponse: BulletedListItemBlockResponse,
+    notion: NotionClient
+  ) {
+    super(bulletedListItemBlockResponse, notion)
     this.bulleted_list_item = {
-      rich_text: bulletedListItemBlockResponse.bulleted_list_item.rich_text.map(
-        (item) => new RichText(item)
-      ),
+      rich_text:
+        bulletedListItemBlockResponse.bulleted_list_item.rich_text?.map(
+          (item) => new RichText(item) ?? []
+        ),
       color: bulletedListItemBlockResponse.bulleted_list_item.color,
-      children: bulletedListItemBlockResponse.bulleted_list_item.children.map(
-        (block) => new Block(block)
+      children: bulletedListItemBlockResponse.bulleted_list_item.children?.map(
+        (block) => new Block(block, notion) ?? []
       )
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.bulleted_list_item.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<li class='notion-bulleted-list-item'>${HTML.join('')}</li>`
   }
 }

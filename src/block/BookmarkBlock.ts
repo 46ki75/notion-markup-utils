@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#bookmark
+import { type NotionClient } from '../Client'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -17,13 +18,24 @@ export class BookmarkBlock extends Block {
     url: string
   }
 
-  constructor(bookmarkBlockResponse: BookmarkBlockResponse) {
-    super(bookmarkBlockResponse)
+  constructor(
+    bookmarkBlockResponse: BookmarkBlockResponse,
+    notion: NotionClient
+  ) {
+    super(bookmarkBlockResponse, notion)
     this.bookmark = {
       caption: bookmarkBlockResponse.bookmark.caption.map(
-        (item) => new RichText(item)
+        (item) => new RichText(item) ?? []
       ),
       url: bookmarkBlockResponse.bookmark.url
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.bookmark.caption?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<a href='${this.bookmark.url}' class='notion-bookmark'>${HTML.join('')}</a>`
   }
 }

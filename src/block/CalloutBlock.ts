@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#callout
+import { type NotionClient } from '../Client'
 import {
   File,
   type Color,
@@ -26,11 +27,11 @@ export class CalloutBlock extends Block {
     color: Color
   }
 
-  constructor(calloutBlockRespose: CalloutBlockRespose) {
-    super(calloutBlockRespose)
+  constructor(calloutBlockRespose: CalloutBlockRespose, notion: NotionClient) {
+    super(calloutBlockRespose, notion)
     this.callout = {
-      rich_text: calloutBlockRespose.callout.rich_text.map(
-        (item) => new RichText(item)
+      rich_text: calloutBlockRespose.callout.rich_text?.map(
+        (item) => new RichText(item) ?? []
       ),
       icon:
         calloutBlockRespose.callout.icon.type === 'emoji'
@@ -38,5 +39,13 @@ export class CalloutBlock extends Block {
           : new File(calloutBlockRespose.callout.icon),
       color: calloutBlockRespose.callout.color
     }
+  }
+
+  async toHTML(): Promise<string> {
+    const HTMLPromise = this.callout.rich_text?.map(
+      async (item) => await item.toHTML()
+    )
+    const HTML = await Promise.all(HTMLPromise)
+    return `<div class='notion-callout ${HTML.join('')}</div>`
   }
 }
