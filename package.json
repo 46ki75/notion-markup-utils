@@ -44,7 +44,6 @@
     "@notionhq/client": "^2.2.14",
     "axios": "^1.6.7",
     "dotenv": "^16.4.1",
-    "jsdom": "^24.0.0",
     "node-cache": "^5.1.2"
   }
 }
