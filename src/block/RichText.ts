@@ -28,6 +28,12 @@ export class RichText {
 
   async toHTML(): Promise<string> {
     let HTML = this.plain_text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+
     if (this.annotations.code) {
       HTML = `<code>${HTML}</code>`
     }
@@ -49,6 +55,11 @@ export class RichText {
 
   toPlainText(): string {
     return this.plain_text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
   }
 }
 

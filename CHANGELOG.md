@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.9] - 2023-02-18
+
+- Improved: Implemented sanitization of `<>` in the code block conversion class to enhance the generation of safe HTML content.
+
 ## [v1.0.8] - 2023-02-18
 
 - Fixed: Corrected the issue where the ternary operator evaluation was reversed in the code block conversion class.Corrected the issue where the ternary operator evaluation was reversed in the code block conversion class.
