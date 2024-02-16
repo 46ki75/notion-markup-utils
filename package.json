@@ -3,7 +3,7 @@
     "node": ">=20.0.0"
   },
   "name": "notion-markup-utils",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

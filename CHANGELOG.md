@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## [v1.0.6] - 2023-02-17
+## [v1.0.8] - 2023-02-18
+
+- Fixed: Corrected the issue where the ternary operator evaluation was reversed in the code block conversion class.Corrected the issue where the ternary operator evaluation was reversed in the code block conversion class.
+
+## [v1.0.7] - 2023-02-17
 
 - Fixed bugs that were not fully resolved in the previous updates. This version addresses and resolves remaining issues to ensure smoother operation and enhanced functionality.
 
