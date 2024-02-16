@@ -35,10 +35,10 @@ export class CodeBlock extends Block {
 
   async toHTML(): Promise<string> {
     const code = this.code.rich_text.map((item) => item.toPlainText()).join('')
-    const caption =
-      this.code.caption.map((item) => item.toPlainText()).join('') ??
-      this.code.language
-    const headerBlock = `<div class='notion-code-header'><div class='notion-code-language'>${caption}</div><div class='notion-code-copy'>Copy Code</div></div>`
+    const caption = this.code.caption.map((item) => item.toPlainText()).join('')
+    const notionCodeLanguage =
+      caption.trim() !== '' ? this.code.language : caption.trim()
+    const headerBlock = `<div class='notion-code-header'><div class='notion-code-language'>${notionCodeLanguage}</div><div class='notion-code-copy'>Copy Code</div></div>`
     const codeBlock = `<pre class='${this.code.language}'><code class='language-${this.code.language}'>${code}</code></pre>`
     return `<div class='notion-code'>${headerBlock}${codeBlock}</div>`
   }

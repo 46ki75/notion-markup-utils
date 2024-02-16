@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.6] - 2023-02-17
+
+- Fixed bugs that were not fully resolved in the previous updates. This version addresses and resolves remaining issues to ensure smoother operation and enhanced functionality.
+
 ## [v1.0.6] - 2023-02-16
 
 - Fixed bugs that were not fully resolved in the previous updates. This version addresses and resolves remaining issues to ensure smoother operation and enhanced functionality.
