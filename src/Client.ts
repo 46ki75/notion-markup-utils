@@ -60,8 +60,8 @@ export class NotionClient {
       (options.nextCursor != null ? `&start_cursor=${options.nextCursor}` : '')
 
     if (!options?.forceRefresh) {
-      const cacheRes = this.cache.get<BlockList>(url)
-      if (cacheRes != null) return cacheRes
+      const cacheRes = this.cache.get<BlockListResponse>(url)
+      if (cacheRes != null) return new BlockList(cacheRes, this)
     }
 
     const res = await this.client.get(url)
