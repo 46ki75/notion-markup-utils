@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.2] - 2023-02-16
+
+- Fixed a type error that occurred when retrieving `BlockList` from the cache, as the data was a plain object rather than an instance. This resolves issues related to type mismatches and ensures compatibility with expected data structures.
+
 ## [v1.0.1] - 2023-02-12
 
 - Added unit tests using Vitest to ensure the reliability and correctness of our codebase.
