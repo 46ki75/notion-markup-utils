@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.4] - 2023-02-16
+
+- For version 1.0.4, building upon the corrections and additions made in version 1.0.3 regarding the method for converting code blocks, you may consider further enhancing this functionality to address any remaining issues or limitations that were not fully resolved.
+
 ## [v1.0.3] - 2023-02-16
 
 - Fixed an issue where the notation of HTML classes in the method for converting code blocks to HTML was incorrect. This correction ensures that the HTML output is accurately reflected, improving visual consistency.
