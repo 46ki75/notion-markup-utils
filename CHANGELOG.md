@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.5] - 2023-02-16
+
+- For version 1.0.5, we addressed and resolved an issue concerning the HTML structure in the conversion of code blocks. This enhancement ensures that the HTML representation of code blocks is more accurate and adheres to web standards, providing a better visual and functional integration within web pages.
+
 ## [v1.0.4] - 2023-02-16
 
 - For version 1.0.4, building upon the corrections and additions made in version 1.0.3 regarding the method for converting code blocks, you may consider further enhancing this functionality to address any remaining issues or limitations that were not fully resolved.
