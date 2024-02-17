@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.10] - 2023-02-18
+
+- Enhanced the `BulletedListItemBlock` to also retrieve and display nested elements when present.
+
 ## [v1.0.9] - 2023-02-18
 
 - Improved: Implemented sanitization of `<>` in the code block conversion class to enhance the generation of safe HTML content.

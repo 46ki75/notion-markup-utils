@@ -22,7 +22,7 @@ export class BulletedListItemBlock extends Block {
 
   constructor(
     bulletedListItemBlockResponse: BulletedListItemBlockResponse,
-    notion: NotionClient
+    private readonly notion: NotionClient
   ) {
     super(bulletedListItemBlockResponse, notion)
     this.bulleted_list_item = {
@@ -38,10 +38,14 @@ export class BulletedListItemBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
+    const data = await this.notion.blocksChildren(this.id)
+
+    const childrenHTML = await data.toHTML()
+
     const HTMLPromise = this.bulleted_list_item.rich_text?.map(
       async (item) => await item.toHTML()
     )
     const HTML = await Promise.all(HTMLPromise)
-    return `<li class='notion-bulleted-list-item'>${HTML.join('')}</li>`
+    return `<li class='notion-bulleted-list-item'>${HTML.join('')}${childrenHTML}</li>`
   }
 }
