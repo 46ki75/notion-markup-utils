@@ -50,7 +50,9 @@ export class BookmarkBlock extends Block {
     const image = ogp.image
     const imageHTML = `<img class='notion-bookmark-image' src='${image}' alt='${description}' />`
 
-    return `<a href='${this.bookmark.url}' class='notion-bookmark'>${imageHTML}${titleHTML}${descriptionHTML}</a>`
+    const captionHTML = `<div class='notion-bookmark-caption'>${titleHTML}${descriptionHTML}</div>`
+
+    return `<a href='${this.bookmark.url}' class='notion-bookmark'>${imageHTML}${captionHTML}</a>`
   }
 
   async fetchOGP(

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.12] - 2023-02-18
+
+- Change the HTML structure within the BookmarkBlock's HTML conversion method to enhance layout and compatibility.
+
 ## [v1.0.11] - 2023-02-18
 
 - Added: The BookmarkBlock can now fetch and reflect the OGP information from URLs in the HTML.
