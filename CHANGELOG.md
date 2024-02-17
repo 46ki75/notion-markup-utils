@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.11] - 2023-02-18
+
+- Added: The BookmarkBlock can now fetch and reflect the OGP information from URLs in the HTML.
+
 ## [v1.0.10] - 2023-02-18
 
 - Enhanced the `BulletedListItemBlock` to also retrieve and display nested elements when present.
