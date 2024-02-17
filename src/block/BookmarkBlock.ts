@@ -58,7 +58,7 @@ export class BookmarkBlock extends Block {
   ): Promise<{ title: string; image: string; description: string }> {
     try {
       const { data } = await axios.get(url)
-      const $ = load(data)
+      const $ = load(String(data))
 
       let title = ''
       title = $('title').text()
