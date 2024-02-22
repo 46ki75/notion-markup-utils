@@ -1,19 +1,19 @@
 // @see https://developers.notion.com/reference/page-property-values#created-by
-import { type UserResponse } from '../other'
+import { User, type UserResponse } from '../other'
 
-export type CreatedByPagePropertyResponse = UserResponse
+export interface CreatedByPagePropertyResponse {
+  id: string
+  type: 'created_by'
+  created_by: UserResponse
+}
 
 export class CreatedByPageProperty {
-  public readonly object = 'user'
-  public readonly id: string
-  public readonly type?: 'person' | 'bot'
-  public readonly name?: string
-  public readonly avatar_url?: string
+  private readonly id: string
+  private readonly type = 'created_by'
+  private readonly last_edited_by: UserResponse
 
   constructor(createdByPagePropertyResponse: CreatedByPagePropertyResponse) {
     this.id = createdByPagePropertyResponse.id
-    this.type = createdByPagePropertyResponse.type
-    this.name = createdByPagePropertyResponse.name
-    this.avatar_url = createdByPagePropertyResponse.avatar_url
+    this.last_edited_by = new User(createdByPagePropertyResponse.created_by)
   }
 }

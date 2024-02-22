@@ -18,3 +18,26 @@ export type Color =
   | 'red_background'
   | 'yellow'
   | 'yellow_background'
+
+export type ColorFG =
+  | 'blue'
+  | 'brown'
+  | 'default'
+  | 'gray'
+  | 'green'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'red'
+  | 'yellow'
+
+export type ColorBG =
+  | 'blue_background'
+  | 'brown_background'
+  | 'gray_background'
+  | 'green_background'
+  | 'orange_background'
+  | 'pink_background'
+  | 'purple_background'
+  | 'red_background'
+  | 'yellow_background'
