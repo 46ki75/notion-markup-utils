@@ -48,7 +48,7 @@ import {
   NumberPageProperty,
   type NumberPagePropertyResponse
 } from './NumberPageProperty'
-import { type PagePropertyResponse } from './PageProperty'
+import { type PageProperty, type PagePropertyResponse } from './PageProperty'
 import {
   PeoplePageProperty,
   type PeoplePagePropertyResponse
@@ -76,7 +76,7 @@ import {
 import {
   StatusPageProperty,
   type StatusPagePropertyResponse
-} from './StatusPageResponse'
+} from './StatusPageProperty'
 import {
   TitlePageProperty,
   type TitlePagePropertyResponse
@@ -113,21 +113,21 @@ export interface PageResponse {
 }
 
 export class Page {
-  private readonly object = 'page'
-  private readonly id: string
-  private readonly created_time: string
-  private readonly last_edited_time: string
-  private readonly created_by: User
-  private readonly last_edited_by: User
-  private readonly cover: File
-  private readonly icon: File | Emoji
-  private readonly parent: Parent
-  private readonly archived: boolean
-  private readonly properties: Record<string, PagePropertyResponse>
-  private readonly url: string
-  private readonly public_url: string | null
-  private readonly developer_survey: string
-  private readonly request_id: string
+  public readonly object = 'page'
+  public readonly id: string
+  public readonly created_time: string
+  public readonly last_edited_time: string
+  public readonly created_by: User
+  public readonly last_edited_by: User
+  public readonly cover: File | null
+  public readonly icon: File | Emoji | null
+  public readonly parent: Parent
+  public readonly archived: boolean
+  public readonly properties: Record<string, PageProperty>
+  public readonly url: string
+  public readonly public_url: string | null
+  public readonly developer_survey: string
+  public readonly request_id: string
 
   constructor(pageResponse: PageResponse) {
     this.id = pageResponse.id
@@ -135,11 +135,16 @@ export class Page {
     this.last_edited_time = pageResponse.last_edited_time
     this.created_by = new User(pageResponse.created_by)
     this.last_edited_by = new User(pageResponse.last_edited_by)
-    this.cover = new File(pageResponse.cover)
-    this.icon =
-      pageResponse.icon.type === 'emoji'
-        ? new Emoji(pageResponse.icon)
-        : new File(pageResponse.icon)
+    this.cover =
+      pageResponse.cover != null ? new File(pageResponse.cover) : null
+    if (pageResponse.icon != null) {
+      this.icon =
+        pageResponse.icon.type === 'emoji'
+          ? new Emoji(pageResponse.icon)
+          : new File(pageResponse.icon)
+    } else {
+      this.icon = null
+    }
     this.parent = new Parent(pageResponse.parent)
     this.archived = pageResponse.archived
     this.url = pageResponse.url
@@ -151,224 +156,136 @@ export class Page {
     const propertyKeys = Object.keys(pageResponse.properties)
     for (const key of propertyKeys) {
       switch (pageResponse.properties[key].type) {
-        case 'checkbox': {
-          Object.assign(
-            this.properties[key],
-            new CheckboxPageProperty(
-              pageResponse.properties[key] as CheckboxPagePropertyResponse
-            )
+        case 'checkbox':
+          this.properties[key] = new CheckboxPageProperty(
+            pageResponse.properties[key] as CheckboxPagePropertyResponse
           )
           break
-        }
 
-        case 'created_by': {
-          Object.assign(
-            this.properties[key],
-            new CreatedTimePageProperty(
-              pageResponse.properties[key] as CreatedTimePagePropertyResponse
-            )
+        case 'created_by':
+          this.properties[key] = new CreatedTimePageProperty(
+            pageResponse.properties[key] as CreatedTimePagePropertyResponse
           )
           break
-        }
 
-        case 'created_time': {
-          Object.assign(
-            this.properties[key],
-            new CreatedTimePageProperty(
-              pageResponse.properties[key] as CreatedTimePagePropertyResponse
-            )
+        case 'created_time':
+          this.properties[key] = new CreatedTimePageProperty(
+            pageResponse.properties[key] as CreatedTimePagePropertyResponse
           )
           break
-        }
 
-        case 'date': {
-          Object.assign(
-            this.properties[key],
-            new DatePageProperty(
-              pageResponse.properties[key] as DatePagePropertyResponse
-            )
+        case 'date':
+          this.properties[key] = new DatePageProperty(
+            pageResponse.properties[key] as DatePagePropertyResponse
           )
           break
-        }
 
-        case 'email': {
-          Object.assign(
-            this.properties[key],
-            new EmailPageProperty(
-              pageResponse.properties[key] as EmailPagePropertyResponse
-            )
+        case 'email':
+          this.properties[key] = new EmailPageProperty(
+            pageResponse.properties[key] as EmailPagePropertyResponse
           )
           break
-        }
 
-        case 'files': {
-          Object.assign(
-            this.properties[key],
-            new FilesPageProperty(
-              pageResponse.properties[key] as FilesPagePropertyResponse
-            )
+        case 'files':
+          this.properties[key] = new FilesPageProperty(
+            pageResponse.properties[key] as FilesPagePropertyResponse
           )
           break
-        }
 
-        case 'formula': {
-          Object.assign(
-            this.properties[key],
-            new FormulaPageProperty(
-              pageResponse.properties[key] as FormulaPagePropertyResponse
-            )
+        case 'formula':
+          this.properties[key] = new FormulaPageProperty(
+            pageResponse.properties[key] as FormulaPagePropertyResponse
           )
           break
-        }
 
-        case 'last_edited_by': {
-          Object.assign(
-            this.properties[key],
-            new LastEditedByPageProperty(
-              pageResponse.properties[key] as LastEditedByPagePropertyResponse
-            )
+        case 'last_edited_by':
+          this.properties[key] = new LastEditedByPageProperty(
+            pageResponse.properties[key] as LastEditedByPagePropertyResponse
           )
           break
-        }
 
-        case 'last_edited_time': {
-          Object.assign(
-            this.properties[key],
-            new LastEditedTimePageProperty(
-              pageResponse.properties[key] as LastEditedTimePagePropertyResponse
-            )
+        case 'last_edited_time':
+          this.properties[key] = new LastEditedTimePageProperty(
+            pageResponse.properties[key] as LastEditedTimePagePropertyResponse
           )
           break
-        }
 
-        case 'multi_select': {
-          Object.assign(
-            this.properties[key],
-            new MultiSelectPageProperty(
-              pageResponse.properties[key] as MultiSelectPagePropertyResponse
-            )
+        case 'multi_select':
+          this.properties[key] = new MultiSelectPageProperty(
+            pageResponse.properties[key] as MultiSelectPagePropertyResponse
           )
           break
-        }
 
-        case 'number': {
-          Object.assign(
-            this.properties[key],
-            new NumberPageProperty(
-              pageResponse.properties[key] as NumberPagePropertyResponse
-            )
+        case 'number':
+          this.properties[key] = new NumberPageProperty(
+            pageResponse.properties[key] as NumberPagePropertyResponse
           )
           break
-        }
 
-        case 'people': {
-          Object.assign(
-            this.properties[key],
-            new PeoplePageProperty(
-              pageResponse.properties[key] as PeoplePagePropertyResponse
-            )
+        case 'people':
+          this.properties[key] = new PeoplePageProperty(
+            pageResponse.properties[key] as PeoplePagePropertyResponse
           )
           break
-        }
 
-        case 'phone_number': {
-          Object.assign(
-            this.properties[key],
-            new PhoneNumberPageProperty(
-              pageResponse.properties[key] as PhoneNumberPagePropertyResponse
-            )
+        case 'phone_number':
+          this.properties[key] = new PhoneNumberPageProperty(
+            pageResponse.properties[key] as PhoneNumberPagePropertyResponse
           )
           break
-        }
 
-        case 'relation': {
-          if ('relation' in this.properties[key]) {
-            Object.assign(
-              this.properties[key],
-              new RelationPageProperty(
-                pageResponse.properties[key] as RelationPagePropertyResponse
-              )
-            )
-          } else {
-            Object.assign(
-              this.properties[key],
-              new RollupPageProperty(
-                pageResponse.properties[key] as RollupPagePropertyResponse
-              )
-            )
-          }
+        case 'relation':
+          this.properties[key] =
+            'relation' in this.properties[key]
+              ? new RelationPageProperty(
+                  pageResponse.properties[key] as RelationPagePropertyResponse
+                )
+              : new RollupPageProperty(
+                  pageResponse.properties[key] as RollupPagePropertyResponse
+                )
           break
-        }
 
-        case 'rich_text': {
-          Object.assign(
-            this.properties[key],
-            new RichTextPageProperty(
-              pageResponse.properties[key] as RichTextPagePropertyResponse
-            )
+        case 'rich_text':
+          this.properties[key] = new RichTextPageProperty(
+            pageResponse.properties[key] as RichTextPagePropertyResponse
           )
           break
-        }
 
-        case 'select': {
-          Object.assign(
-            this.properties[key],
-            new SelectPageProperty(
-              pageResponse.properties[key] as SelectPagePropertyResponse
-            )
+        case 'select':
+          this.properties[key] = new SelectPageProperty(
+            pageResponse.properties[key] as SelectPagePropertyResponse
           )
           break
-        }
 
-        case 'status': {
-          Object.assign(
-            this.properties[key],
-            new StatusPageProperty(
-              pageResponse.properties[key] as StatusPagePropertyResponse
-            )
+        case 'status':
+          this.properties[key] = new StatusPageProperty(
+            pageResponse.properties[key] as StatusPagePropertyResponse
           )
           break
-        }
 
-        case 'title': {
-          Object.assign(
-            this.properties[key],
-            new TitlePageProperty(
-              pageResponse.properties[key] as TitlePagePropertyResponse
-            )
+        case 'title':
+          this.properties[key] = new TitlePageProperty(
+            pageResponse.properties[key] as TitlePagePropertyResponse
           )
           break
-        }
 
-        case 'url': {
-          Object.assign(
-            this.properties[key],
-            new URLPageProperty(
-              pageResponse.properties[key] as URLPagePropertyResponse
-            )
+        case 'url':
+          this.properties[key] = new URLPageProperty(
+            pageResponse.properties[key] as URLPagePropertyResponse
           )
           break
-        }
 
-        case 'unique_id': {
-          Object.assign(
-            this.properties[key],
-            new UniqueIDPageProperty(
-              pageResponse.properties[key] as UniqueIDPagePropertyResponse
-            )
+        case 'unique_id':
+          this.properties[key] = new UniqueIDPageProperty(
+            pageResponse.properties[key] as UniqueIDPagePropertyResponse
           )
           break
-        }
 
-        case 'verification': {
-          Object.assign(
-            this.properties[key],
-            new VerificationPageProperty(
-              pageResponse.properties[key] as VerificationPagePropertyResponse
-            )
+        case 'verification':
+          this.properties[key] = new VerificationPageProperty(
+            pageResponse.properties[key] as VerificationPagePropertyResponse
           )
           break
-        }
       }
     }
   }
