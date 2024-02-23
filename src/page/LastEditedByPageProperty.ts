@@ -1,6 +1,6 @@
 // @see https://developers.notion.com/reference/page-property-values#last-edited-by
 
-import { User, type UserResponse } from '../other'
+import { User, type UserResponseSimplified, type UserResponse } from '../other'
 
 export interface LastEditedByPagePropertyResponse {
   id: string
@@ -8,10 +8,12 @@ export interface LastEditedByPagePropertyResponse {
   last_edited_by: UserResponse
 }
 
+export type LastEditedByPagePropertyResponseSimplified = UserResponseSimplified
+
 export class LastEditedByPageProperty {
   private readonly id: string
   private readonly type = 'last_edited_by'
-  private readonly last_edited_by: UserResponse
+  private readonly last_edited_by: User
 
   constructor(
     lastEditedByPagePropertyResponse: LastEditedByPagePropertyResponse
@@ -20,5 +22,17 @@ export class LastEditedByPageProperty {
     this.last_edited_by = new User(
       lastEditedByPagePropertyResponse.last_edited_by
     )
+  }
+
+  toJSON(): LastEditedByPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      last_edited_by: this.last_edited_by.toJSON()
+    }
+  }
+
+  simplify(): LastEditedByPagePropertyResponseSimplified {
+    return this.last_edited_by.simplify()
   }
 }

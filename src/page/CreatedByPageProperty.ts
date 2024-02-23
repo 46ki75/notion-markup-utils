@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/page-property-values#created-by
-import { User, type UserResponse } from '../other'
+import { User, type UserResponseSimplified, type UserResponse } from '../other'
 
 export interface CreatedByPagePropertyResponse {
   id: string
@@ -7,13 +7,27 @@ export interface CreatedByPagePropertyResponse {
   created_by: UserResponse
 }
 
+export type CreatedByPagePropertyResponseSimplified = UserResponseSimplified
+
 export class CreatedByPageProperty {
   private readonly id: string
   private readonly type = 'created_by'
-  private readonly last_edited_by: UserResponse
+  private readonly created_by: User
 
   constructor(createdByPagePropertyResponse: CreatedByPagePropertyResponse) {
     this.id = createdByPagePropertyResponse.id
-    this.last_edited_by = new User(createdByPagePropertyResponse.created_by)
+    this.created_by = new User(createdByPagePropertyResponse.created_by)
+  }
+
+  toJSON(): CreatedByPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      created_by: this.created_by.toJSON()
+    }
+  }
+
+  simplify(): CreatedByPagePropertyResponseSimplified {
+    return this.created_by.simplify()
   }
 }

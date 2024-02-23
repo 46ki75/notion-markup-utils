@@ -1,6 +1,6 @@
 // @see https://developers.notion.com/reference/page-property-values#files
 
-import { type FileResponse } from '../other'
+import { File, type FileResponse } from '../other'
 
 export interface FilesPagePropertyResponse {
   id: string
@@ -8,13 +8,27 @@ export interface FilesPagePropertyResponse {
   files: FileResponse
 }
 
+export type FilesPagePropertyResponseSimplified = string
+
 export class FilesPageProperty {
   private readonly id: string
   private readonly type = 'files'
-  private readonly files: FileResponse
+  private readonly files: File
 
   constructor(filesPagePropertyResponse: FilesPagePropertyResponse) {
     this.id = filesPagePropertyResponse.id
-    this.files = filesPagePropertyResponse.files
+    this.files = new File(filesPagePropertyResponse.files)
+  }
+
+  toJSON(): FilesPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      files: this.files.toJSON()
+    }
+  }
+
+  simplify(): FilesPagePropertyResponseSimplified {
+    return this.files.simplify()
   }
 }

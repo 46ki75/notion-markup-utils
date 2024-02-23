@@ -12,6 +12,8 @@ export interface ParentResponse {
   block_id?: string
 }
 
+export type ParentResponseSimplified = string
+
 export class Parent {
   public type: 'database_id' | 'page_id' | 'workspace' | 'block_id'
   public database_id?: string
@@ -36,6 +38,21 @@ export class Parent {
       case 'block_id':
         this.block_id = (parentResponse as BlockParentResponse).block_id
         break
+    }
+  }
+
+  simplify(): ParentResponseSimplified {
+    switch (this.type) {
+      case 'database_id':
+        return String(this.database_id)
+      case 'page_id':
+        return String(this.page_id)
+      case 'workspace':
+        return String(this.workspace)
+      case 'block_id':
+        return String(this.block_id)
+      default:
+        throw new Error('Invalid parent type')
     }
   }
 

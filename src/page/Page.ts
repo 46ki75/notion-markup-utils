@@ -6,7 +6,11 @@ import {
   User,
   File,
   Emoji,
-  Parent
+  Parent,
+  type UserResponseSimplified,
+  type EmojiResponseSimplified,
+  type FileResponseSimplified,
+  type ParentResponseSimplified
 } from '../other'
 import {
   CheckboxPageProperty,
@@ -48,7 +52,11 @@ import {
   NumberPageProperty,
   type NumberPagePropertyResponse
 } from './NumberPageProperty'
-import { type PageProperty, type PagePropertyResponse } from './PageProperty'
+import {
+  type PagePropertyResponseSimplified,
+  type PageProperty,
+  type PagePropertyResponse
+} from './PageProperty'
 import {
   PeoplePageProperty,
   type PeoplePagePropertyResponse
@@ -101,8 +109,8 @@ export interface PageResponse {
   last_edited_time: string
   created_by: UserResponse
   last_edited_by: UserResponse
-  cover: FileResponse
-  icon: FileResponse | EmojiResponse
+  cover: FileResponse | null
+  icon: FileResponse | EmojiResponse | null
   parent: ParentResponse
   archived: boolean
   properties: Record<string, PagePropertyResponse>
@@ -110,6 +118,20 @@ export interface PageResponse {
   public_url: string | null
   developer_survey: string
   request_id: string
+}
+
+export interface PageResponseSimplified {
+  created_time: string
+  last_edited_time: string
+  created_by: UserResponseSimplified
+  last_edited_by: UserResponseSimplified
+  cover: FileResponseSimplified | null
+  icon: FileResponseSimplified | EmojiResponseSimplified | null
+  parent: ParentResponseSimplified
+  archived: boolean
+  properties: Record<string, PagePropertyResponseSimplified>
+  url: string
+  public_url: string | null
 }
 
 export class Page {
@@ -123,7 +145,7 @@ export class Page {
   public readonly icon: File | Emoji | null
   public readonly parent: Parent
   public readonly archived: boolean
-  public readonly properties: Record<string, PageProperty>
+  public readonly properties: Record<string, PageProperty> = {}
   public readonly url: string
   public readonly public_url: string | null
   public readonly developer_survey: string
@@ -152,7 +174,6 @@ export class Page {
     this.developer_survey = pageResponse.developer_survey
     this.request_id = pageResponse.request_id
 
-    this.properties = {}
     const propertyKeys = Object.keys(pageResponse.properties)
     for (const key of propertyKeys) {
       switch (pageResponse.properties[key].type) {
@@ -287,6 +308,54 @@ export class Page {
           )
           break
       }
+    }
+  }
+
+  toJSON(): PageResponse {
+    const properties: any = {}
+    const propertyKeys = Object.keys(this.properties)
+    for (const key of propertyKeys) {
+      properties[key] = this.properties[key].toJSON()
+    }
+
+    return {
+      object: 'page',
+      id: this.id,
+      created_time: this.created_time,
+      last_edited_time: this.last_edited_time,
+      created_by: this.created_by,
+      last_edited_by: this.last_edited_by,
+      cover: this.cover != null ? this.cover.toJSON() : null,
+      icon: this.icon != null ? this.icon.toJSON() : null,
+      parent: this.parent,
+      archived: this.archived,
+      properties,
+      url: this.url,
+      public_url: this.public_url,
+      developer_survey: this.developer_survey,
+      request_id: this.request_id
+    }
+  }
+
+  simplify(): PageResponseSimplified {
+    const propertyKeys = Object.keys(this.properties)
+    const properties: Record<string, PagePropertyResponseSimplified> = {}
+    for (const key of propertyKeys) {
+      properties[key] = this.properties[key].simplify()
+    }
+
+    return {
+      created_time: this.created_time,
+      last_edited_time: this.last_edited_time,
+      created_by: this.created_by.simplify(),
+      last_edited_by: this.last_edited_by.simplify(),
+      cover: this.cover?.simplify() ?? null,
+      icon: this.icon?.simplify() ?? null,
+      parent: this.parent.simplify(),
+      archived: this.archived,
+      properties,
+      url: this.url,
+      public_url: this.public_url
     }
   }
 }

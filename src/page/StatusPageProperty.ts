@@ -12,6 +12,11 @@ export interface StatusPagePropertyResponse {
   }
 }
 
+export interface StatusPagePropertyResponseSimplified {
+  name: string
+  color: ColorFG
+}
+
 export class StatusPageProperty {
   private readonly id: string
   private readonly type = 'status'
@@ -24,5 +29,17 @@ export class StatusPageProperty {
   constructor(statusPageProperty: StatusPagePropertyResponse) {
     this.id = statusPageProperty.id
     this.status = statusPageProperty.status
+  }
+
+  toJSON(): StatusPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      status: this.status
+    }
+  }
+
+  simplify(): StatusPagePropertyResponseSimplified {
+    return { name: this.status.name, color: this.status.color }
   }
 }

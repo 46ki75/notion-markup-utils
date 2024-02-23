@@ -6,6 +6,8 @@ export interface LastEditedTimePagePropertyResponse {
   last_edited_time: string
 }
 
+export type LastEditedTimePagePropertyResponseSimplified = string
+
 export class LastEditedTimePageProperty {
   private readonly id: string
   private readonly type = 'last_edited_time'
@@ -16,5 +18,17 @@ export class LastEditedTimePageProperty {
   ) {
     this.id = lastEditedTimePagePropertyResponse.id
     this.last_edited_time = lastEditedTimePagePropertyResponse.last_edited_time
+  }
+
+  toJSON(): LastEditedTimePagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      last_edited_time: this.last_edited_time
+    }
+  }
+
+  simplify(): LastEditedTimePagePropertyResponseSimplified {
+    return this.last_edited_time
   }
 }

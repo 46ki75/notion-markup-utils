@@ -12,11 +12,24 @@ export interface EmojiResponse {
   emoji: string
 }
 
+export type EmojiResponseSimplified = string
+
 export class Emoji {
   public readonly type = 'emoji'
   public readonly emoji: string
 
   constructor(emojiResponse: EmojiResponse) {
     this.emoji = emojiResponse.emoji
+  }
+
+  toJSON(): EmojiResponse {
+    return {
+      type: this.type,
+      emoji: this.emoji
+    }
+  }
+
+  simplify(): EmojiResponseSimplified {
+    return this.emoji
   }
 }

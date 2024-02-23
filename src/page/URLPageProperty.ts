@@ -6,6 +6,8 @@ export interface URLPagePropertyResponse {
   url: string
 }
 
+export type URLPagePropertyResponseSimplified = string
+
 export class URLPageProperty {
   private readonly id: string
   private readonly type = 'url'
@@ -14,5 +16,17 @@ export class URLPageProperty {
   constructor(URLPagePropertyResponse: URLPagePropertyResponse) {
     this.id = URLPagePropertyResponse.id
     this.url = URLPagePropertyResponse.url
+  }
+
+  toJSON(): URLPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      url: this.url
+    }
+  }
+
+  simplify(): URLPagePropertyResponseSimplified {
+    return this.url
   }
 }

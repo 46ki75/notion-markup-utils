@@ -6,6 +6,8 @@ export interface CreatedTimePagePropertyResponse {
   created_time: string
 }
 
+export type CreatedTimePagePropertyResponseSimplified = string
+
 export class CreatedTimePageProperty {
   private readonly id: string
   private readonly type = 'created_time'
@@ -16,5 +18,17 @@ export class CreatedTimePageProperty {
   ) {
     this.id = createdTimePagePropertyResponse.id
     this.created_time = createdTimePagePropertyResponse.created_time
+  }
+
+  toJSON(): CreatedTimePagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      created_time: this.created_time
+    }
+  }
+
+  simplify(): CreatedTimePagePropertyResponseSimplified {
+    return this.created_time
   }
 }

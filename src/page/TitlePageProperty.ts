@@ -8,6 +8,8 @@ export interface TitlePagePropertyResponse {
   title: RichTextResponse[]
 }
 
+export type TitlePagePropertyResponseSimplified = string
+
 export class TitlePageProperty {
   private readonly id: string
   private readonly type = 'title'
@@ -18,5 +20,17 @@ export class TitlePageProperty {
     this.title = itlePagePropertyResponse.title.map(
       (text) => new RichText(text)
     )
+  }
+
+  toJSON(): TitlePagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      title: this.title.map((text) => text.toJSON())
+    }
+  }
+
+  simplify(): TitlePagePropertyResponseSimplified {
+    return this.title.map((text) => text.toPlainText()).join('')
   }
 }

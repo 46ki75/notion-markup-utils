@@ -12,6 +12,11 @@ export interface SelectPagePropertyResponse {
   }
 }
 
+export interface SelectPagePropertyResponseSimplified {
+  name: string
+  color: ColorFG
+}
+
 export class SelectPageProperty {
   private readonly id: string
   private readonly type = 'select'
@@ -24,5 +29,17 @@ export class SelectPageProperty {
   constructor(selectPagePropertyResponse: SelectPagePropertyResponse) {
     this.id = selectPagePropertyResponse.id
     this.select = selectPagePropertyResponse.select
+  }
+
+  toJSON(): SelectPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      select: this.select
+    }
+  }
+
+  simplify(): SelectPagePropertyResponseSimplified {
+    return { name: this.select.name, color: this.select.color }
   }
 }

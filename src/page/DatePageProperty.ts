@@ -10,6 +10,12 @@ export interface DatePagePropertyResponse {
   }
 }
 
+export interface DatePagePropertyResponseSimplified {
+  start: string
+  end: string | null
+  time_zone: string | null
+}
+
 export class DatePageProperty {
   private readonly id: string
   private readonly type = 'date'
@@ -22,5 +28,17 @@ export class DatePageProperty {
   constructor(datePagePropertyResponse: DatePagePropertyResponse) {
     this.id = datePagePropertyResponse.id
     this.date = datePagePropertyResponse.date
+  }
+
+  toJSON(): DatePagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      date: this.date
+    }
+  }
+
+  simplify(): DatePagePropertyResponseSimplified {
+    return this.date
   }
 }

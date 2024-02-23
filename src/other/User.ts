@@ -30,6 +30,11 @@ export interface UserResponse {
   avatar_url?: string
 }
 
+export interface UserResponseSimplified {
+  name?: string
+  avatar_url?: string
+}
+
 export class User {
   public readonly object = 'user'
   public readonly id: string
@@ -49,6 +54,13 @@ export class User {
       object: this.object,
       id: this.id,
       type: this.type,
+      name: this.name,
+      avatar_url: this.avatar_url
+    }
+  }
+
+  simplify(): UserResponseSimplified {
+    return {
       name: this.name,
       avatar_url: this.avatar_url
     }

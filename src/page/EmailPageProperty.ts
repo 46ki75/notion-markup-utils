@@ -6,6 +6,8 @@ export interface EmailPagePropertyResponse {
   email: string
 }
 
+export type EmailPagePropertyResponseSimplified = string
+
 export class EmailPageProperty {
   private readonly id: string
   private readonly type = 'email'
@@ -14,5 +16,17 @@ export class EmailPageProperty {
   constructor(emailPagePropertyResponse: EmailPagePropertyResponse) {
     this.id = emailPagePropertyResponse.id
     this.email = emailPagePropertyResponse.email
+  }
+
+  toJSON(): EmailPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      email: this.email
+    }
+  }
+
+  simplify(): EmailPagePropertyResponseSimplified {
+    return this.email
   }
 }

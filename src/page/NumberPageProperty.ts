@@ -9,6 +9,8 @@ export interface NumberPagePropertyResponse {
   }
 }
 
+export type NumberPagePropertyResponseSimplified = string
+
 export class NumberPageProperty {
   private readonly id: string
   private readonly name: string
@@ -20,5 +22,20 @@ export class NumberPageProperty {
   constructor(numberPagePropertyResponse: NumberPagePropertyResponse) {
     this.id = numberPagePropertyResponse.id
     this.name = numberPagePropertyResponse.name
+  }
+
+  toJSON(): NumberPagePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      number: {
+        format: 'number'
+      }
+    }
+  }
+
+  simplify(): NumberPagePropertyResponseSimplified {
+    return this.number.format
   }
 }

@@ -16,6 +16,10 @@ export interface VerificationPagePropertyResponse {
   }
 }
 
+export type VerificationPagePropertyResponseSimplified =
+  | 'verified'
+  | 'unverified'
+
 export class VerificationPageProperty {
   private readonly id: string
   private readonly type = 'verification'
@@ -38,5 +42,17 @@ export class VerificationPageProperty {
           ? new User(verificationPageProperty.verification.verified_by)
           : null
     }
+  }
+
+  toJSON(): VerificationPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      verification: this.verification
+    }
+  }
+
+  simplify(): VerificationPagePropertyResponseSimplified {
+    return this.verification.state
   }
 }

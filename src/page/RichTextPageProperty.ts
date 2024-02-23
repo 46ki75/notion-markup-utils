@@ -8,6 +8,8 @@ export interface RichTextPagePropertyResponse {
   rich_text: RichTextResponse[]
 }
 
+export type RichTextPagePropertyResponseSimplified = string
+
 export class RichTextPageProperty {
   private readonly id: string
   private readonly type = 'rich_text'
@@ -19,5 +21,17 @@ export class RichTextPageProperty {
     this.rich_text = richTextPagePropertyResponse.rich_text.map(
       (text) => new RichText(text)
     )
+  }
+
+  toJSON(): RichTextPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      rich_text: this.rich_text.map((text) => text.toJSON())
+    }
+  }
+
+  simplify(): RichTextPagePropertyResponseSimplified {
+    return this.rich_text.map((text) => text.toPlainText()).join('')
   }
 }

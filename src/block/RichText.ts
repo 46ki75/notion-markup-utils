@@ -19,11 +19,70 @@ export class RichText {
   public readonly plain_text: string
   public readonly href: null | string
 
+  public readonly text?: {
+    content: string
+    link: null | string
+  }
+
+  public readonly equation?: {
+    expression: string
+  }
+
+  public readonly mention?: RichTextMentionResponseMention
+
   constructor(richTextResponse: RichTextResponse) {
     this.type = richTextResponse.type
     this.annotations = richTextResponse.annotations
     this.plain_text = richTextResponse.plain_text
     this.href = richTextResponse.href
+
+    if (richTextResponse.type === 'text' && 'text' in richTextResponse) {
+      this.text = richTextResponse.text
+    } else if (
+      richTextResponse.type === 'equation' &&
+      'equation' in richTextResponse
+    ) {
+      this.equation = richTextResponse.equation
+    } else if (
+      richTextResponse.type === 'mention' &&
+      'mention' in richTextResponse
+    ) {
+      this.mention = richTextResponse.mention
+    }
+  }
+
+  toJSON(): RichTextResponse {
+    const baseResponse: RichTextResponseBase = {
+      annotations: this.annotations,
+      plain_text: this.plain_text,
+      href: this.href
+    }
+
+    if (this.type === 'text' && this.text != null) {
+      return {
+        ...baseResponse,
+        type: 'text',
+        text: this.text
+      }
+    }
+
+    if (this.type === 'equation' && this.equation != null) {
+      return {
+        ...baseResponse,
+        type: 'equation',
+        equation: this.equation
+      }
+    }
+
+    if (this.type === 'mention' && this.mention != null) {
+      return {
+        ...baseResponse,
+        type: 'mention',
+        mention: this.mention
+      }
+    }
+
+    return baseResponse as RichTextResponse
   }
 
   async toHTML(): Promise<string> {

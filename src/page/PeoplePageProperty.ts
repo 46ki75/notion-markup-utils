@@ -1,6 +1,6 @@
 // @see https://developers.notion.com/reference/page-property-values#people
 
-import { User, type UserResponse } from '../other'
+import { User, type UserResponseSimplified, type UserResponse } from '../other'
 
 export interface PeoplePagePropertyResponse {
   id: string
@@ -8,15 +8,29 @@ export interface PeoplePagePropertyResponse {
   people: UserResponse[]
 }
 
+export type PeoplePagePropertyResponseSimplified = UserResponseSimplified[]
+
 export class PeoplePageProperty {
   private readonly id: string
   private readonly type = 'people'
-  private readonly people: UserResponse[]
+  private readonly people: User[]
 
   constructor(peoplePagePropertyResponse: PeoplePagePropertyResponse) {
     this.id = peoplePagePropertyResponse.id
     this.people = peoplePagePropertyResponse.people.map(
       (user) => new User(user)
     )
+  }
+
+  toJSON(): PeoplePagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      people: this.people.map((user) => user.toJSON())
+    }
+  }
+
+  simplify(): PeoplePagePropertyResponseSimplified {
+    return this.people.map((user) => user.simplify())
   }
 }

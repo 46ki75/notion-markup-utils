@@ -9,6 +9,8 @@ export interface RelationPagePropertyResponse {
   has_more: boolean
 }
 
+export type RelationPagePropertyResponseSimplified = string[]
+
 export class RelationPageProperty {
   private readonly id: string
   private readonly type = 'relation'
@@ -22,5 +24,18 @@ export class RelationPageProperty {
     this.id = relationPagePropertyResponse.id
     this.relation = relationPagePropertyResponse.relation
     this.has_more = relationPagePropertyResponse.has_more
+  }
+
+  toJSON(): RelationPagePropertyResponse {
+    return {
+      id: this.id,
+      type: this.type,
+      relation: this.relation,
+      has_more: this.has_more
+    }
+  }
+
+  simplify(): RelationPagePropertyResponseSimplified {
+    return this.relation.map((relation) => relation.id)
   }
 }
