@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.1.1]
+
+- Removed extraneous source code that was mixed into the entry point.
+
 ## [v1.1.0]
 
 - Changed the structure of NotionClient.
