@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#divider
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 
 export interface DividerBlockResponse extends BlockResponse {
@@ -11,10 +11,7 @@ export class DividerBlock extends Block {
   public readonly type = 'divider'
   public readonly divider: Record<string, unknown>
 
-  constructor(
-    dividerBlockResponse: DividerBlockResponse,
-    notion: NotionClient
-  ) {
+  constructor(dividerBlockResponse: DividerBlockResponse, notion: BlockClient) {
     super(dividerBlockResponse, notion)
     this.divider = dividerBlockResponse.divider
   }

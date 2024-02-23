@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#headings
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
@@ -24,7 +24,7 @@ export class Heading1Block extends Block {
 
   constructor(
     heading1BlockResponse: Heading1BlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(heading1BlockResponse, notion)
     this.type = heading1BlockResponse.type
@@ -65,7 +65,7 @@ export class Heading2Block extends Block {
 
   constructor(
     heading2BlockResponse: Heading2BlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(heading2BlockResponse, notion)
     this.type = heading2BlockResponse.type
@@ -106,7 +106,7 @@ export class Heading3Block extends Block {
 
   constructor(
     heading3BlockResponse: Heading3BlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(heading3BlockResponse, notion)
     this.type = heading3BlockResponse.type

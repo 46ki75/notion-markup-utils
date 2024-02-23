@@ -1,6 +1,6 @@
 // @see https://developers.notion.com/reference/block#bulleted-list-item
 import { type RichTextResponse, type BlockResponse, Block, RichText } from '.'
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
 
 export interface BulletedListItemBlockResponse extends BlockResponse {
@@ -22,7 +22,7 @@ export class BulletedListItemBlock extends Block {
 
   constructor(
     bulletedListItemBlockResponse: BulletedListItemBlockResponse,
-    private readonly notion: NotionClient
+    private readonly notion: BlockClient
   ) {
     super(bulletedListItemBlockResponse, notion)
     this.bulleted_list_item = {
@@ -38,7 +38,7 @@ export class BulletedListItemBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.blocksChildren(this.id)
+    const data = await this.notion.children(this.id)
 
     const childrenHTML = await data.toHTML()
 

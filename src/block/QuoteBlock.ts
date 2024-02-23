@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#quote
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -20,7 +20,7 @@ export class QuoteBlock extends Block {
     children: Block[]
   }
 
-  constructor(quoteBlockResponse: QuoteBlockResponse, notion: NotionClient) {
+  constructor(quoteBlockResponse: QuoteBlockResponse, notion: BlockClient) {
     super(quoteBlockResponse, notion)
     this.quote = {
       rich_text: quoteBlockResponse.quote.rich_text?.map(

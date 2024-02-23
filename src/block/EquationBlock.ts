@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#equation
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 
 export interface EquationBlockResponse extends BlockResponse {
@@ -17,7 +17,7 @@ export class EquationBlock extends Block {
 
   constructor(
     equationBlockResponse: EquationBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(equationBlockResponse, notion)
     this.equation = { expression: equationBlockResponse.equation.expression }

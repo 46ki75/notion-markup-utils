@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#table-of-contents
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
 import { Block, type BlockResponse } from './Block'
 
@@ -18,7 +18,7 @@ export class TableOfContentsBlock extends Block {
 
   constructor(
     tableOfContentsBlockResponse: TableOfContentsBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(tableOfContentsBlockResponse, notion)
     this.table_of_contents = {

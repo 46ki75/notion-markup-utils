@@ -1,38 +1,13 @@
-import axios, { type AxiosInstance } from 'axios'
-import NodeCache from 'node-cache'
+import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
-import { BlockList, type BlockListResponse } from './block'
+import { BlockList, type BlockListResponse } from '../block'
 
-export class NotionClient {
-  private readonly client: AxiosInstance
-  private readonly cache: NodeCache
-
+export class BlockClient extends ClientBase {
   constructor({
     NOTION_API_KEY = process.env.NOTION_API_KEY,
     stdTTL = 3600
-  }: { NOTION_API_KEY?: string; stdTTL?: number } = {}) {
-    if (!(process.env.NOTION_API_KEY != null)) {
-      throw new Error('NOTION_API_KEY is not set')
-    }
-    this.client = axios.create({
-      baseURL: 'https://api.notion.com',
-      headers: {
-        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
-        'Notion-Version': '2022-06-28'
-      }
-    })
-
-    this.cache = new NodeCache({ stdTTL })
-  }
-
-  get<T = Record<string, unknown>>(key: string): T | undefined {
-    const cachedResponse = this.cache.get<T>(key)
-    if (cachedResponse != null) return cachedResponse
-    return undefined
-  }
-
-  set<T = Record<string, unknown>>(key: string, data: T): void {
-    this.cache.set(key, data)
+  }: NotionClientArgs = {}) {
+    super({ NOTION_API_KEY, stdTTL })
   }
 
   /**
@@ -44,7 +19,7 @@ export class NotionClient {
    * @param options
    * @returns
    */
-  async blocksChildren(
+  async children(
     id: string,
     options: {
       forceRefresh: boolean
@@ -68,7 +43,7 @@ export class NotionClient {
     const { data }: { data: BlockListResponse } = res
 
     if (data.next_cursor != null) {
-      const recursiveResult = await this.blocksChildren(id, {
+      const recursiveResult = await this.children(id, {
         forceRefresh: options.forceRefresh,
         recursive: true,
         nextCursor: data.next_cursor
@@ -90,7 +65,7 @@ export class NotionClient {
       forceRefresh: false
     }
   ): Promise<string> {
-    const blockList = await this.blocksChildren(id, {
+    const blockList = await this.children(id, {
       forceRefresh: options.forceRefresh,
       recursive: true
     })
@@ -98,5 +73,3 @@ export class NotionClient {
     return HTML
   }
 }
-
-export const notion = new NotionClient()

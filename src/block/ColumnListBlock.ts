@@ -1,6 +1,6 @@
 // @see https://developers.notion.com/reference/block#column-list-and-column
 import { Block, type BlockResponse } from './Block'
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 
 export interface ColumnListBlockResponse extends BlockResponse {
   type: 'column_list'
@@ -13,7 +13,7 @@ export class ColumnListBlock extends Block {
 
   constructor(
     columnListBlockResponse: ColumnListBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(columnListBlockResponse, notion)
     this.column_list = columnListBlockResponse.column_list
@@ -33,7 +33,7 @@ export class ColumnBlock extends Block {
   public readonly type = 'column'
   public readonly column: Record<string, unknown>
 
-  constructor(columnBlockResponse: ColumnBlockResponse, notion: NotionClient) {
+  constructor(columnBlockResponse: ColumnBlockResponse, notion: BlockClient) {
     super(columnBlockResponse, notion)
     this.column = columnBlockResponse.column
   }

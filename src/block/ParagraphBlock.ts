@@ -1,4 +1,4 @@
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, RichText, type BlockResponse, type RichTextResponse } from '.'
 import { type Color } from '../other'
 
@@ -17,7 +17,7 @@ export class ParagraphBlock extends Block {
     color: Color
   }
 
-  constructor(paragraphBlock: ParagraphBlockResponse, notion: NotionClient) {
+  constructor(paragraphBlock: ParagraphBlockResponse, notion: BlockClient) {
     super(paragraphBlock, notion)
     this.paragraph = {
       rich_text: paragraphBlock.paragraph.rich_text?.map(

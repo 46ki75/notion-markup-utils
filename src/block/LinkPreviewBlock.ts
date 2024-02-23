@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#link-preview
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 
 export interface LinkPreviewBlockResponse extends BlockResponse {
@@ -17,7 +17,7 @@ export class LinkPreviewBlock extends Block {
 
   constructor(
     linkPreviewBlockResponse: LinkPreviewBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(linkPreviewBlockResponse, notion)
     this.link_preview = linkPreviewBlockResponse.link_preview

@@ -1,5 +1,5 @@
 // @see  https://developers.notion.com/reference/block#to-do
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -22,7 +22,7 @@ export class ToDoBlock extends Block {
     children: Block[]
   }
 
-  constructor(toDoBlockResponse: ToDoBlockResponse, notion: NotionClient) {
+  constructor(toDoBlockResponse: ToDoBlockResponse, notion: BlockClient) {
     super(toDoBlockResponse, notion)
     this.to_do = {
       ...toDoBlockResponse.to_do,

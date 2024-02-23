@@ -1,4 +1,4 @@
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { type UserResponse, type ParentResponse, User, Parent } from '../other'
 
 export interface BlockResponse {
@@ -26,7 +26,7 @@ export class Block {
   public readonly has_children: boolean
   public readonly archived: boolean
 
-  constructor(blockResponse: BlockResponse, notion: NotionClient) {
+  constructor(blockResponse: BlockResponse, notion: BlockClient) {
     this.id = blockResponse.id
     this.parent = new Parent(blockResponse.parent)
     this.created_time = blockResponse.created_time

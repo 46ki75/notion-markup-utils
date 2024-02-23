@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#callout
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 
 export interface ChildDatabaseBlockResponse extends BlockResponse {
@@ -12,7 +12,7 @@ export class ChildDatabaseBlock extends Block {
   public readonly title: string
   constructor(
     childDatabaseBlockResponse: ChildDatabaseBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(childDatabaseBlockResponse, notion)
     this.title = childDatabaseBlockResponse.title

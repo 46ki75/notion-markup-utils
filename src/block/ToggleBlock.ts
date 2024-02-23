@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#toggle-blocks
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -22,7 +22,7 @@ export class ToggleBlock extends Block {
 
   constructor(
     toggleBlockResponse: ToggleBlockResponse,
-    private readonly notion: NotionClient
+    private readonly notion: BlockClient
   ) {
     super(toggleBlockResponse, notion)
     this.toggle = {
@@ -37,7 +37,7 @@ export class ToggleBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.blocksChildren(this.id)
+    const data = await this.notion.children(this.id)
 
     const summaryPromises = this.toggle.rich_text.map(
       async (item) => await item.toHTML()

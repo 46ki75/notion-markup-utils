@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#table-rows
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -18,7 +18,7 @@ export class TableRowBlock extends Block {
 
   constructor(
     tableRowBlockResponse: TableRowBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(tableRowBlockResponse, notion)
     this.table_row = {

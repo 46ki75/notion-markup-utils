@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#code
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -20,7 +20,7 @@ export class CodeBlock extends Block {
     language: Language
   }
 
-  constructor(codeBlockResponse: CodeBlockResponse, notion: NotionClient) {
+  constructor(codeBlockResponse: CodeBlockResponse, notion: BlockClient) {
     super(codeBlockResponse, notion)
     this.code = {
       caption: codeBlockResponse.code.caption.map(

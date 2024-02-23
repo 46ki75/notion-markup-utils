@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#numbered-list-item
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
@@ -23,7 +23,7 @@ export class NumberedListBlock extends Block {
 
   constructor(
     numberedListBlockResponse: NumberedListBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(numberedListBlockResponse, notion)
     this.numbered_list_item = {

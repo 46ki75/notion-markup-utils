@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#callout
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import {
   File,
   type Color,
@@ -27,7 +27,7 @@ export class CalloutBlock extends Block {
     color: Color
   }
 
-  constructor(calloutBlockRespose: CalloutBlockRespose, notion: NotionClient) {
+  constructor(calloutBlockRespose: CalloutBlockRespose, notion: BlockClient) {
     super(calloutBlockRespose, notion)
     this.callout = {
       rich_text: calloutBlockRespose.callout.rich_text?.map(

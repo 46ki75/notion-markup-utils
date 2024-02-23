@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#synced-block
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 
 export interface SyncedBlockResponse extends BlockResponse {
@@ -17,9 +17,9 @@ export class SyncedBlock extends Block {
     children: Block[]
   }
 
-  private readonly notion: NotionClient
+  private readonly notion: BlockClient
 
-  constructor(syncedBlockResponse: SyncedBlockResponse, notion: NotionClient) {
+  constructor(syncedBlockResponse: SyncedBlockResponse, notion: BlockClient) {
     super(syncedBlockResponse, notion)
     this.synced_block = {
       ...syncedBlockResponse.synced_block,
@@ -31,7 +31,7 @@ export class SyncedBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.blocksChildren(
+    const data = await this.notion.children(
       this.synced_block.synced_from?.block_id ?? this.id
     )
     const HTMLPromises = data.results.map(async (item) => await item.toHTML())

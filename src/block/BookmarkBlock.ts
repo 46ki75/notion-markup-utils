@@ -1,5 +1,5 @@
 // @see https://developers.notion.com/reference/block#bookmark
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
@@ -23,7 +23,7 @@ export class BookmarkBlock extends Block {
 
   constructor(
     bookmarkBlockResponse: BookmarkBlockResponse,
-    notion: NotionClient
+    notion: BlockClient
   ) {
     super(bookmarkBlockResponse, notion)
     this.bookmark = {

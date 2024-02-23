@@ -62,7 +62,7 @@ import {
   type VideoBlockResponse,
   type BlockResponse
 } from '.'
-import { type NotionClient } from '../Client'
+import { type BlockClient } from '../client/BlockClient'
 
 export interface BlockListResponse {
   object: 'list'
@@ -114,7 +114,7 @@ export class BlockList {
   public readonly block: unknown
   public readonly request_id: string
 
-  constructor(blockListResponse: BlockListResponse, notion: NotionClient) {
+  constructor(blockListResponse: BlockListResponse, notion: BlockClient) {
     this.results = blockListResponse.results.map((blockResponse) => {
       switch (blockResponse.type) {
         case 'bookmark':
