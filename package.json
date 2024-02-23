@@ -3,14 +3,14 @@
     "node": ">=20.0.0"
   },
   "name": "notion-markup-utils",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/in.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest",
     "prestart": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node dist/in.js",
     "dev": "nodemon",
     "build": "tsc",
     "format": "prettier --write .",
@@ -43,7 +43,6 @@
     "vitest": "^1.2.2"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.14",
     "axios": "^1.6.7",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.1",
