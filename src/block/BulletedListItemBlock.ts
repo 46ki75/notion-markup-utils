@@ -22,7 +22,7 @@ export class BulletedListItemBlock extends Block {
 
   constructor(
     bulletedListItemBlockResponse: BulletedListItemBlockResponse,
-    private readonly notion: BlockClient
+    public readonly notion: BlockClient
   ) {
     super(bulletedListItemBlockResponse, notion)
     this.bulleted_list_item = {

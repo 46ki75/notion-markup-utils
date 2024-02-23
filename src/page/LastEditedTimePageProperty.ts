@@ -9,9 +9,9 @@ export interface LastEditedTimePagePropertyResponse {
 export type LastEditedTimePagePropertyResponseSimplified = string
 
 export class LastEditedTimePageProperty {
-  private readonly id: string
-  private readonly type = 'last_edited_time'
-  private readonly last_edited_time: string
+  public readonly id: string
+  public readonly type = 'last_edited_time'
+  public readonly last_edited_time: string
 
   constructor(
     lastEditedTimePagePropertyResponse: LastEditedTimePagePropertyResponse

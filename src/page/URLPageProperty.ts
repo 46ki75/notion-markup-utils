@@ -9,9 +9,9 @@ export interface URLPagePropertyResponse {
 export type URLPagePropertyResponseSimplified = string
 
 export class URLPageProperty {
-  private readonly id: string
-  private readonly type = 'url'
-  private readonly url: string
+  public readonly id: string
+  public readonly type = 'url'
+  public readonly url: string
 
   constructor(URLPagePropertyResponse: URLPagePropertyResponse) {
     this.id = URLPagePropertyResponse.id

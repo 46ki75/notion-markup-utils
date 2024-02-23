@@ -11,9 +11,9 @@ export interface PeoplePagePropertyResponse {
 export type PeoplePagePropertyResponseSimplified = UserResponseSimplified[]
 
 export class PeoplePageProperty {
-  private readonly id: string
-  private readonly type = 'people'
-  private readonly people: User[]
+  public readonly id: string
+  public readonly type = 'people'
+  public readonly people: User[]
 
   constructor(peoplePagePropertyResponse: PeoplePagePropertyResponse) {
     this.id = peoplePagePropertyResponse.id

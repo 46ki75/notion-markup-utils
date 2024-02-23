@@ -11,9 +11,9 @@ export interface TitlePagePropertyResponse {
 export type TitlePagePropertyResponseSimplified = string
 
 export class TitlePageProperty {
-  private readonly id: string
-  private readonly type = 'title'
-  private readonly title: RichText[]
+  public readonly id: string
+  public readonly type = 'title'
+  public readonly title: RichText[]
 
   constructor(itlePagePropertyResponse: TitlePagePropertyResponse) {
     this.id = itlePagePropertyResponse.id

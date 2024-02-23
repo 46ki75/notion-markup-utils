@@ -11,10 +11,10 @@ export interface RichTextPagePropertyResponse {
 export type RichTextPagePropertyResponseSimplified = string
 
 export class RichTextPageProperty {
-  private readonly id: string
-  private readonly type = 'rich_text'
+  public readonly id: string
+  public readonly type = 'rich_text'
 
-  private readonly rich_text: RichText[]
+  public readonly rich_text: RichText[]
 
   constructor(richTextPagePropertyResponse: RichTextPagePropertyResponse) {
     this.id = richTextPagePropertyResponse.id

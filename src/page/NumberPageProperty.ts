@@ -12,10 +12,10 @@ export interface NumberPagePropertyResponse {
 export type NumberPagePropertyResponseSimplified = string
 
 export class NumberPageProperty {
-  private readonly id: string
-  private readonly name: string
-  private readonly type = 'number'
-  private readonly number = {
+  public readonly id: string
+  public readonly name: string
+  public readonly type = 'number'
+  public readonly number = {
     format: 'number'
   }
 

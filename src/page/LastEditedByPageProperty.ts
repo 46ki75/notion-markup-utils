@@ -11,9 +11,9 @@ export interface LastEditedByPagePropertyResponse {
 export type LastEditedByPagePropertyResponseSimplified = UserResponseSimplified
 
 export class LastEditedByPageProperty {
-  private readonly id: string
-  private readonly type = 'last_edited_by'
-  private readonly last_edited_by: User
+  public readonly id: string
+  public readonly type = 'last_edited_by'
+  public readonly last_edited_by: User
 
   constructor(
     lastEditedByPagePropertyResponse: LastEditedByPagePropertyResponse

@@ -9,9 +9,9 @@ export interface RollupPagePropertyResponse {
 export type RollupPagePropertyResponseSimplified = boolean
 
 export class RollupPageProperty {
-  private readonly id: string
-  private readonly type = 'relation'
-  private readonly has_more: boolean
+  public readonly id: string
+  public readonly type = 'relation'
+  public readonly has_more: boolean
 
   constructor(rollupPagePropertyResponse: RollupPagePropertyResponse) {
     this.id = rollupPagePropertyResponse.id

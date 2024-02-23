@@ -17,7 +17,7 @@ export class SyncedBlock extends Block {
     children: Block[]
   }
 
-  private readonly notion: BlockClient
+  public readonly notion: BlockClient
 
   constructor(syncedBlockResponse: SyncedBlockResponse, notion: BlockClient) {
     super(syncedBlockResponse, notion)

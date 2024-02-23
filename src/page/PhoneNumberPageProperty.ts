@@ -10,10 +10,10 @@ export interface PhoneNumberPagePropertyResponse {
 export type PhoneNumberPagePropertyResponseSimplified = string
 
 export class PhoneNumberPageProperty {
-  private readonly id: string
-  private readonly name: string
-  private readonly type = 'phone_number'
-  private readonly phone_number: string
+  public readonly id: string
+  public readonly name: string
+  public readonly type = 'phone_number'
+  public readonly phone_number: string
 
   constructor(
     phoneNumberPagePropertyResponse: PhoneNumberPagePropertyResponse

@@ -18,9 +18,9 @@ export interface StatusPagePropertyResponseSimplified {
 }
 
 export class StatusPageProperty {
-  private readonly id: string
-  private readonly type = 'status'
-  private readonly status: {
+  public readonly id: string
+  public readonly type = 'status'
+  public readonly status: {
     id: string
     name: string
     color: ColorFG

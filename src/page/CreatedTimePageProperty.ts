@@ -9,9 +9,9 @@ export interface CreatedTimePagePropertyResponse {
 export type CreatedTimePagePropertyResponseSimplified = string
 
 export class CreatedTimePageProperty {
-  private readonly id: string
-  private readonly type = 'created_time'
-  private readonly created_time: string
+  public readonly id: string
+  public readonly type = 'created_time'
+  public readonly created_time: string
 
   constructor(
     createdTimePagePropertyResponse: CreatedTimePagePropertyResponse

@@ -12,13 +12,13 @@ export interface RelationPagePropertyResponse {
 export type RelationPagePropertyResponseSimplified = string[]
 
 export class RelationPageProperty {
-  private readonly id: string
-  private readonly type = 'relation'
-  private readonly relation: Array<{
+  public readonly id: string
+  public readonly type = 'relation'
+  public readonly relation: Array<{
     id: string
   }>
 
-  private readonly has_more: boolean
+  public readonly has_more: boolean
 
   constructor(relationPagePropertyResponse: RelationPagePropertyResponse) {
     this.id = relationPagePropertyResponse.id

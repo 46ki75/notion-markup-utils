@@ -21,9 +21,9 @@ export type VerificationPagePropertyResponseSimplified =
   | 'unverified'
 
 export class VerificationPageProperty {
-  private readonly id: string
-  private readonly type = 'verification'
-  private readonly verification: {
+  public readonly id: string
+  public readonly type = 'verification'
+  public readonly verification: {
     state: 'verified' | 'unverified'
     verified_by: UserResponse | null
     date: {

@@ -9,9 +9,9 @@ export interface EmailPagePropertyResponse {
 export type EmailPagePropertyResponseSimplified = string
 
 export class EmailPageProperty {
-  private readonly id: string
-  private readonly type = 'email'
-  private readonly email: string
+  public readonly id: string
+  public readonly type = 'email'
+  public readonly email: string
 
   constructor(emailPagePropertyResponse: EmailPagePropertyResponse) {
     this.id = emailPagePropertyResponse.id

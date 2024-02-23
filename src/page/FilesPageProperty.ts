@@ -11,9 +11,9 @@ export interface FilesPagePropertyResponse {
 export type FilesPagePropertyResponseSimplified = string
 
 export class FilesPageProperty {
-  private readonly id: string
-  private readonly type = 'files'
-  private readonly files: File
+  public readonly id: string
+  public readonly type = 'files'
+  public readonly files: File
 
   constructor(filesPagePropertyResponse: FilesPagePropertyResponse) {
     this.id = filesPagePropertyResponse.id

@@ -19,7 +19,7 @@ export class TableBlock extends Block {
     has_row_header: boolean
   }
 
-  private readonly notion: BlockClient
+  public readonly notion: BlockClient
 
   constructor(tableBlockResponse: TableBlockResponse, notion: BlockClient) {
     super(tableBlockResponse, notion)

@@ -8,9 +8,9 @@ export interface CheckboxPagePropertyResponse {
 export type CheckboxPagePropertyResponseSimplified = boolean
 
 export class CheckboxPageProperty {
-  private readonly id: string
-  private readonly type = 'checkbox'
-  private readonly checkbox: boolean
+  public readonly id: string
+  public readonly type = 'checkbox'
+  public readonly checkbox: boolean
 
   constructor(checkboxPagePropertyResponse: CheckboxPagePropertyResponse) {
     this.id = checkboxPagePropertyResponse.id

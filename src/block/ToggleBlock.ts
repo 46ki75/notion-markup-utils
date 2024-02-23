@@ -22,7 +22,7 @@ export class ToggleBlock extends Block {
 
   constructor(
     toggleBlockResponse: ToggleBlockResponse,
-    private readonly notion: BlockClient
+    public readonly notion: BlockClient
   ) {
     super(toggleBlockResponse, notion)
     this.toggle = {

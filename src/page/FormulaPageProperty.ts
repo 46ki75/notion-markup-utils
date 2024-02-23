@@ -12,9 +12,9 @@ export interface FormulaPagePropertyResponse {
 export type FormulaPagePropertyResponseSimplified = number
 
 export class FormulaPageProperty {
-  private readonly id: string
-  private readonly type = 'formula'
-  private readonly formula: {
+  public readonly id: string
+  public readonly type = 'formula'
+  public readonly formula: {
     type: string
     number: number
   }

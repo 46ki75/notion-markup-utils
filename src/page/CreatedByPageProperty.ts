@@ -10,9 +10,9 @@ export interface CreatedByPagePropertyResponse {
 export type CreatedByPagePropertyResponseSimplified = UserResponseSimplified
 
 export class CreatedByPageProperty {
-  private readonly id: string
-  private readonly type = 'created_by'
-  private readonly created_by: User
+  public readonly id: string
+  public readonly type = 'created_by'
+  public readonly created_by: User
 
   constructor(createdByPagePropertyResponse: CreatedByPagePropertyResponse) {
     this.id = createdByPagePropertyResponse.id

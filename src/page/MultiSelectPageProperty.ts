@@ -19,10 +19,10 @@ export type MultiSelectPagePropertyResponseSimplified = Array<{
 }>
 
 export class MultiSelectPageProperty {
-  private readonly id: string
-  private readonly name: string
-  private readonly type = 'multi_select'
-  private readonly multi_select: Array<{
+  public readonly id: string
+  public readonly name: string
+  public readonly type = 'multi_select'
+  public readonly multi_select: Array<{
     id: string
     name: string
     color: ColorFG

@@ -17,9 +17,9 @@ export interface DatePagePropertyResponseSimplified {
 }
 
 export class DatePageProperty {
-  private readonly id: string
-  private readonly type = 'date'
-  private readonly date: {
+  public readonly id: string
+  public readonly type = 'date'
+  public readonly date: {
     start: string
     end: string | null
     time_zone: string | null

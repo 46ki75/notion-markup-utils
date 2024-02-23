@@ -12,9 +12,9 @@ export interface UniqueIDPagePropertyResponse {
 export type UniqueIDPagePropertyResponseSimplified = string
 
 export class UniqueIDPageProperty {
-  private readonly id: string
-  private readonly type = 'unique_id'
-  private readonly unique_id: {
+  public readonly id: string
+  public readonly type = 'unique_id'
+  public readonly unique_id: {
     number: number
     prefix: string
   }

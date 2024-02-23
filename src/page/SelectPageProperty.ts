@@ -18,9 +18,9 @@ export interface SelectPagePropertyResponseSimplified {
 }
 
 export class SelectPageProperty {
-  private readonly id: string
-  private readonly type = 'select'
-  private readonly select: {
+  public readonly id: string
+  public readonly type = 'select'
+  public readonly select: {
     id: string
     name: string
     color: ColorFG
