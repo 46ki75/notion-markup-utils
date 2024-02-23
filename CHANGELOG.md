@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.2.0]
+
+- Introduced separate classes for each Notion resource, organizing the NotionClient class for better management.
+- Added `blocks` and `pages` member fields to the NotionClient class, which hold class instances for managing Notion's blocks and pages resources, respectively.
+- Upon instantiation of the NotionClient, instances of the `blocks` and `pages` classes are also automatically instantiated and stored in the member fields of the NotionClient.
+
 ## [v1.1.1]
 
 - Removed extraneous source code that was mixed into the entry point.
