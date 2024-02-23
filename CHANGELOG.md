@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.1.0]
+
+- Changed the structure of NotionClient.
+- Previously, NotionClient contained all Notion components such as blocks and databases within itself. However, these have now been separated into different classes.
+- A ClientBase, which contains cache functionality and an instance of axios, has been inherited to create a class NotionClient that holds fields for each Notion component.
+
 ## [v1.0.12] - 2023-02-18
 
 - Change the HTML structure within the BookmarkBlock's HTML conversion method to enhance layout and compatibility.
