@@ -2,7 +2,19 @@ export type QueryFilter =
   | CheckboxFilter
   | DateFilter
   | FilesFilter
+  | FormulaFilter
   | MultiSelectFilter
+  | NumberFilter
+  | PeopleFilter
+  | RelationFilter
+  | RichTextFilter
+  | SelectFilter
+  | StatusFilter
+  | TimestampFilter
+  | IDFilter
+  | RollupFilter
+  | { and: QueryFilter[] }
+  | { or: QueryFilter[] }
 
 export interface CheckboxFilter {
   property: string
@@ -128,9 +140,9 @@ export interface StatusFilter {
 }
 
 export interface TimestampFilter {
-  timestamp: 'created_time'
-  created_time?: Pick<DateFilter, 'date'>
-  last_edited_time?: Pick<DateFilter, 'date'>
+  timestamp: 'created_time' | 'last_edited_time'
+  created_time?: Pick<DateFilter, 'date'>['date']
+  last_edited_time?: Pick<DateFilter, 'date'>['date']
 }
 
 export interface IDFilter {
@@ -750,11 +762,239 @@ export class Filter {
    * @see https://developers.notion.com/reference/post-database-query-filter#timestamp
    */
   public readonly timestamp: {
-    created_time: Filter['date']
-    last_edited_time: Filter['date']
+    created_time: {
+      after: (date: Date) => TimestampFilter
+      before: (date: Date) => TimestampFilter
+      equals: (date: Date) => TimestampFilter
+      is_empty: () => TimestampFilter
+      is_not_empty: () => TimestampFilter
+      next_month: () => TimestampFilter
+      next_week: () => TimestampFilter
+      next_year: () => TimestampFilter
+      on_or_after: (date: Date) => TimestampFilter
+      on_or_before: (date: Date) => TimestampFilter
+      past_month: () => TimestampFilter
+      past_week: () => TimestampFilter
+      past_year: () => TimestampFilter
+      this_week: () => TimestampFilter
+    }
+    last_edited_time: {
+      after: (date: Date) => TimestampFilter
+      before: (date: Date) => TimestampFilter
+      equals: (date: Date) => TimestampFilter
+      is_empty: () => TimestampFilter
+      is_not_empty: () => TimestampFilter
+      next_month: () => TimestampFilter
+      next_week: () => TimestampFilter
+      next_year: () => TimestampFilter
+      on_or_after: (date: Date) => TimestampFilter
+      on_or_before: (date: Date) => TimestampFilter
+      past_month: () => TimestampFilter
+      past_week: () => TimestampFilter
+      past_year: () => TimestampFilter
+      this_week: () => TimestampFilter
+    }
   } = {
-    created_time: this.date,
-    last_edited_time: this.date
+    created_time: {
+      after: (date: Date) => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            after: date.toISOString()
+          }
+        }
+      },
+      before: (date: Date) => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            before: date.toISOString()
+          }
+        }
+      },
+      equals: (date: Date) => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            equals: date.toISOString()
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            is_not_empty: true
+          }
+        }
+      },
+      next_month: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { next_month: {} }
+        }
+      },
+      next_week: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { next_week: {} }
+        }
+      },
+      next_year: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { next_year: {} }
+        }
+      },
+      on_or_after: (date: Date) => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            on_or_after: date.toISOString()
+          }
+        }
+      },
+      on_or_before: (date: Date) => {
+        return {
+          timestamp: 'created_time',
+          created_time: {
+            on_or_before: date.toISOString()
+          }
+        }
+      },
+      past_month: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { past_month: {} }
+        }
+      },
+      past_week: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { past_week: {} }
+        }
+      },
+      past_year: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { past_year: {} }
+        }
+      },
+      this_week: () => {
+        return {
+          timestamp: 'created_time',
+          created_time: { this_week: {} }
+        }
+      }
+    },
+    last_edited_time: {
+      after: (date: Date) => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            after: date.toISOString()
+          }
+        }
+      },
+      before: (date: Date) => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            before: date.toISOString()
+          }
+        }
+      },
+      equals: (date: Date) => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            equals: date.toISOString()
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            is_not_empty: true
+          }
+        }
+      },
+      next_month: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { next_month: {} }
+        }
+      },
+      next_week: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { next_week: {} }
+        }
+      },
+      next_year: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { next_year: {} }
+        }
+      },
+      on_or_after: (date: Date) => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            on_or_after: date.toISOString()
+          }
+        }
+      },
+      on_or_before: (date: Date) => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: {
+            on_or_before: date.toISOString()
+          }
+        }
+      },
+      past_month: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { past_month: {} }
+        }
+      },
+      past_week: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { past_week: {} }
+        }
+      },
+      past_year: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { past_year: {} }
+        }
+      },
+      this_week: () => {
+        return {
+          timestamp: 'last_edited_time',
+          last_edited_time: { this_week: {} }
+        }
+      }
+    }
   }
 
   /**
@@ -852,5 +1092,5 @@ export class Filter {
    *
    * @param property Property name (as the column name in the database)
    */
-  constructor(private readonly property: string) {}
+  constructor(private readonly property: string = '') {}
 }
