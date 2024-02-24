@@ -1,3 +1,3 @@
-export * from './client/NotionClient'
+export * from './client'
 export * from './block'
 export * from './other'
