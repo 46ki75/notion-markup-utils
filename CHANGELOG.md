@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.2.3]
+
+- Removed extraneous source code that was mixed into the entry point.
+
 ## [v1.2.2]
 
 - Introduced a new class for generating filters for querying Notion Databases. This feature allows developers to easily construct complex queries by encapsulating filter logic within a reusable class structure.
