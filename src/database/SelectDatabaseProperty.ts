@@ -29,4 +29,13 @@ export class SelectDatabaseProperty {
     this.type = selectDatabasePropertyResponse.type
     this.select = selectDatabasePropertyResponse.select
   }
+
+  toJSON(): SelectDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      select: this.select
+    }
+  }
 }

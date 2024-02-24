@@ -1,6 +1,7 @@
 import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
 import { type PageListResponse, PageList } from '../database/PageList'
+import { type DatabaseResponse, Database } from '../database/Database'
 
 export class DatabaseClient extends ClientBase {
   constructor({
@@ -50,5 +51,27 @@ export class DatabaseClient extends ClientBase {
 
     this.set(url, data)
     return new PageList(data)
+  }
+
+  async retrieve(
+    id: string,
+    options: {
+      forceRefresh?: boolean
+    } = {
+      forceRefresh: false
+    }
+  ): Promise<Database> {
+    const url = `/v1/databases/${id}`
+
+    if (!(options?.forceRefresh ?? false)) {
+      const cacheRes = this.cache.get<DatabaseResponse>(url)
+      if (cacheRes != null) return new Database(cacheRes)
+    }
+
+    const res = await this.client.get(url)
+    const { data }: { data: DatabaseResponse } = res
+
+    this.set(url, data)
+    return new Database(data)
   }
 }

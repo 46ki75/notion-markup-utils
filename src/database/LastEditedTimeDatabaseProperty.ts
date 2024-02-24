@@ -22,4 +22,13 @@ export class LastEditedTimeDatabaseProperty {
     this.last_edited_time =
       lastEditedTimeDatabasePropertyResponse.last_edited_time
   }
+
+  toJSON(): LastEditedTimeDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      last_edited_time: this.last_edited_time
+    }
+  }
 }

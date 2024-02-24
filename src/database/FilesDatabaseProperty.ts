@@ -19,4 +19,13 @@ export class FilesDatabaseProperty {
     this.type = filesDatabasePropertyResponse.type
     this.files = filesDatabasePropertyResponse.files
   }
+
+  toJSON(): FilesDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      files: this.files
+    }
+  }
 }

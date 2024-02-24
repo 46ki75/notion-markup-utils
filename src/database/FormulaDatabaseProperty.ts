@@ -25,4 +25,13 @@ export class FormulaDatabaseProperty {
     this.type = formulaDatabasePropertyResponse.type
     this.formula = formulaDatabasePropertyResponse.formula
   }
+
+  toJSON(): FormulaDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      formula: this.formula
+    }
+  }
 }

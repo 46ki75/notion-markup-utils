@@ -19,4 +19,13 @@ export class TitleDatabaseProperty {
     this.type = titleDatabasePropertyResponse.type
     this.title = titleDatabasePropertyResponse.title
   }
+
+  toJSON(): TitleDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      title: this.title
+    }
+  }
 }

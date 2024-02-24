@@ -19,4 +19,13 @@ export class EmailDatabaseProperty {
     this.type = emailDatabasePropertyResponse.type
     this.email = emailDatabasePropertyResponse.email
   }
+
+  toJSON(): EmailDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      email: this.email
+    }
+  }
 }

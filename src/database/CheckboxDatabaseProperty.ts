@@ -20,4 +20,13 @@ export class CheckboxDatabaseProperty {
     this.type = checkboxDatabasePropertyResponse.type
     this.checkbox = checkboxDatabasePropertyResponse.checkbox
   }
+
+  toJSON(): CheckboxDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      checkbox: this.checkbox
+    }
+  }
 }

@@ -21,4 +21,13 @@ export class CreatedTimeDatabaseProperty {
     this.type = createdTimeDatabasePropertyResponse.type
     this.created_time = createdTimeDatabasePropertyResponse.created_time
   }
+
+  toJSON(): CreatedTimeDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      created_time: this.created_time
+    }
+  }
 }

@@ -31,4 +31,13 @@ export class MultiSelectDatabaseProperty {
     this.type = multiSelectDatabasePropertyResponse.type
     this.multi_select = multiSelectDatabasePropertyResponse.multi_select
   }
+
+  toJSON(): MultiSelectDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      multi_select: this.multi_select
+    }
+  }
 }

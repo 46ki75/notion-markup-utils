@@ -29,4 +29,13 @@ export class RelationDatabaseProperty {
     this.type = relationDatabasePropertyResponse.type
     this.relation = relationDatabasePropertyResponse.relation
   }
+
+  toJSON(): RelationDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      relation: this.relation
+    }
+  }
 }

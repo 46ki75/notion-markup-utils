@@ -35,4 +35,17 @@ export class PageList {
   simplify(): PageListResponseSimplified {
     return this.results.map((result) => result.simplify())
   }
+
+  toJSON(): PageListResponse {
+    return {
+      object: this.object,
+      type: this.type,
+      page_or_database: this.page_or_database,
+      results: this.results.map((page) => page.toJSON()),
+      next_cursor: this.next_cursor,
+      has_more: this.has_more,
+      developer_survey: this.developer_survey,
+      request_id: this.request_id
+    }
+  }
 }

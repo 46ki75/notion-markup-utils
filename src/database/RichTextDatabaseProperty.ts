@@ -21,4 +21,13 @@ export class RichTextDatabaseProperty {
     this.type = richTextDatabasePropertyResponse.type
     this.rich_text = richTextDatabasePropertyResponse.rich_text
   }
+
+  toJSON(): RichTextDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      rich_text: this.rich_text
+    }
+  }
 }

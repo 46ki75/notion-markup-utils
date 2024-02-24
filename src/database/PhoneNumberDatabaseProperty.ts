@@ -21,4 +21,13 @@ export class PhoneNumberDatabaseProperty {
     this.type = phoneNumberDatabasePropertyResponse.type
     this.phone_number = phoneNumberDatabasePropertyResponse.phone_number
   }
+
+  toJSON(): PhoneNumberDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      phone_number: this.phone_number
+    }
+  }
 }

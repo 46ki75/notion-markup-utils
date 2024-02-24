@@ -45,4 +45,13 @@ export class StatusDatabaseProperty {
     this.type = statusDatabasePropertyResponse.type
     this.status = statusDatabasePropertyResponse.status
   }
+
+  toJSON(): StatusDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      status: this.status
+    }
+  }
 }

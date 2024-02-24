@@ -19,4 +19,13 @@ export class URLDatabaseProperty {
     this.type = URLDatabasePropertyResponse.type
     this.url = URLDatabasePropertyResponse.url
   }
+
+  toJSON(): URLDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      url: this.url
+    }
+  }
 }

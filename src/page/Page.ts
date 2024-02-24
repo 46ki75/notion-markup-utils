@@ -312,7 +312,7 @@ export class Page {
   }
 
   toJSON(): PageResponse {
-    const properties: any = {}
+    const properties: Record<string, PagePropertyResponse> = {}
     const propertyKeys = Object.keys(this.properties)
     for (const key of propertyKeys) {
       properties[key] = this.properties[key].toJSON()

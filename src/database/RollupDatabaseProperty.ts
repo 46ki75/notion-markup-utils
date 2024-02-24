@@ -33,4 +33,13 @@ export class RollupDatabaseProperty {
     this.type = rollupDatabasePropertyResponse.type
     this.rollup = rollupDatabasePropertyResponse.rollup
   }
+
+  toJSON(): RollupDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      rollup: this.rollup
+    }
+  }
 }

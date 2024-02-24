@@ -21,4 +21,13 @@ export class CreatedByDatabaseProperty {
     this.type = reatedByDatabasePropertyResponse.type
     this.created_by = reatedByDatabasePropertyResponse.created_by
   }
+
+  toJSON(): CreatedByDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      created_by: this.created_by
+    }
+  }
 }

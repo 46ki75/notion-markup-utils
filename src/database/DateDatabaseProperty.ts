@@ -19,4 +19,13 @@ export class DateDatabaseProperty {
     this.type = dateDatabasePropertyResponse.type
     this.date = dateDatabasePropertyResponse.date
   }
+
+  toJSON(): DateDatabasePropertyResponse {
+    return {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      date: this.date
+    }
+  }
 }
