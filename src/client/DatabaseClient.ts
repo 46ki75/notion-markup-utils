@@ -2,6 +2,7 @@ import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
 import { type PageListResponse, PageList } from '../database/PageList'
 import { type DatabaseResponse, Database } from '../database/Database'
+import { type QueryFilter } from '../database/QueryFilter'
 
 export class DatabaseClient extends ClientBase {
   constructor({
@@ -17,6 +18,7 @@ export class DatabaseClient extends ClientBase {
       forceRefresh?: boolean
       recursive?: boolean
       nextCursor?: string
+      filter?: QueryFilter
     } = {
       forceRefresh: false,
       recursive: true
@@ -29,11 +31,17 @@ export class DatabaseClient extends ClientBase {
       if (cacheRes != null) return new PageList(cacheRes)
     }
 
-    const requestBody: { page_size: number; start_cursor?: string } = {
+    const requestBody: {
+      page_size: number
+      start_cursor?: string
+      filter?: QueryFilter
+    } = {
       page_size: 100
     }
     if (options.nextCursor != null)
       requestBody.start_cursor = options.nextCursor
+
+    if (options.filter != null) requestBody.filter = options.filter
 
     const res = await this.client.post(url, requestBody)
     const { data }: { data: PageListResponse } = res

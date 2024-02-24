@@ -112,7 +112,6 @@ export interface DatabaseResponse {
 }
 
 export class Database {
-  [x: string]: any
   public readonly object = 'database'
   public readonly id: string
   public readonly cover: File | null
