@@ -208,889 +208,720 @@ export interface RollupFilter {
   }
 }
 
-export class Filter {
-  public readonly checkbox: {
-    /**
-     * Whether a checkbox property value matches the provided value exactly.
-     * @param isChecked whether the checkbox is checked
-     * @returns
-     */
-    equals: (isChecked: boolean) => CheckboxFilter
-    /**
-     * Whether a checkbox property value differs from the provided value.
-     * @param isChecked whether the checkbox is checked
-     * @returns
-     */
-    does_not_equal: (isChecked: boolean) => CheckboxFilter
-  } = {
-    equals: (isChecked: boolean) => {
-      return {
-        property: this.property,
-        checkbox: {
-          equals: isChecked
-        }
-      }
-    },
-    does_not_equal: (isChecked: boolean) => {
-      return {
-        property: this.property,
-        checkbox: {
-          does_not_equal: isChecked
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#date
-   */
-  public readonly date: {
-    after: (date: Date) => DateFilter
-    before: (date: Date) => DateFilter
-    equals: (date: Date) => DateFilter
-    is_empty: () => DateFilter
-    is_not_empty: () => DateFilter
-    next_month: () => DateFilter
-    next_week: () => DateFilter
-    next_year: () => DateFilter
-    on_or_after: (date: Date) => DateFilter
-    on_or_before: (date: Date) => DateFilter
-    past_month: () => DateFilter
-    past_week: () => DateFilter
-    past_year: () => DateFilter
-    this_week: () => DateFilter
-  } = {
-    after: (date: Date) => {
-      return {
-        property: this.property,
-        date: {
-          after: date.toISOString()
-        }
-      }
-    },
-    before: (date: Date) => {
-      return {
-        property: this.property,
-        date: {
-          before: date.toISOString()
-        }
-      }
-    },
-    equals: (date: Date) => {
-      return {
-        property: this.property,
-        date: {
-          equals: date.toISOString()
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        date: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        date: {
-          is_not_empty: true
-        }
-      }
-    },
-    next_month: () => {
-      return {
-        property: this.property,
-        date: { next_month: {} }
-      }
-    },
-    next_week: () => {
-      return {
-        property: this.property,
-        date: { next_week: {} }
-      }
-    },
-    next_year: () => {
-      return {
-        property: this.property,
-        date: { next_year: {} }
-      }
-    },
-    on_or_after: (date: Date) => {
-      return {
-        property: this.property,
-        date: {
-          on_or_after: date.toISOString()
-        }
-      }
-    },
-    on_or_before: (date: Date) => {
-      return {
-        property: this.property,
-        date: {
-          on_or_before: date.toISOString()
-        }
-      }
-    },
-    past_month: () => {
-      return {
-        property: this.property,
-        date: { past_month: {} }
-      }
-    },
-    past_week: () => {
-      return {
-        property: this.property,
-        date: { past_week: {} }
-      }
-    },
-    past_year: () => {
-      return {
-        property: this.property,
-        date: { past_year: {} }
-      }
-    },
-    this_week: () => {
-      return {
-        property: this.property,
-        date: { this_week: {} }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#files
-   */
-  public readonly files: {
-    is_empty: () => FilesFilter
-    is_not_empty: () => FilesFilter
-  } = {
-    is_empty: () => {
-      return {
-        property: this.property,
-        files: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        files: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#multi-select
-   */
-  public readonly multi_select: {
-    contains: (word: string) => MultiSelectFilter
-    does_not_contain: (word: string) => MultiSelectFilter
-    is_empty: () => MultiSelectFilter
-    is_not_empty: () => MultiSelectFilter
-  } = {
-    contains: (word: string) => {
-      return {
-        property: this.property,
-        multi_select: {
-          contains: word
-        }
-      }
-    },
-    does_not_contain: (word: string) => {
-      return {
-        property: this.property,
-        multi_select: {
-          does_not_contain: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        multi_select: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        multi_select: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#number
-   */
-  public readonly number: {
-    does_not_equal: (number: number) => NumberFilter
-    equals: (number: number) => NumberFilter
-    greater_than: (number: number) => NumberFilter
-    greater_than_or_equal_to: (number: number) => NumberFilter
-    is_empty: () => NumberFilter
-    is_not_empty: () => NumberFilter
-    less_than: (number: number) => NumberFilter
-    less_than_or_equal_to: (number: number) => NumberFilter
-  } = {
-    does_not_equal: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          does_not_equal: number
-        }
-      }
-    },
-    equals: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          equals: number
-        }
-      }
-    },
-    greater_than: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          greater_than: number
-        }
-      }
-    },
-    greater_than_or_equal_to: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          greater_than_or_equal_to: number
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        number: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        number: {
-          is_not_empty: true
-        }
-      }
-    },
-    less_than: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          less_than: number
-        }
-      }
-    },
-    less_than_or_equal_to: (number: number) => {
-      return {
-        property: this.property,
-        number: {
-          less_than_or_equal_to: number
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#people
-   */
-  public readonly poeple: {
-    contains: (word: string) => PeopleFilter
-    does_not_contain: (word: string) => PeopleFilter
-    is_empty: () => PeopleFilter
-    is_not_empty: () => PeopleFilter
-  } = {
-    contains: (word: string) => {
-      return {
-        property: this.property,
-        people: {
-          contains: word
-        }
-      }
-    },
-    does_not_contain: (word: string) => {
-      return {
-        property: this.property,
-        people: {
-          does_not_contain: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        people: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        people: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#relation
-   */
-  public readonly relation: {
-    contains: (word: string) => RelationFilter
-    does_not_contain: (word: string) => RelationFilter
-    is_empty: () => RelationFilter
-    is_not_empty: () => RelationFilter
-  } = {
-    contains: (word: string) => {
-      return {
-        property: this.property,
-        relation: {
-          contains: word
-        }
-      }
-    },
-    does_not_contain: (word: string) => {
-      return {
-        property: this.property,
-        relation: {
-          does_not_contain: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        relation: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        relation: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#rich-text
-   */
-  public readonly rich_text: {
-    contains: (word: string) => RichTextFilter
-    does_not_contain: (word: string) => RichTextFilter
-    does_not_equal: (word: string) => RichTextFilter
-    ends_with: (word: string) => RichTextFilter
-    equals: (word: string) => RichTextFilter
-    is_empty: () => RichTextFilter
-    is_not_empty: () => RichTextFilter
-    starts_with: (word: string) => RichTextFilter
-  } = {
-    contains: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          contains: word
-        }
-      }
-    },
-    does_not_contain: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          does_not_contain: word
-        }
-      }
-    },
-    does_not_equal: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          does_not_equal: word
-        }
-      }
-    },
-    ends_with: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          ends_with: word
-        }
-      }
-    },
-    equals: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          equals: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        rich_text: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        rich_text: {
-          is_not_empty: true
-        }
-      }
-    },
-    starts_with: (word: string) => {
-      return {
-        property: this.property,
-        rich_text: {
-          starts_with: word
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#select
-   */
-  public readonly select: {
-    contains: (word: string) => SelectFilter
-    does_not_contain: (word: string) => SelectFilter
-    is_empty: () => SelectFilter
-    is_not_empty: () => SelectFilter
-  } = {
-    contains: (word: string) => {
-      return {
-        property: this.property,
-        select: {
-          contains: word
-        }
-      }
-    },
-    does_not_contain: (word: string) => {
-      return {
-        property: this.property,
-        select: {
-          does_not_contain: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        select: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        select: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#status
-   */
-  public readonly status: {
-    equals: (word: string) => StatusFilter
-    does_not_equal: (word: string) => StatusFilter
-    is_empty: () => StatusFilter
-    is_not_empty: () => StatusFilter
-  } = {
-    equals: (word: string) => {
-      return {
-        property: this.property,
-        status: {
-          equals: word
-        }
-      }
-    },
-    does_not_equal: (word: string) => {
-      return {
-        property: this.property,
-        status: {
-          does_not_equal: word
-        }
-      }
-    },
-    is_empty: () => {
-      return {
-        property: this.property,
-        status: {
-          is_empty: true
-        }
-      }
-    },
-    is_not_empty: () => {
-      return {
-        property: this.property,
-        status: {
-          is_not_empty: true
-        }
-      }
-    }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#timestamp
-   */
-  public readonly timestamp: {
-    created_time: {
-      after: (date: Date) => TimestampFilter
-      before: (date: Date) => TimestampFilter
-      equals: (date: Date) => TimestampFilter
-      is_empty: () => TimestampFilter
-      is_not_empty: () => TimestampFilter
-      next_month: () => TimestampFilter
-      next_week: () => TimestampFilter
-      next_year: () => TimestampFilter
-      on_or_after: (date: Date) => TimestampFilter
-      on_or_before: (date: Date) => TimestampFilter
-      past_month: () => TimestampFilter
-      past_week: () => TimestampFilter
-      past_year: () => TimestampFilter
-      this_week: () => TimestampFilter
-    }
-    last_edited_time: {
-      after: (date: Date) => TimestampFilter
-      before: (date: Date) => TimestampFilter
-      equals: (date: Date) => TimestampFilter
-      is_empty: () => TimestampFilter
-      is_not_empty: () => TimestampFilter
-      next_month: () => TimestampFilter
-      next_week: () => TimestampFilter
-      next_year: () => TimestampFilter
-      on_or_after: (date: Date) => TimestampFilter
-      on_or_before: (date: Date) => TimestampFilter
-      past_month: () => TimestampFilter
-      past_week: () => TimestampFilter
-      past_year: () => TimestampFilter
-      this_week: () => TimestampFilter
-    }
-  } = {
-    created_time: {
-      after: (date: Date) => {
+export const filter = {
+  checkbox: (propertyName: string) => {
+    return {
+      equals: (flag: boolean) => {
         return {
-          timestamp: 'created_time',
-          created_time: {
-            after: date.toISOString()
+          property: propertyName,
+          checkbox: {
+            equals: flag
           }
         }
       },
-      before: (date: Date) => {
+      does_not_equal: (flag: boolean) => {
         return {
-          timestamp: 'created_time',
-          created_time: {
-            before: date.toISOString()
+          property: propertyName,
+          checkbox: {
+            does_not_equal: flag
+          }
+        }
+      }
+    }
+  },
+  date: (propertyName: string) => {
+    return {
+      after: (date: string) => {
+        return {
+          property: propertyName,
+          date: {
+            after: date
           }
         }
       },
-      equals: (date: Date) => {
+      before: (date: string) => {
         return {
-          timestamp: 'created_time',
-          created_time: {
-            equals: date.toISOString()
+          property: propertyName,
+          date: {
+            before: date
+          }
+        }
+      },
+      equals: (date: string) => {
+        return {
+          property: propertyName,
+          date: {
+            equals: date
           }
         }
       },
       is_empty: () => {
         return {
-          timestamp: 'created_time',
-          created_time: {
+          property: propertyName,
+          date: {
             is_empty: true
           }
         }
       },
       is_not_empty: () => {
         return {
-          timestamp: 'created_time',
-          created_time: {
+          property: propertyName,
+          date: {
             is_not_empty: true
           }
         }
       },
       next_month: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { next_month: {} }
+          property: propertyName,
+          date: {
+            next_month: {}
+          }
         }
       },
       next_week: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { next_week: {} }
+          property: propertyName,
+          date: {
+            next_week: {}
+          }
         }
       },
       next_year: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { next_year: {} }
-        }
-      },
-      on_or_after: (date: Date) => {
-        return {
-          timestamp: 'created_time',
-          created_time: {
-            on_or_after: date.toISOString()
+          property: propertyName,
+          date: {
+            next_year: {}
           }
         }
       },
-      on_or_before: (date: Date) => {
+      on_or_after: (date: string) => {
         return {
-          timestamp: 'created_time',
-          created_time: {
-            on_or_before: date.toISOString()
+          property: propertyName,
+          date: {
+            on_or_after: date
+          }
+        }
+      },
+      on_or_before: (date: string) => {
+        return {
+          property: propertyName,
+          date: {
+            on_or_before: date
           }
         }
       },
       past_month: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { past_month: {} }
+          property: propertyName,
+          date: {
+            past_month: {}
+          }
         }
       },
       past_week: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { past_week: {} }
+          property: propertyName,
+          date: {
+            past_week: {}
+          }
         }
       },
       past_year: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { past_year: {} }
+          property: propertyName,
+          date: {
+            past_year: {}
+          }
         }
       },
       this_week: () => {
         return {
-          timestamp: 'created_time',
-          created_time: { this_week: {} }
+          property: propertyName,
+          date: {
+            this_week: {}
+          }
         }
       }
-    },
-    last_edited_time: {
-      after: (date: Date) => {
-        return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
-            after: date.toISOString()
-          }
-        }
-      },
-      before: (date: Date) => {
-        return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
-            before: date.toISOString()
-          }
-        }
-      },
-      equals: (date: Date) => {
-        return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
-            equals: date.toISOString()
-          }
-        }
-      },
+    }
+  },
+  files: (propertyName: string) => {
+    return {
       is_empty: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
+          property: propertyName,
+          files: {
             is_empty: true
           }
         }
       },
       is_not_empty: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
+          property: propertyName,
+          files: {
             is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  multi_select: (propertyName: string) => {
+    return {
+      contains: (keyword: string) => {
+        return {
+          property: propertyName,
+          files: {
+            contains: keyword
+          }
+        }
+      },
+      does_not_contain: (keyword: string) => {
+        return {
+          property: propertyName,
+          files: {
+            does_not_contain: keyword
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          files: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          files: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  number: (propertyName: string) => {
+    return {
+      equals: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            equals: value
+          }
+        }
+      },
+      does_not_equal: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            does_not_equal: value
+          }
+        }
+      },
+      greater_than: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            greater_than: value
+          }
+        }
+      },
+      greater_than_or_equal_to: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            greater_than_or_equal_to: value
+          }
+        }
+      },
+      less_than: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            less_than: value
+          }
+        }
+      },
+      less_than_or_equal_to: (value: number) => {
+        return {
+          property: propertyName,
+          number: {
+            less_than_or_equal_to: value
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          number: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          number: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  people: (propertyName: string) => {
+    return {
+      contains: (userId: string) => {
+        return {
+          property: propertyName,
+          people: {
+            contains: userId
+          }
+        }
+      },
+      does_not_contain: (id: string) => {
+        return {
+          property: propertyName,
+          people: {
+            does_not_contain: id
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          people: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          people: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  relation: (propertyName: string) => {
+    return {
+      contains: (relationId: string) => {
+        return {
+          property: propertyName,
+          relation: {
+            contains: relationId
+          }
+        }
+      },
+      does_not_contain: (relationId: string) => {
+        return {
+          property: propertyName,
+          relation: {
+            does_not_contain: relationId
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          relation: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          relation: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  rich_text: (propertyName: string) => {
+    return {
+      contains: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            contains: text
+          }
+        }
+      },
+      does_not_contain: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            does_not_contain: text
+          }
+        }
+      },
+      equals: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            equals: text
+          }
+        }
+      },
+      does_not_equal: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            does_not_equal: text
+          }
+        }
+      },
+      starts_with: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            starts_with: text
+          }
+        }
+      },
+      ends_with: (text: string) => {
+        return {
+          property: propertyName,
+          rich_text: {
+            ends_with: text
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          rich_text: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          rich_text: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  select: (propertyName: string) => {
+    return {
+      contains: (value: string) => {
+        return {
+          property: propertyName,
+          select: {
+            contains: value
+          }
+        }
+      },
+      does_not_contain: (value: string) => {
+        return {
+          property: propertyName,
+          select: {
+            does_not_contain: value
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          select: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          select: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  status: (propertyName: string) => {
+    return {
+      equals: (value: string) => {
+        return {
+          property: propertyName,
+          status: {
+            equals: value
+          }
+        }
+      },
+      does_not_equal: (value: string) => {
+        return {
+          property: propertyName,
+          status: {
+            does_not_equal: value
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          property: propertyName,
+          status: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          property: propertyName,
+          status: {
+            is_not_empty: true
+          }
+        }
+      }
+    }
+  },
+  timestamp: (type: 'created_time' | 'last_edited_time') => {
+    return {
+      after: (date: string) => {
+        return {
+          timestamp: type,
+          [type]: {
+            after: date
+          }
+        }
+      },
+      before: (date: string) => {
+        return {
+          timestamp: type,
+          [type]: {
+            before: date
+          }
+        }
+      },
+      equals: (date: string) => {
+        return {
+          timestamp: type,
+          [type]: {
+            equals: date
+          }
+        }
+      },
+      is_empty: () => {
+        return {
+          timestamp: type,
+          [type]: {
+            is_empty: true
+          }
+        }
+      },
+      is_not_empty: () => {
+        return {
+          timestamp: type,
+          [type]: {
+            is_not_empty: true
+          }
+        }
+      },
+      on_or_after: (date: string) => {
+        return {
+          timestamp: type,
+          [type]: {
+            on_or_after: date
+          }
+        }
+      },
+      on_or_before: (date: string) => {
+        return {
+          timestamp: type,
+          [type]: {
+            on_or_before: date
           }
         }
       },
       next_month: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { next_month: {} }
+          timestamp: type,
+          [type]: {
+            next_month: {}
+          }
         }
       },
       next_week: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { next_week: {} }
+          timestamp: type,
+          [type]: {
+            next_week: {}
+          }
         }
       },
       next_year: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { next_year: {} }
-        }
-      },
-      on_or_after: (date: Date) => {
-        return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
-            on_or_after: date.toISOString()
-          }
-        }
-      },
-      on_or_before: (date: Date) => {
-        return {
-          timestamp: 'last_edited_time',
-          last_edited_time: {
-            on_or_before: date.toISOString()
+          timestamp: type,
+          [type]: {
+            next_year: {}
           }
         }
       },
       past_month: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { past_month: {} }
+          timestamp: type,
+          [type]: {
+            past_month: {}
+          }
         }
       },
       past_week: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { past_week: {} }
+          timestamp: type,
+          [type]: {
+            past_week: {}
+          }
         }
       },
       past_year: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { past_year: {} }
+          timestamp: type,
+          [type]: {
+            past_year: {}
+          }
         }
       },
       this_week: () => {
         return {
-          timestamp: 'last_edited_time',
-          last_edited_time: { this_week: {} }
+          timestamp: type,
+          [type]: {
+            this_week: {}
+          }
         }
       }
     }
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#id
-   */
-  public readonly unique_id: {
-    equals: (number: number) => IDFilter
-    does_not_equal: (number: number) => IDFilter
-    greater_than: (number: number) => IDFilter
-    greater_than_or_equal_to: (number: number) => IDFilter
-    less_than: (number: number) => IDFilter
-    less_than_or_equal_to: (number: number) => IDFilter
-  } = {
-    equals: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          equals: number
+  },
+  id: (propertyName: string) => {
+    return {
+      equals: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            equals: value
+          }
         }
-      }
-    },
-    does_not_equal: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          does_not_equal: number
+      },
+      does_not_equal: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            does_not_equal: value
+          }
         }
-      }
-    },
-    greater_than: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          greater_than: number
+      },
+      greater_than: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            greater_than: value
+          }
         }
-      }
-    },
-    greater_than_or_equal_to: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          greater_than_or_equal_to: number
+      },
+      greater_than_or_equal_to: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            greater_than_or_equal_to: value
+          }
         }
-      }
-    },
-    less_than: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          less_than: number
+      },
+      less_than: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            less_than: value
+          }
         }
-      }
-    },
-    less_than_or_equal_to: (number: number) => {
-      return {
-        property: this.property,
-        unique_id: {
-          less_than_or_equal_to: number
+      },
+      less_than_or_equal_to: (value: number) => {
+        return {
+          property: propertyName,
+          unique_id: {
+            less_than_or_equal_to: value
+          }
         }
       }
     }
+  },
+  rollup: (propertyName: string) => {
+    return {
+      any: (rollupCondition: any) => {
+        return {
+          property: propertyName,
+          rollup: {
+            any: rollupCondition
+          }
+        }
+      },
+      every: (rollupCondition: any) => {
+        return {
+          property: propertyName,
+          rollup: {
+            every: rollupCondition
+          }
+        }
+      },
+      none: (rollupCondition: any) => {
+        return {
+          property: propertyName,
+          rollup: {
+            none: rollupCondition
+          }
+        }
+      }
+    }
+  },
+  createRollupCondition: (
+    filterType:
+      | 'checkbox'
+      | 'date'
+      | 'files'
+      | 'formula'
+      | 'multi_select'
+      | 'number'
+      | 'people'
+      | 'relation'
+      | 'rich_text'
+      | 'select'
+      | 'status'
+      | 'select'
+      | 'timestamp'
+      | 'id',
+    condition: any
+  ) => {
+    switch (filterType) {
+      case 'checkbox':
+        return { checkbox: condition }
+      case 'date':
+        return { date: condition }
+      case 'files':
+        return { files: condition }
+      case 'formula':
+        return { formula: condition }
+      case 'multi_select':
+        return { formula: condition }
+      case 'number':
+        return { number: condition }
+      case 'people':
+        return { people: condition }
+      case 'relation':
+        return { relation: condition }
+      case 'rich_text':
+        return { rich_text: condition }
+      case 'select':
+        return { select: condition }
+      case 'status':
+        return { status: condition }
+      case 'timestamp':
+        return { timestamp: condition }
+      case 'id':
+        return { unique_id: condition }
+    }
   }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#formula
-   */
-  public readonly formula: {
-    checkbox: Filter['checkbox']
-    date: Filter['date']
-    number: Filter['number']
-    string: Filter['rich_text']
-  } = {
-    checkbox: this.checkbox,
-    date: this.date,
-    number: this.number,
-    string: this.rich_text
-  }
-
-  /**
-   * @see https://developers.notion.com/reference/post-database-query-filter#formula
-   */
-  public readonly rollup: {
-    checkbox: Filter['checkbox']
-    date: Filter['date']
-    number: Filter['number']
-    string: Filter['rich_text']
-  } = {
-    checkbox: this.checkbox,
-    date: this.date,
-    number: this.number,
-    string: this.rich_text
-  }
-
-  /**
-   *
-   * @param property Property name (as the column name in the database)
-   */
-  constructor(private readonly property: string = '') {}
 }

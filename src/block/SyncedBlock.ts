@@ -31,9 +31,9 @@ export class SyncedBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.children(
-      this.synced_block.synced_from?.block_id ?? this.id
-    )
+    const data = await this.notion.children({
+      id: this.synced_block.synced_from?.block_id ?? this.id
+    })
     const HTMLPromises = data.results.map(async (item) => await item.toHTML())
     const HTML = await Promise.all(HTMLPromises)
     return HTML.join('')

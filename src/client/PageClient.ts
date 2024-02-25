@@ -10,17 +10,10 @@ export class PageClient extends ClientBase {
     super({ NOTION_API_KEY, stdTTL })
   }
 
-  async retrieve(
-    id: string,
-    options: {
-      forceRefresh: boolean
-    } = {
-      forceRefresh: false
-    }
-  ): Promise<Page> {
-    const url = `/v1/pages/${id}`
+  async retrieve(params: { id: string; forceRefresh: boolean }): Promise<Page> {
+    const url = `/v1/pages/${params.id}`
 
-    if (!options?.forceRefresh) {
+    if (!params?.forceRefresh) {
       const cacheRes = this.cache.get<PageResponse>(url)
       if (cacheRes != null) return new Page(cacheRes)
     }

@@ -28,7 +28,7 @@ export class TableBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.children(this.id)
+    const data = await this.notion.children({ id: this.id })
     const HTML = await data.toHTML()
     return `<table class='notion-table'>${HTML}</table>`
   }

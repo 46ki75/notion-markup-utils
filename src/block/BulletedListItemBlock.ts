@@ -38,7 +38,7 @@ export class BulletedListItemBlock extends Block {
   }
 
   async toHTML(): Promise<string> {
-    const data = await this.notion.children(this.id)
+    const data = await this.notion.children({ id: this.id })
 
     const childrenHTML = await data.toHTML()
 

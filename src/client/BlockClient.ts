@@ -19,22 +19,17 @@ export class BlockClient extends ClientBase {
    * @param options
    * @returns
    */
-  async children(
-    id: string,
-    options: {
-      forceRefresh: boolean
-      recursive: boolean
-      nextCursor?: string
-    } = {
-      forceRefresh: false,
-      recursive: true
-    }
-  ): Promise<BlockList> {
+  async children(params: {
+    id: string
+    forceRefresh?: boolean
+    recursive?: boolean
+    nextCursor?: string
+  }): Promise<BlockList> {
     const url =
-      `/v1/blocks/${id}/children?page_size=100` +
-      (options.nextCursor != null ? `&start_cursor=${options.nextCursor}` : '')
+      `/v1/blocks/${params.id}/children?page_size=100` +
+      (params.nextCursor != null ? `&start_cursor=${params.nextCursor}` : '')
 
-    if (!options?.forceRefresh) {
+    if (!(params?.forceRefresh ?? false)) {
       const cacheRes = this.cache.get<BlockListResponse>(url)
       if (cacheRes != null) return new BlockList(cacheRes, this)
     }
@@ -43,8 +38,9 @@ export class BlockClient extends ClientBase {
     const { data }: { data: BlockListResponse } = res
 
     if (data.next_cursor != null) {
-      const recursiveResult = await this.children(id, {
-        forceRefresh: options.forceRefresh,
+      const recursiveResult = await this.children({
+        id: params.id,
+        forceRefresh: params.forceRefresh,
         recursive: true,
         nextCursor: data.next_cursor
       })
@@ -57,16 +53,13 @@ export class BlockClient extends ClientBase {
     return new BlockList(data, this)
   }
 
-  async getHTML(
-    id: string,
-    options: {
-      forceRefresh: boolean
-    } = {
-      forceRefresh: false
-    }
-  ): Promise<string> {
-    const blockList = await this.children(id, {
-      forceRefresh: options.forceRefresh,
+  async getHTML(params: {
+    id: string
+    forceRefresh?: boolean
+  }): Promise<string> {
+    const blockList = await this.children({
+      id: params.id,
+      forceRefresh: params.forceRefresh ?? false,
       recursive: true
     })
     const HTML = await blockList.toHTML()
