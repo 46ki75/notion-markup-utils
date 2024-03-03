@@ -237,3 +237,86 @@ export interface RichTextMentionResponseMention {
         }
       }
 }
+
+export interface RichTextRequest {
+  type: 'text'
+  text: { content: string; link: null }
+  annotations: {
+    bold: boolean
+    italic: boolean
+    strikethrough: boolean
+    underline: boolean
+    code: boolean
+    color: Color
+  }
+  plain_text: string
+  href: string | null
+}
+
+export class RichTextRequestBuilder {
+  private readonly type = 'text'
+  private readonly text = { content: '', link: null }
+  private readonly annotations: {
+    bold: boolean
+    italic: boolean
+    strikethrough: boolean
+    underline: boolean
+    code: boolean
+    color: Color
+  } = {
+    bold: false,
+    italic: false,
+    strikethrough: false,
+    underline: false,
+    code: false,
+    color: 'default'
+  }
+
+  private readonly plain_text: string
+  private href: string | null = null
+
+  constructor(content: string) {
+    this.text.content = content
+    this.plain_text = content
+  }
+
+  public bold(): this {
+    this.annotations.bold = true
+    return this
+  }
+
+  public italic(): this {
+    this.annotations.italic = true
+    return this
+  }
+
+  public strikethrough(): this {
+    this.annotations.strikethrough = true
+    return this
+  }
+
+  public underline(): this {
+    this.annotations.underline = true
+    return this
+  }
+
+  public code(): this {
+    this.annotations.code = true
+    return this
+  }
+
+  public link(url: string): this {
+    this.href = url
+    return this
+  }
+
+  public build(): RichTextResponse {
+    return {
+      type: 'text',
+      text: this.text,
+      annotations: this.annotations,
+      plain_text: this.plain_text,
+      href: this.href
+    }
+  }
+}

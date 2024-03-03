@@ -359,3 +359,12 @@ export class Page {
     }
   }
 }
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+}
+
+export interface PageCreateRequest {
+  parent: { page_id: string } | { database_id: string }
+  properties: Record<string, DeepPartial<PagePropertyResponse>>
+}
