@@ -15,6 +15,7 @@ import {
 import { type BlockRequest } from '../page'
 
 import { marked } from 'marked'
+import TurndownService from 'turndown'
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -108,7 +109,8 @@ export class BlockClient extends ClientBase {
   }
 
   public HTMLtoNotion(rawHtml: string): BlockRequest[] {
-    const tokens = marked.lexer(rawHtml)
+    const turndownService = new TurndownService()
+    const tokens = marked.lexer(turndownService.turndown(rawHtml))
     const elements = []
     for (const token of tokens) {
       switch (token.type) {
