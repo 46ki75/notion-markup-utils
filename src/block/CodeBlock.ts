@@ -6,7 +6,7 @@ import { RichText, type RichTextResponse } from './RichText'
 export interface CodeBlockResponse extends BlockResponse {
   type: 'code'
   code: {
-    caption: []
+    caption: RichTextResponse[]
     rich_text: RichTextResponse[]
     language: Language
   }
@@ -41,6 +41,50 @@ export class CodeBlock extends Block {
     const headerBlock = `<div class='notion-code-header'><div class='notion-code-language'>${notionCodeLanguage}</div><div class='notion-code-copy'>Copy Code</div></div>`
     const codeBlock = `<pre class='${this.code.language}'><code class='language-${this.code.language}'>${code}</code></pre>`
     return `<div class='notion-code'>${headerBlock}${codeBlock}</div>`
+  }
+}
+
+export interface CodeBlockRequest {
+  type: 'code'
+  code: {
+    caption: RichTextResponse[]
+    rich_text: RichTextResponse[]
+    language: Language
+  }
+}
+
+export class CodeBlockRequestBuilder {
+  private readonly type = 'code'
+  private readonly code: {
+    caption: RichText[]
+    rich_text: RichText[]
+    language: Language
+  }
+
+  constructor(richText: RichTextResponse[] | RichTextResponse) {
+    this.code = {
+      rich_text: Array.isArray(richText)
+        ? richText.map((text) => new RichText(text))
+        : [new RichText(richText)],
+      language: 'plain text',
+      caption: []
+    }
+  }
+
+  public language(language: Language): this {
+    this.code.language = language
+    return this
+  }
+
+  public build(): CodeBlockRequest {
+    return {
+      type: this.type,
+      code: {
+        rich_text: this.code.rich_text.map((text) => text.toJSON()),
+        language: this.code.language,
+        caption: this.code.caption.map((text) => text.toJSON())
+      }
+    }
   }
 }
 

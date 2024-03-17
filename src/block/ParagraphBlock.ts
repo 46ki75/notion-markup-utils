@@ -35,3 +35,43 @@ export class ParagraphBlock extends Block {
     return `<p class='notion-paragraph'>${HTML.join('')}</p>`
   }
 }
+
+export interface ParagraphBlockRequest {
+  type: 'paragraph'
+  paragraph: {
+    rich_text: RichTextResponse[]
+    color?: Color
+  }
+}
+
+export class ParagraphBlockRequestBuilder {
+  public readonly type = 'paragraph'
+  public readonly paragraph: {
+    rich_text: RichText[]
+    color?: Color
+  }
+
+  constructor(richText: RichTextResponse[] | RichTextResponse) {
+    this.paragraph = {
+      rich_text: Array.isArray(richText)
+        ? richText.map((text) => new RichText(text))
+        : [new RichText(richText)],
+      color: 'default'
+    }
+  }
+
+  public color(color: Color): this {
+    this.paragraph.color = color
+    return this
+  }
+
+  public build(): ParagraphBlockRequest {
+    return {
+      type: this.type,
+      paragraph: {
+        rich_text: this.paragraph.rich_text.map((text) => text.toJSON()),
+        color: this.paragraph.color
+      }
+    }
+  }
+}

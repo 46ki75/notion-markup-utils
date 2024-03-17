@@ -10,7 +10,7 @@ import {
 import { Block, type BlockResponse } from './Block'
 import { RichText, type RichTextResponse } from './RichText'
 
-export interface CalloutBlockRespose extends BlockResponse {
+export interface CalloutBlockResponse extends BlockResponse {
   type: 'callout'
   callout: {
     rich_text: RichTextResponse[]
@@ -27,7 +27,7 @@ export class CalloutBlock extends Block {
     color: Color
   }
 
-  constructor(calloutBlockRespose: CalloutBlockRespose, notion: BlockClient) {
+  constructor(calloutBlockRespose: CalloutBlockResponse, notion: BlockClient) {
     super(calloutBlockRespose, notion)
     this.callout = {
       rich_text: calloutBlockRespose.callout.rich_text?.map(

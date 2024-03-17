@@ -38,3 +38,37 @@ export class ImageBlock extends Block {
     return `<img src='${this.image.file?.url ?? this.image.external?.url}' alt='' class='notion-image' />`
   }
 }
+
+export interface ImageBlockRequest {
+  type: 'image'
+  image: {
+    type: 'external'
+    external: {
+      url: string
+    }
+  }
+}
+
+export class ImageBlockRequestBuilder {
+  private readonly type = 'image'
+  private readonly image: {
+    type: 'external'
+    external: {
+      url: string
+    }
+  }
+
+  constructor(url: string) {
+    this.image = {
+      type: 'external',
+      external: { url }
+    }
+  }
+
+  public build(): ImageBlockRequest {
+    return {
+      type: this.type,
+      image: this.image
+    }
+  }
+}

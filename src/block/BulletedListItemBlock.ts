@@ -49,3 +49,51 @@ export class BulletedListItemBlock extends Block {
     return `<li class='notion-bulleted-list-item'>${HTML.join('')}${childrenHTML}</li>`
   }
 }
+
+export interface BulletedListItemBlockRequest {
+  type: 'bulleted_list_item'
+  bulleted_list_item: {
+    rich_text: RichTextResponse[]
+    color: Color
+    children: BlockResponse[]
+  }
+}
+
+export class BulletedListItemBlockRequestBuilder {
+  private readonly type = 'bulleted_list_item'
+  private readonly bulleted_list_item: {
+    rich_text: RichText[]
+    color: Color
+    children: Block[]
+  }
+
+  constructor(richText: RichTextResponse[] | RichTextResponse) {
+    this.bulleted_list_item = {
+      rich_text: Array.isArray(richText)
+        ? richText.map((text) => new RichText(text))
+        : [new RichText(richText)],
+      color: 'default',
+      children: []
+    }
+  }
+
+  public color(color: Color): this {
+    this.bulleted_list_item.color = color
+    return this
+  }
+
+  public build(): BulletedListItemBlockRequest {
+    return {
+      type: this.type,
+      bulleted_list_item: {
+        rich_text: this.bulleted_list_item.rich_text.map((text) =>
+          text.toJSON()
+        ),
+        color: this.bulleted_list_item.color,
+        children: this.bulleted_list_item.children.map((block) =>
+          block.toJSON()
+        )
+      }
+    }
+  }
+}

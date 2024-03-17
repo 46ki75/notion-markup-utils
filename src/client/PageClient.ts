@@ -1,4 +1,9 @@
-import { type PageResponse, Page, type PageCreateRequest } from '../page/Page'
+import {
+  type PageResponse,
+  Page,
+  type PageCreateRequest,
+  type BlockRequest
+} from '../page/Page'
 import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
 
@@ -35,7 +40,29 @@ export class PageClient extends ClientBase {
    */
   async create(params: PageCreateRequest): Promise<PageResponse> {
     const url = `/v1/pages`
-    const res = await this.client.post(url, params)
-    return res.data
+
+    // Blocks can only add up to 100 pieces per request
+    if (params.children.length > 100) {
+      const childrenArray: BlockRequest[][] = []
+      for (let i = 0; i < params.children.length; i += 100) {
+        const chunk = params.children.slice(i, i + 100)
+        childrenArray.push(chunk)
+      }
+
+      const res = await this.client.post<PageResponse>(url, {
+        ...params,
+        children: childrenArray.shift()
+      })
+
+      for (const children of childrenArray) {
+        const url = `/v1/blocks/${res.data.id}/children`
+        await this.client.patch(url, { children })
+      }
+
+      return res.data
+    } else {
+      const res = await this.client.post<PageResponse>(url, params)
+      return res.data
+    }
   }
 }

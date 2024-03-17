@@ -45,3 +45,51 @@ export class NumberedListBlock extends Block {
     return `<li class='notion-numbered-list-item'>${HTML.join('')}</li>`
   }
 }
+
+export interface NumberedListItemBlockRequest {
+  type: 'numbered_list_item'
+  numbered_list_item: {
+    rich_text: RichTextResponse[]
+    color: Color
+    children: BlockResponse[]
+  }
+}
+
+export class NumberedListItemBlockRequestBuilder {
+  private readonly type = 'numbered_list_item'
+  private readonly numbered_list_item: {
+    rich_text: RichText[]
+    color: Color
+    children: Block[]
+  }
+
+  constructor(richText: RichTextResponse[] | RichTextResponse) {
+    this.numbered_list_item = {
+      rich_text: Array.isArray(richText)
+        ? richText.map((text) => new RichText(text))
+        : [new RichText(richText)],
+      color: 'default',
+      children: []
+    }
+  }
+
+  public color(color: Color): this {
+    this.numbered_list_item.color = color
+    return this
+  }
+
+  public build(): NumberedListItemBlockRequest {
+    return {
+      type: this.type,
+      numbered_list_item: {
+        rich_text: this.numbered_list_item.rich_text.map((text) =>
+          text.toJSON()
+        ),
+        color: this.numbered_list_item.color,
+        children: this.numbered_list_item.children.map((block) =>
+          block.toJSON()
+        )
+      }
+    }
+  }
+}

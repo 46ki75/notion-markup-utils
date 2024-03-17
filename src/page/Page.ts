@@ -1,4 +1,19 @@
 import {
+  type Heading2BlockRequest,
+  type Heading3BlockRequest,
+  type Heading1BlockRequest,
+  type ParagraphBlockRequest,
+  type BookmarkBlockRequest,
+  type BreadcrumbBlockRequest,
+  type BulletedListItemBlockRequest,
+  type CodeBlockRequest,
+  type DividerBlockRequest,
+  type NumberedListItemBlockRequest,
+  type QuoteBlockRequest,
+  type TableBlockRequest,
+  type ImageBlockRequest
+} from '../block'
+import {
   type ParentResponse,
   type EmojiResponse,
   type FileResponse,
@@ -364,7 +379,23 @@ type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
 }
 
+export type BlockRequest =
+  | BreadcrumbBlockRequest
+  | BookmarkBlockRequest
+  | BulletedListItemBlockRequest
+  | CodeBlockRequest
+  | DividerBlockRequest
+  | ImageBlockRequest
+  | NumberedListItemBlockRequest
+  | QuoteBlockRequest
+  | Heading1BlockRequest
+  | Heading2BlockRequest
+  | Heading3BlockRequest
+  | ParagraphBlockRequest
+  | TableBlockRequest
+
 export interface PageCreateRequest {
   parent: { page_id: string } | { database_id: string }
   properties: Record<string, DeepPartial<PagePropertyResponse>>
+  children: BlockRequest[]
 }

@@ -7,7 +7,7 @@ import {
   BulletedListItemBlock,
   type BulletedListItemBlockResponse,
   CalloutBlock,
-  type CalloutBlockRespose,
+  type CalloutBlockResponse,
   ChildDatabaseBlock,
   type ChildDatabaseBlockResponse,
   ChildPageBlock,
@@ -136,7 +136,7 @@ export class BlockList {
           )
 
         case 'callout':
-          return new CalloutBlock(blockResponse as CalloutBlockRespose, notion)
+          return new CalloutBlock(blockResponse as CalloutBlockResponse, notion)
 
         case 'child_database':
           return new ChildDatabaseBlock(

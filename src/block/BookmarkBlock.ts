@@ -98,3 +98,43 @@ export class BookmarkBlock extends Block {
     }
   }
 }
+
+export interface BookmarkBlockRequest {
+  type: 'bookmark'
+  bookmark: {
+    caption: RichTextResponse[]
+    url: string
+  }
+}
+
+export class BookmarkBlockRequestBuilder {
+  private readonly type = 'bookmark'
+  private readonly bookmark: {
+    caption: RichText[]
+    url: string
+  }
+
+  constructor(url: string) {
+    this.bookmark = {
+      caption: [],
+      url
+    }
+  }
+
+  public caption(richText: RichTextResponse[] | RichTextResponse): this {
+    this.bookmark.caption = Array.isArray(richText)
+      ? richText.map((text) => new RichText(text))
+      : [new RichText(richText)]
+    return this
+  }
+
+  public build(): BookmarkBlockRequest {
+    return {
+      type: this.type,
+      bookmark: {
+        caption: this.bookmark.caption.map((text) => text.toJSON()),
+        url: this.bookmark.url
+      }
+    }
+  }
+}

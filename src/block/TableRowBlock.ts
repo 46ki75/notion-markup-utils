@@ -40,3 +40,30 @@ export class TableRowBlock extends Block {
     return `<tr>${HTML}</tr>`
   }
 }
+
+export interface TableRowBlockRequest {
+  type: 'table_row'
+  table_row: {
+    cells: RichTextResponse[][]
+  }
+}
+
+export class TableRowBlockRequestBuilder {
+  private readonly type = 'table_row'
+  private readonly table_row: {
+    cells: RichTextResponse[][]
+  }
+
+  constructor(cells: RichTextResponse[][]) {
+    this.table_row = { cells }
+  }
+
+  public build(): TableRowBlockRequest {
+    return {
+      type: this.type,
+      table_row: {
+        cells: this.table_row.cells
+      }
+    }
+  }
+}

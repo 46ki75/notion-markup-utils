@@ -20,3 +20,20 @@ export class DividerBlock extends Block {
     return `<hr class='notion-divider' />`
   }
 }
+
+export interface DividerBlockRequest {
+  type: 'divider'
+  divider: Record<string, unknown>
+}
+
+export class DividerBlockRequestBuilder {
+  public readonly type = 'divider'
+  public readonly divider = {}
+
+  build(): DividerBlockRequest {
+    return {
+      type: this.type,
+      divider: this.divider
+    }
+  }
+}

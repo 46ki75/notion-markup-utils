@@ -10,3 +10,20 @@ export class BreadcrumbBlock extends Block {
   public readonly type = 'breadcrumb'
   public readonly breadcrumb = {}
 }
+
+export interface BreadcrumbBlockRequest {
+  type: 'breadcrumb'
+  breadcrumb: Record<string, unknown>
+}
+
+export class BreadcrumbBlockRequestBuilder {
+  public readonly type = 'breadcrumb'
+  public readonly breadcrumb = {}
+
+  build(): BreadcrumbBlockRequest {
+    return {
+      type: this.type,
+      breadcrumb: this.breadcrumb
+    }
+  }
+}
