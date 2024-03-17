@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.3.0]
+
+- Utility for converting HTML into Notion blocks. This feature allows users to seamlessly import HTML content directly into their Notion pages, enhancing the flexibility and ease of content creation and management within Notion.
+
 ## [v1.2.3]
 
 - Removed extraneous source code that was mixed into the entry point.
