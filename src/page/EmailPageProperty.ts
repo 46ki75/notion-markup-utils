@@ -3,15 +3,26 @@
 export interface EmailPagePropertyResponse {
   id: string
   type: 'email'
-  email: string
+
+  /**
+   * When a value is blank in Notion, it becomes null.
+   */
+  email: string | null
 }
 
-export type EmailPagePropertyResponseSimplified = string
+/**
+ * When a value is blank in Notion, it becomes null.
+ */
+export type EmailPagePropertyResponseSimplified = string | null
 
 export class EmailPageProperty {
   public readonly id: string
   public readonly type = 'email'
-  public readonly email: string
+
+  /**
+   * When a value is blank in Notion, it becomes null.
+   */
+  public readonly email: string | null
 
   constructor(emailPagePropertyResponse: EmailPagePropertyResponse) {
     this.id = emailPagePropertyResponse.id
@@ -26,6 +37,9 @@ export class EmailPageProperty {
     }
   }
 
+  /**
+   * When a value is blank in Notion, it becomes null.
+   */
   simplify(): EmailPagePropertyResponseSimplified {
     return this.email
   }

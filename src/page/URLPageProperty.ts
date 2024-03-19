@@ -3,19 +3,30 @@
 export interface URLPagePropertyResponse {
   id: string
   type: 'url'
-  url: string
+
+  /**
+   * When a value is blank in Notion, it becomes null.
+   */
+  url: string | null
 }
 
-export type URLPagePropertyResponseSimplified = string
+/**
+ * When a value is blank in Notion, it becomes null.
+ */
+export type URLPagePropertyResponseSimplified = string | null
 
 export class URLPageProperty {
   public readonly id: string
   public readonly type = 'url'
-  public readonly url: string
+
+  /**
+   * When a value is blank in Notion, it becomes null.
+   */
+  public readonly url: string | null
 
   constructor(URLPagePropertyResponse: URLPagePropertyResponse) {
     this.id = URLPagePropertyResponse.id
-    this.url = URLPagePropertyResponse.url
+    this.url = URLPagePropertyResponse.url ?? null
   }
 
   toJSON(): URLPagePropertyResponse {
@@ -27,6 +38,6 @@ export class URLPageProperty {
   }
 
   simplify(): URLPagePropertyResponseSimplified {
-    return this.url
+    return this?.url ?? null
   }
 }

@@ -222,9 +222,16 @@ export class DatabaseClient extends ClientBase {
 
     // set cache
     this.set(url, data)
+
     return new PageList<T>(data)
   }
 
+  /**
+   *
+   * @param id
+   * @param options
+   * @returns
+   */
   async retrieve(
     id: string,
     options: {

@@ -108,6 +108,11 @@ export class User {
     }
   }
 
+  /**
+   * This method returns the username and the URL of the user's avatar image.
+   * If you do not explicitly allow access to user data when creating a Notion API key,
+   * both fields will be null.
+   */
   simplify(): UserResponseSimplified {
     return {
       name: this.name,

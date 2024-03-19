@@ -9,6 +9,9 @@ export interface UniqueIDPagePropertyResponse {
   }
 }
 
+/**
+ * String combining prefix and ID
+ */
 export type UniqueIDPagePropertyResponseSimplified = string
 
 export class UniqueIDPageProperty {
@@ -32,6 +35,10 @@ export class UniqueIDPageProperty {
     }
   }
 
+  /**
+   * This method returns a string that combines a prefix and an ID with a `-`.
+   * It also appears concatenated with a `-` in Notion.
+   */
   simplify(): UniqueIDPagePropertyResponseSimplified {
     return this.unique_id.prefix != null
       ? `${this.unique_id.prefix}-${String(this.unique_id.number)}`

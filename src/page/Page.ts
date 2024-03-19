@@ -28,9 +28,17 @@ import {
   type ParentResponseSimplified
 } from '../other'
 import {
+  ButtonPageProperty,
+  type ButtonPagePropertyResponse
+} from './ButtonPageProperty'
+import {
   CheckboxPageProperty,
   type CheckboxPagePropertyResponse
 } from './CheckboxPageProperty'
+import {
+  CreatedByPageProperty,
+  type CreatedByPagePropertyResponse
+} from './CreatedByPageProperty'
 import {
   CreatedTimePageProperty,
   type CreatedTimePagePropertyResponse
@@ -199,6 +207,12 @@ export class Page<
     const propertyKeys = Object.keys(pageResponse.properties)
     for (const key of propertyKeys) {
       switch ((pageResponse.properties as any)[key].type) {
+        case 'button':
+          ;(this.properties as any)[key] = new ButtonPageProperty(
+            (pageResponse.properties as any)[key] as ButtonPagePropertyResponse
+          )
+          break
+
         case 'checkbox':
           ;(this.properties as any)[key] = new CheckboxPageProperty(
             (pageResponse.properties as any)[
@@ -208,10 +222,10 @@ export class Page<
           break
 
         case 'created_by':
-          ;(this.properties as any)[key] = new CreatedTimePageProperty(
+          ;(this.properties as any)[key] = new CreatedByPageProperty(
             (pageResponse.properties as any)[
               key
-            ] as CreatedTimePagePropertyResponse
+            ] as CreatedByPagePropertyResponse
           )
           break
 
@@ -383,6 +397,10 @@ export class Page<
     }
   }
 
+  /**
+   *
+   * @deprecated Deprecated due to the lack of type inference for the object returned after using this method.
+   */
   simplify(): PageResponseSimplified<T> {
     const propertyKeys = Object.keys(this.properties)
     const properties: Record<string, PagePropertyResponseSimplified> = {}

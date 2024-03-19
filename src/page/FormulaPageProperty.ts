@@ -5,18 +5,16 @@ export interface FormulaPagePropertyResponse {
   type: 'formula'
   formula: {
     type: string
-    number: number
   }
 }
 
-export type FormulaPagePropertyResponseSimplified = number
+export type FormulaPagePropertyResponseSimplified = any
 
 export class FormulaPageProperty {
   public readonly id: string
   public readonly type = 'formula'
   public readonly formula: {
     type: string
-    number: number
   }
 
   constructor(formulaPagePropertyResponse: FormulaPagePropertyResponse) {
@@ -33,6 +31,6 @@ export class FormulaPageProperty {
   }
 
   simplify(): FormulaPagePropertyResponseSimplified {
-    return this.formula.number
+    return this.formula
   }
 }

@@ -1,17 +1,25 @@
 // @see https://developers.notion.com/reference/page-property-values#phone-number
 
+/**
+ * The documentation on Notion includes an example response with a 'name' entry,
+ * but it has been confirmed that this is not being sent as of the current moment.
+ * @see https://developers.notion.com/reference/page-property-values#phone-number
+ */
 export interface PhoneNumberPagePropertyResponse {
   id: string
-  name: string
   type: 'phone_number'
   phone_number: string
 }
 
 export type PhoneNumberPagePropertyResponseSimplified = string
 
+/**
+ * The documentation on Notion includes an example response with a 'name' entry,
+ * but it has been confirmed that this is not being sent as of the current moment.
+ * @see https://developers.notion.com/reference/page-property-values#phone-number
+ */
 export class PhoneNumberPageProperty {
   public readonly id: string
-  public readonly name: string
   public readonly type = 'phone_number'
   public readonly phone_number: string
 
@@ -19,14 +27,12 @@ export class PhoneNumberPageProperty {
     phoneNumberPagePropertyResponse: PhoneNumberPagePropertyResponse
   ) {
     this.id = phoneNumberPagePropertyResponse.id
-    this.name = phoneNumberPagePropertyResponse.name
     this.phone_number = phoneNumberPagePropertyResponse.phone_number
   }
 
   toJSON(): PhoneNumberPagePropertyResponse {
     return {
       id: this.id,
-      name: this.name,
       type: this.type,
       phone_number: this.phone_number
     }

@@ -1,4 +1,9 @@
 import {
+  type ButtonPagePropertyResponse,
+  type ButtonPageProperty,
+  type ButtonPagePropertyResponseSimplified
+} from './ButtonPageProperty'
+import {
   type CheckboxPagePropertyResponseSimplified,
   type CheckboxPageProperty,
   type CheckboxPagePropertyResponse
@@ -110,6 +115,7 @@ import {
 } from './VerificationPageProperty'
 
 export type PageProperty =
+  | ButtonPageProperty
   | CheckboxPageProperty
   | CreatedByPageProperty
   | CreatedTimePageProperty
@@ -134,6 +140,7 @@ export type PageProperty =
   | VerificationPageProperty
 
 export type PagePropertyResponse =
+  | ButtonPagePropertyResponse
   | CheckboxPagePropertyResponse
   | CreatedByPagePropertyResponse
   | CreatedTimePagePropertyResponse
@@ -158,6 +165,7 @@ export type PagePropertyResponse =
   | VerificationPagePropertyResponse
 
 export type PagePropertyResponseSimplified =
+  | ButtonPagePropertyResponseSimplified
   | CheckboxPagePropertyResponseSimplified
   | CreatedByPagePropertyResponseSimplified
   | CreatedTimePagePropertyResponseSimplified
@@ -180,28 +188,3 @@ export type PagePropertyResponseSimplified =
   | URLPagePropertyResponseSimplified
   | UniqueIDPagePropertyResponseSimplified
   | VerificationPagePropertyResponseSimplified
-
-export interface PagePropertyToResponseMapping {
-  CheckboxPageProperty: CheckboxPagePropertyResponseSimplified
-  CreatedByPageProperty: CreatedByPagePropertyResponseSimplified
-  CreatedTimePageProperty: CreatedTimePagePropertyResponseSimplified
-  DatePageProperty: DatePagePropertyResponseSimplified
-  EmailPageProperty: EmailPagePropertyResponseSimplified
-  FilesPageProperty: FilesPagePropertyResponseSimplified
-  FormulaPageProperty: FormulaPagePropertyResponseSimplified
-  LastEditedByPageProperty: LastEditedByPagePropertyResponseSimplified
-  LastEditedTimePageProperty: LastEditedTimePagePropertyResponseSimplified
-  MultiSelectPageProperty: MultiSelectPagePropertyResponseSimplified
-  NumberPageProperty: NumberPagePropertyResponseSimplified
-  PeoplePageProperty: PeoplePagePropertyResponseSimplified
-  PhoneNumberPageProperty: PhoneNumberPagePropertyResponseSimplified
-  RelationPageProperty: RelationPagePropertyResponseSimplified
-  RichTextPageProperty: RichTextPagePropertyResponseSimplified
-  RollupPageProperty: RollupPagePropertyResponseSimplified
-  SelectPageProperty: SelectPagePropertyResponseSimplified
-  StatusPageProperty: StatusPagePropertyResponseSimplified
-  TitlePageProperty: TitlePagePropertyResponseSimplified
-  URLPageProperty: URLPagePropertyResponseSimplified
-  UniqueIDPageProperty: UniqueIDPagePropertyResponseSimplified
-  VerificationPageProperty: VerificationPagePropertyResponseSimplified
-}

@@ -1,3 +1,4 @@
+export * from './ButtonPageProperty'
 export * from './CheckboxPageProperty'
 export * from './CreatedByPageProperty'
 export * from './CreatedTimePageProperty'
