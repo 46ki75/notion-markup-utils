@@ -7,14 +7,17 @@ export interface DatePagePropertyResponse {
     start: string
     end: string | null
     time_zone: string | null
-  }
+  } | null
 }
 
-export interface DatePagePropertyResponseSimplified {
+/**
+ * If the date.start is not set on the Notion side (the cell is blank), `null` is returned instead of an object.
+ */
+export type DatePagePropertyResponseSimplified = {
   start: string
   end: string | null
   time_zone: string | null
-}
+} | null
 
 export class DatePageProperty {
   public readonly id: string
@@ -23,7 +26,7 @@ export class DatePageProperty {
     start: string
     end: string | null
     time_zone: string | null
-  }
+  } | null
 
   constructor(datePagePropertyResponse: DatePagePropertyResponse) {
     this.id = datePagePropertyResponse.id

@@ -117,7 +117,7 @@ import {
   type VerificationPagePropertyResponse
 } from './VerificationPageProperty'
 
-export interface PageResponse {
+export interface PageResponse<T = Record<string, PagePropertyResponse>> {
   object: 'page'
   id: string
   created_time: string
@@ -128,14 +128,16 @@ export interface PageResponse {
   icon: FileResponse | EmojiResponse | null
   parent: ParentResponse
   archived: boolean
-  properties: Record<string, PagePropertyResponse>
+  properties: T
   url: string
   public_url: string | null
   developer_survey: string
   request_id: string
 }
 
-export interface PageResponseSimplified {
+export interface PageResponseSimplified<
+  T extends Record<string, PageProperty> = Record<string, PageProperty>
+> {
   created_time: string
   last_edited_time: string
   created_by: UserResponseSimplified
@@ -144,12 +146,14 @@ export interface PageResponseSimplified {
   icon: FileResponseSimplified | EmojiResponseSimplified | null
   parent: ParentResponseSimplified
   archived: boolean
-  properties: Record<string, PagePropertyResponseSimplified>
+  properties: T
   url: string
   public_url: string | null
 }
 
-export class Page {
+export class Page<
+  T extends Record<string, PageProperty> = Record<string, PageProperty>
+> {
   public readonly object = 'page'
   public readonly id: string
   public readonly created_time: string
@@ -160,13 +164,15 @@ export class Page {
   public readonly icon: File | Emoji | null
   public readonly parent: Parent
   public readonly archived: boolean
-  public readonly properties: Record<string, PageProperty> = {}
+  public readonly properties: T
   public readonly url: string
   public readonly public_url: string | null
   public readonly developer_survey: string
   public readonly request_id: string
 
-  constructor(pageResponse: PageResponse) {
+  constructor(
+    pageResponse: PageResponse<Record<string, PagePropertyResponse>>
+  ) {
     this.id = pageResponse.id
     this.created_time = pageResponse.created_time
     this.last_edited_time = pageResponse.last_edited_time
@@ -184,6 +190,7 @@ export class Page {
     }
     this.parent = new Parent(pageResponse.parent)
     this.archived = pageResponse.archived
+    this.properties = pageResponse.properties as any
     this.url = pageResponse.url
     this.public_url = pageResponse.public_url
     this.developer_survey = pageResponse.developer_survey
@@ -191,135 +198,159 @@ export class Page {
 
     const propertyKeys = Object.keys(pageResponse.properties)
     for (const key of propertyKeys) {
-      switch (pageResponse.properties[key].type) {
+      switch ((pageResponse.properties as any)[key].type) {
         case 'checkbox':
-          this.properties[key] = new CheckboxPageProperty(
-            pageResponse.properties[key] as CheckboxPagePropertyResponse
+          ;(this.properties as any)[key] = new CheckboxPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as CheckboxPagePropertyResponse
           )
           break
 
         case 'created_by':
-          this.properties[key] = new CreatedTimePageProperty(
-            pageResponse.properties[key] as CreatedTimePagePropertyResponse
+          ;(this.properties as any)[key] = new CreatedTimePageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as CreatedTimePagePropertyResponse
           )
           break
 
         case 'created_time':
-          this.properties[key] = new CreatedTimePageProperty(
-            pageResponse.properties[key] as CreatedTimePagePropertyResponse
+          ;(this.properties as any)[key] = new CreatedTimePageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as CreatedTimePagePropertyResponse
           )
           break
 
         case 'date':
-          this.properties[key] = new DatePageProperty(
-            pageResponse.properties[key] as DatePagePropertyResponse
+          ;(this.properties as any)[key] = new DatePageProperty(
+            (pageResponse.properties as any)[key] as DatePagePropertyResponse
           )
           break
 
         case 'email':
-          this.properties[key] = new EmailPageProperty(
-            pageResponse.properties[key] as EmailPagePropertyResponse
+          ;(this.properties as any)[key] = new EmailPageProperty(
+            (pageResponse.properties as any)[key] as EmailPagePropertyResponse
           )
           break
 
         case 'files':
-          this.properties[key] = new FilesPageProperty(
-            pageResponse.properties[key] as FilesPagePropertyResponse
+          ;(this.properties as any)[key] = new FilesPageProperty(
+            (pageResponse.properties as any)[key] as FilesPagePropertyResponse
           )
           break
 
         case 'formula':
-          this.properties[key] = new FormulaPageProperty(
-            pageResponse.properties[key] as FormulaPagePropertyResponse
+          ;(this.properties as any)[key] = new FormulaPageProperty(
+            (pageResponse.properties as any)[key] as FormulaPagePropertyResponse
           )
           break
 
         case 'last_edited_by':
-          this.properties[key] = new LastEditedByPageProperty(
-            pageResponse.properties[key] as LastEditedByPagePropertyResponse
+          ;(this.properties as any)[key] = new LastEditedByPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as LastEditedByPagePropertyResponse
           )
           break
 
         case 'last_edited_time':
-          this.properties[key] = new LastEditedTimePageProperty(
-            pageResponse.properties[key] as LastEditedTimePagePropertyResponse
+          ;(this.properties as any)[key] = new LastEditedTimePageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as LastEditedTimePagePropertyResponse
           )
           break
 
         case 'multi_select':
-          this.properties[key] = new MultiSelectPageProperty(
-            pageResponse.properties[key] as MultiSelectPagePropertyResponse
+          ;(this.properties as any)[key] = new MultiSelectPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as MultiSelectPagePropertyResponse
           )
           break
 
         case 'number':
-          this.properties[key] = new NumberPageProperty(
-            pageResponse.properties[key] as NumberPagePropertyResponse
+          ;(this.properties as any)[key] = new NumberPageProperty(
+            (pageResponse.properties as any)[key] as NumberPagePropertyResponse
           )
           break
 
         case 'people':
-          this.properties[key] = new PeoplePageProperty(
-            pageResponse.properties[key] as PeoplePagePropertyResponse
+          ;(this.properties as any)[key] = new PeoplePageProperty(
+            (pageResponse.properties as any)[key] as PeoplePagePropertyResponse
           )
           break
 
         case 'phone_number':
-          this.properties[key] = new PhoneNumberPageProperty(
-            pageResponse.properties[key] as PhoneNumberPagePropertyResponse
+          ;(this.properties as any)[key] = new PhoneNumberPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as PhoneNumberPagePropertyResponse
           )
           break
 
         case 'relation':
-          this.properties[key] =
-            'relation' in this.properties[key]
+          ;(this.properties as any)[key] =
+            'relation' in (this.properties as any)[key]
               ? new RelationPageProperty(
-                  pageResponse.properties[key] as RelationPagePropertyResponse
+                  (pageResponse.properties as any)[
+                    key
+                  ] as RelationPagePropertyResponse
                 )
               : new RollupPageProperty(
-                  pageResponse.properties[key] as RollupPagePropertyResponse
+                  (pageResponse.properties as any)[
+                    key
+                  ] as RollupPagePropertyResponse
                 )
           break
 
         case 'rich_text':
-          this.properties[key] = new RichTextPageProperty(
-            pageResponse.properties[key] as RichTextPagePropertyResponse
+          ;(this.properties as any)[key] = new RichTextPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as RichTextPagePropertyResponse
           )
           break
 
         case 'select':
-          this.properties[key] = new SelectPageProperty(
-            pageResponse.properties[key] as SelectPagePropertyResponse
+          ;(this.properties as any)[key] = new SelectPageProperty(
+            (pageResponse.properties as any)[key] as SelectPagePropertyResponse
           )
           break
 
         case 'status':
-          this.properties[key] = new StatusPageProperty(
-            pageResponse.properties[key] as StatusPagePropertyResponse
+          ;(this.properties as any)[key] = new StatusPageProperty(
+            (pageResponse.properties as any)[key] as StatusPagePropertyResponse
           )
           break
 
         case 'title':
-          this.properties[key] = new TitlePageProperty(
-            pageResponse.properties[key] as TitlePagePropertyResponse
+          ;(this.properties as any)[key] = new TitlePageProperty(
+            (pageResponse.properties as any)[key] as TitlePagePropertyResponse
           )
           break
 
         case 'url':
-          this.properties[key] = new URLPageProperty(
-            pageResponse.properties[key] as URLPagePropertyResponse
+          ;(this.properties as any)[key] = new URLPageProperty(
+            (pageResponse.properties as any)[key] as URLPagePropertyResponse
           )
           break
 
         case 'unique_id':
-          this.properties[key] = new UniqueIDPageProperty(
-            pageResponse.properties[key] as UniqueIDPagePropertyResponse
+          ;(this.properties as any)[key] = new UniqueIDPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as UniqueIDPagePropertyResponse
           )
           break
 
         case 'verification':
-          this.properties[key] = new VerificationPageProperty(
-            pageResponse.properties[key] as VerificationPagePropertyResponse
+          ;(this.properties as any)[key] = new VerificationPageProperty(
+            (pageResponse.properties as any)[
+              key
+            ] as VerificationPagePropertyResponse
           )
           break
       }
@@ -330,7 +361,7 @@ export class Page {
     const properties: Record<string, PagePropertyResponse> = {}
     const propertyKeys = Object.keys(this.properties)
     for (const key of propertyKeys) {
-      properties[key] = this.properties[key].toJSON()
+      properties[key] = (this.properties as any)[key].toJSON()
     }
 
     return {
@@ -352,11 +383,11 @@ export class Page {
     }
   }
 
-  simplify(): PageResponseSimplified {
+  simplify(): PageResponseSimplified<T> {
     const propertyKeys = Object.keys(this.properties)
     const properties: Record<string, PagePropertyResponseSimplified> = {}
     for (const key of propertyKeys) {
-      properties[key] = this.properties[key].simplify()
+      properties[key] = (this.properties as any)[key].simplify()
     }
 
     return {
@@ -368,7 +399,7 @@ export class Page {
       icon: this.icon?.simplify() ?? null,
       parent: this.parent.simplify(),
       archived: this.archived,
-      properties,
+      properties: properties as any,
       url: this.url,
       public_url: this.public_url
     }

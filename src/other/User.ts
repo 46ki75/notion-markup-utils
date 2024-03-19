@@ -16,16 +16,31 @@ export interface UserResponse {
 
   /**
    * Type of the user. Possible values are "person" and "bot".
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
    */
   type?: 'person' | 'bot'
 
   /**
    * User's name, as displayed in Notion.
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
    */
   name?: string
 
   /**
    * Chosen avatar image.
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
    */
   avatar_url?: string
 }
@@ -36,10 +51,44 @@ export interface UserResponseSimplified {
 }
 
 export class User {
+  /**
+   * Always "user"
+   */
   public readonly object = 'user'
+
+  /**
+   * Unique identifier for this user.
+   */
   public readonly id: string
+
+  /**
+   * Type of the user. Possible values are "person" and "bot".
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
+   */
   public readonly type?: 'person' | 'bot'
+
+  /**
+   * User's name, as displayed in Notion.
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
+   */
   public readonly name?: string
+
+  /**
+   * Chosen avatar image.
+   *
+   * @note When creating an API key for Notion,
+   * it is necessary to explicitly check the setting to read user information, otherwise it cannot be obtained.
+   *
+   * @see https://www.notion.so/help/create-integrations-with-the-notion-api
+   */
   public readonly avatar_url?: string
 
   constructor(userResponse: UserResponse) {

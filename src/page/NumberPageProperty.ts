@@ -2,40 +2,32 @@
 
 export interface NumberPagePropertyResponse {
   id: string
-  name: string
   type: 'number'
-  number: {
-    format: 'number'
-  }
+  number: number | null
 }
 
-export type NumberPagePropertyResponseSimplified = string
+export type NumberPagePropertyResponseSimplified = number | null
 
 export class NumberPageProperty {
   public readonly id: string
-  public readonly name: string
   public readonly type = 'number'
-  public readonly number = {
-    format: 'number'
-  }
+  public readonly number: number | null
 
   constructor(numberPagePropertyResponse: NumberPagePropertyResponse) {
     this.id = numberPagePropertyResponse.id
-    this.name = numberPagePropertyResponse.name
+    this.type = numberPagePropertyResponse.type
+    this.number = numberPagePropertyResponse.number
   }
 
   toJSON(): NumberPagePropertyResponse {
     return {
       id: this.id,
-      name: this.name,
       type: this.type,
-      number: {
-        format: 'number'
-      }
+      number: this.number
     }
   }
 
   simplify(): NumberPagePropertyResponseSimplified {
-    return this.number.format
+    return this.number
   }
 }

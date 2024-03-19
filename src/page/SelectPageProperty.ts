@@ -9,13 +9,13 @@ export interface SelectPagePropertyResponse {
     id: string
     name: string
     color: ColorFG
-  }
+  } | null
 }
 
-export interface SelectPagePropertyResponseSimplified {
+export type SelectPagePropertyResponseSimplified = {
   name: string
   color: ColorFG
-}
+} | null
 
 export class SelectPageProperty {
   public readonly id: string
@@ -24,7 +24,7 @@ export class SelectPageProperty {
     id: string
     name: string
     color: ColorFG
-  }
+  } | null
 
   constructor(selectPagePropertyResponse: SelectPagePropertyResponse) {
     this.id = selectPagePropertyResponse.id
@@ -40,6 +40,8 @@ export class SelectPageProperty {
   }
 
   simplify(): SelectPagePropertyResponseSimplified {
-    return { name: this.select.name, color: this.select.color }
+    if (this.select != null)
+      return { name: this.select.name, color: this.select.color }
+    return null
   }
 }

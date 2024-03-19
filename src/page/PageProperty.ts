@@ -180,3 +180,28 @@ export type PagePropertyResponseSimplified =
   | URLPagePropertyResponseSimplified
   | UniqueIDPagePropertyResponseSimplified
   | VerificationPagePropertyResponseSimplified
+
+export interface PagePropertyToResponseMapping {
+  CheckboxPageProperty: CheckboxPagePropertyResponseSimplified
+  CreatedByPageProperty: CreatedByPagePropertyResponseSimplified
+  CreatedTimePageProperty: CreatedTimePagePropertyResponseSimplified
+  DatePageProperty: DatePagePropertyResponseSimplified
+  EmailPageProperty: EmailPagePropertyResponseSimplified
+  FilesPageProperty: FilesPagePropertyResponseSimplified
+  FormulaPageProperty: FormulaPagePropertyResponseSimplified
+  LastEditedByPageProperty: LastEditedByPagePropertyResponseSimplified
+  LastEditedTimePageProperty: LastEditedTimePagePropertyResponseSimplified
+  MultiSelectPageProperty: MultiSelectPagePropertyResponseSimplified
+  NumberPageProperty: NumberPagePropertyResponseSimplified
+  PeoplePageProperty: PeoplePagePropertyResponseSimplified
+  PhoneNumberPageProperty: PhoneNumberPagePropertyResponseSimplified
+  RelationPageProperty: RelationPagePropertyResponseSimplified
+  RichTextPageProperty: RichTextPagePropertyResponseSimplified
+  RollupPageProperty: RollupPagePropertyResponseSimplified
+  SelectPageProperty: SelectPagePropertyResponseSimplified
+  StatusPageProperty: StatusPagePropertyResponseSimplified
+  TitlePageProperty: TitlePagePropertyResponseSimplified
+  URLPageProperty: URLPagePropertyResponseSimplified
+  UniqueIDPageProperty: UniqueIDPagePropertyResponseSimplified
+  VerificationPageProperty: VerificationPagePropertyResponseSimplified
+}

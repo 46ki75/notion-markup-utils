@@ -1,4 +1,9 @@
-import { Page, type PageResponseSimplified, type PageResponse } from '../page'
+import {
+  Page,
+  type PageResponseSimplified,
+  type PageResponse,
+  type PageProperty
+} from '../page'
 
 export interface PageListResponse {
   object: 'list'
@@ -11,13 +16,13 @@ export interface PageListResponse {
   request_id: string
 }
 
-export type PageListResponseSimplified = PageResponseSimplified[]
-
-export class PageList {
+export class PageList<
+  T extends Record<string, PageProperty> = Record<string, PageProperty>
+> {
   public readonly object = 'list'
   public readonly type = 'page_or_database'
   public readonly page_or_database: Record<string, unknown>
-  public readonly results: Page[]
+  public readonly results: Array<Page<T>>
   public readonly next_cursor: string | null
   public readonly has_more: boolean
   public readonly developer_survey: string
@@ -25,14 +30,14 @@ export class PageList {
 
   constructor(pageListResponse: PageListResponse) {
     this.page_or_database = pageListResponse.page_or_database
-    this.results = pageListResponse.results.map((page) => new Page(page))
+    this.results = pageListResponse.results.map((page) => new Page(page)) as any
     this.next_cursor = pageListResponse.next_cursor
     this.has_more = pageListResponse.has_more
     this.developer_survey = pageListResponse.developer_survey
     this.request_id = pageListResponse.request_id
   }
 
-  simplify(): PageListResponseSimplified {
+  simplify(): Array<PageResponseSimplified<T>> {
     return this.results.map((result) => result.simplify())
   }
 

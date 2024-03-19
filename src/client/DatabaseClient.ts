@@ -4,6 +4,7 @@ import { type PageListResponse, PageList } from '../database/PageList'
 import { type DatabaseResponse, Database } from '../database/Database'
 import { type QueryFilter } from '../database/QueryFilter'
 import { type QuerySort } from '../database'
+import { type PageProperty } from '../page'
 
 export class DatabaseClient extends ClientBase {
   constructor({
@@ -37,6 +38,17 @@ export class DatabaseClient extends ClientBase {
    * })()
    * ```
    *
+   * ## with type generics
+   * ```ts
+   *  const result = await notion.databases.query<{
+   *    title: TitlePageProperty
+   *    description: RichTextPageProperty
+   *    tags: MultiSelectPageProperty
+   *  }>({
+   *    id: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+   *  })
+   * ```
+   *
    * @see https://developers.notion.com/reference/post-database-query
    *
    * @param params.id Database ID
@@ -49,7 +61,9 @@ export class DatabaseClient extends ClientBase {
    * @returns `Promise<PageList>` A list of Notin pages is returned.
    *
    */
-  async query(params: {
+  async query<
+    T extends Record<string, PageProperty> = Record<string, PageProperty>
+  >(params: {
     /**
      * Database ID (required)
      *
@@ -152,7 +166,7 @@ export class DatabaseClient extends ClientBase {
      * ```
      */
     sorts?: QuerySort[]
-  }): Promise<PageList> {
+  }): Promise<PageList<T>> {
     // Endpoint for querying database. This is also used for cache keys.
     const url = `/v1/databases/${params.id}/query`
 
@@ -160,7 +174,7 @@ export class DatabaseClient extends ClientBase {
     if (!(params?.forceRefresh ?? false)) {
       // Returns a value if the cache is hit
       const cacheRes = this.cache.get<PageListResponse>(url)
-      if (cacheRes != null) return new PageList(cacheRes)
+      if (cacheRes != null) return new PageList<T>(cacheRes)
     }
 
     const requestBody: {
@@ -208,7 +222,7 @@ export class DatabaseClient extends ClientBase {
 
     // set cache
     this.set(url, data)
-    return new PageList(data)
+    return new PageList<T>(data)
   }
 
   async retrieve(

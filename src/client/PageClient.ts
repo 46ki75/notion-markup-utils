@@ -21,10 +21,10 @@ export class PageClient extends ClientBase {
   }): Promise<Page> {
     const url = `/v1/pages/${params.id}`
 
-    if (!(params?.forceRefresh ?? false)) {
-      const cacheRes = this.cache.get<PageResponse>(url)
-      if (cacheRes != null) return new Page(cacheRes)
-    }
+    // if (!(params?.forceRefresh ?? false)) {
+    //   const cacheRes = this.cache.get<PageResponse>(url)
+    //   if (cacheRes != null) return new Page(cacheRes)
+    // }
 
     const res = await this.client.get(url)
     const { data }: { data: PageResponse } = res
