@@ -24,7 +24,7 @@ export interface EntryTimestampSort {
   direction: 'ascending' | 'descending'
 }
 
-export const sorts = {
+export const s = {
   ascending: (propertyName: string): PropertyValueSort => {
     return {
       property: propertyName,

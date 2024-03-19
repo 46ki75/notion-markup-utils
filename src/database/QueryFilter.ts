@@ -208,7 +208,7 @@ export interface RollupFilter {
   }
 }
 
-export const filter = {
+export const f = {
   checkbox: (propertyName: string) => {
     return {
       equals: (flag: boolean) => {

@@ -2,31 +2,31 @@
 
 import { type ColorFG } from '../other'
 
-export interface SelectPagePropertyResponse {
+export interface SelectPagePropertyResponse<T extends string = string> {
   id: string
   type: 'select'
   select: {
     id: string
-    name: string
+    name: T
     color: ColorFG
   } | null
 }
 
-export type SelectPagePropertyResponseSimplified = {
-  name: string
+export type SelectPagePropertyResponseSimplified<T extends string = string> = {
+  name: T
   color: ColorFG
 } | null
 
-export class SelectPageProperty {
+export class SelectPageProperty<T extends string = string> {
   public readonly id: string
   public readonly type = 'select'
   public readonly select: {
     id: string
-    name: string
+    name: T
     color: ColorFG
   } | null
 
-  constructor(selectPagePropertyResponse: SelectPagePropertyResponse) {
+  constructor(selectPagePropertyResponse: SelectPagePropertyResponse<T>) {
     this.id = selectPagePropertyResponse.id
     this.select = selectPagePropertyResponse.select
   }
@@ -39,7 +39,7 @@ export class SelectPageProperty {
     }
   }
 
-  simplify(): SelectPagePropertyResponseSimplified {
+  simplify(): SelectPagePropertyResponseSimplified<T> {
     if (this.select != null)
       return { name: this.select.name, color: this.select.color }
     return null

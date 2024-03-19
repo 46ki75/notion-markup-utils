@@ -126,6 +126,17 @@ export class DatabaseClient extends ClientBase {
     page_size?: number
     /**
      * You can query the database with conditions in Notion.
+     *
+     * ```ts
+     * const notion = new NotionClient()
+     * const { results } = await notion.databases.query<{
+     *   title: TitlePageProperty
+     *   status: StatusPageProperty
+     * }>({
+     *   id: 'XXXXXXXXXXXXXXXXX',
+     *   filter: { and: [f.status('propertyName').equals('In progress')] }
+     * })
+     * ```
      */
     filter?: QueryFilter
     /**
@@ -136,7 +147,7 @@ export class DatabaseClient extends ClientBase {
      * const res = await notion.databases.query({
      *   id: 'XXXXXXXXXX',
      *   sorts: [
-     *     sorts.createdTimeDescending()
+     *     s.createdTimeDescending()
      *   ]
      * })
      * ```
@@ -147,7 +158,7 @@ export class DatabaseClient extends ClientBase {
      * const res = await notion.databases.query({
      *   id: 'XXXXXXXXXX',
      *   sorts: [
-     *     sorts.ascending('deadline')
+     *     s.ascending('deadline')
      *   ]
      * })
      * ```
@@ -159,8 +170,8 @@ export class DatabaseClient extends ClientBase {
      * const res = await notion.databases.query({
      *   id: 'XXXXXXXXXX',
      *   sorts: [
-     *     sorts.descending('priority'),
-     *     sorts.ascending('deadline')
+     *     s.descending('priority'),
+     *     s.ascending('deadline')
      *   ]
      * })
      * ```
