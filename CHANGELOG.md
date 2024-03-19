@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.0]
+
+- Added type generics to database queries, enabling more type-safe database queries.
+
 ## [v1.3.0]
 
 - Utility for converting HTML into Notion blocks. This feature allows users to seamlessly import HTML content directly into their Notion pages, enhancing the flexibility and ease of content creation and management within Notion.
