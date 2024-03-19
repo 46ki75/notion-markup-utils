@@ -1,5 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#phone-number
 
+import { type DeepPartial } from '../utils'
+
 /**
  * The documentation on Notion includes an example response with a 'name' entry,
  * but it has been confirmed that this is not being sent as of the current moment.
@@ -40,5 +42,14 @@ export class PhoneNumberPageProperty {
 
   simplify(): PhoneNumberPagePropertyResponseSimplified {
     return this.phone_number
+  }
+}
+
+export const phone = (
+  phoneNumber: string
+): DeepPartial<PhoneNumberPagePropertyResponse> => {
+  return {
+    type: 'phone_number',
+    phone_number: phoneNumber
   }
 }

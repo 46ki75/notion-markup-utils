@@ -42,7 +42,7 @@ export class PageClient extends ClientBase {
     const url = `/v1/pages`
 
     // Blocks can only add up to 100 pieces per request
-    if (params.children.length > 100) {
+    if (params.children != null && params.children.length > 100) {
       const childrenArray: BlockRequest[][] = []
       for (let i = 0; i < params.children.length; i += 100) {
         const chunk = params.children.slice(i, i + 100)

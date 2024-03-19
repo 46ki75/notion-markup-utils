@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#title
 
 import { RichText, type RichTextResponse } from '../block'
+import { type DeepPartial } from '../utils'
 
 export interface TitlePagePropertyResponse {
   id: string
@@ -32,5 +33,21 @@ export class TitlePageProperty {
 
   simplify(): TitlePagePropertyResponseSimplified {
     return this.title.map((text) => text.toPlainText()).join('')
+  }
+}
+
+export const title = (
+  title: string
+): DeepPartial<TitlePagePropertyResponse> => {
+  return {
+    type: 'title',
+    title: [
+      {
+        type: 'text',
+        text: {
+          content: title
+        }
+      }
+    ]
   }
 }

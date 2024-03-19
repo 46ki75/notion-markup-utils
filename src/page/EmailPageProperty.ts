@@ -1,5 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#email
 
+import { type DeepPartial } from '../utils'
+
 export interface EmailPagePropertyResponse {
   id: string
   type: 'email'
@@ -42,5 +44,14 @@ export class EmailPageProperty {
    */
   simplify(): EmailPagePropertyResponseSimplified {
     return this.email
+  }
+}
+
+export const email = (
+  email: string
+): DeepPartial<EmailPagePropertyResponse> => {
+  return {
+    type: 'email',
+    email
   }
 }

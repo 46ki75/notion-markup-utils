@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#status
 
 import { type ColorFG } from '../other'
+import { type DeepPartial } from '../utils'
 
 export interface StatusPagePropertyResponse<T extends string = string> {
   id: string
@@ -66,4 +67,18 @@ export class StatusPageProperty<T extends string = string> {
   simplify(): StatusPagePropertyResponseSimplified<T> {
     return { name: this.status.name, color: this.status.color }
   }
+}
+
+export const status = <T extends string = string>(
+  name: T,
+  color?: ColorFG
+): DeepPartial<StatusPagePropertyResponse<T>> => {
+  const result = {
+    type: 'status',
+    status: {
+      name
+    } as any
+  }
+  if (color != null) result.status.color = color
+  return result as any
 }

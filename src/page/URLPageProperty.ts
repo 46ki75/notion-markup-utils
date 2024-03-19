@@ -1,5 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#url
 
+import { type DeepPartial } from '../utils'
+
 export interface URLPagePropertyResponse {
   id: string
   type: 'url'
@@ -39,5 +41,12 @@ export class URLPageProperty {
 
   simplify(): URLPagePropertyResponseSimplified {
     return this?.url ?? null
+  }
+}
+
+export const url = (url: string): DeepPartial<URLPagePropertyResponse> => {
+  return {
+    type: 'url',
+    url
   }
 }

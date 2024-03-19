@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#multi-select
 
 import { type ColorFG } from '../other'
+import { type DeepPartial } from '../utils'
 
 export interface MultiSelectPagePropertyResponse<T extends string = string> {
   id: string
@@ -53,5 +54,22 @@ export class MultiSelectPageProperty<T extends string = string> {
       : this.multi_select.map((select) => {
           return { name: select.name, color: select.color }
         })
+  }
+}
+
+export const multiSelect = <T extends string = string>(
+  tags: Array<{ name: T; color?: ColorFG }>
+): DeepPartial<MultiSelectPagePropertyResponse<T>> => {
+  const results = tags.map((tag) => {
+    const result = {
+      name: tag.name
+    } as any
+
+    if (tag.color != null) result.multi_select.color = tag.color
+    return result
+  })
+  return {
+    type: 'multi_select',
+    multi_select: results
   }
 }

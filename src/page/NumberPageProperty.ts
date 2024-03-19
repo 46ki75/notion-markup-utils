@@ -1,5 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#number
 
+import { type DeepPartial } from '../utils'
+
 export interface NumberPagePropertyResponse {
   id: string
   type: 'number'
@@ -29,5 +31,14 @@ export class NumberPageProperty {
 
   simplify(): NumberPagePropertyResponseSimplified {
     return this.number
+  }
+}
+
+export const number = (
+  number: number
+): DeepPartial<NumberPagePropertyResponse> => {
+  return {
+    type: 'number',
+    number
   }
 }

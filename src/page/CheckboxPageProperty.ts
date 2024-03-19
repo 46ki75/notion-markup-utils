@@ -1,3 +1,5 @@
+import { type DeepPartial } from '../utils'
+
 // @see https://developers.notion.com/reference/page-property-values#checkbox
 export interface CheckboxPagePropertyResponse {
   id: string
@@ -27,5 +29,14 @@ export class CheckboxPageProperty {
 
   simplify(): CheckboxPagePropertyResponseSimplified {
     return this.checkbox
+  }
+}
+
+export const checkbox = (
+  isChecked?: boolean
+): DeepPartial<CheckboxPagePropertyResponse> => {
+  return {
+    type: 'checkbox',
+    checkbox: isChecked ?? false
   }
 }

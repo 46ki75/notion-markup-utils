@@ -1,6 +1,8 @@
 // @see https://developers.notion.com/reference/page-property-values#rich-text
 
 import { type RichTextResponse, RichText } from '../block'
+import { type RichTextDatabasePropertyResponse } from '../database'
+import { type DeepPartial } from '../utils'
 
 export interface RichTextPagePropertyResponse {
   id: string
@@ -33,5 +35,21 @@ export class RichTextPageProperty {
 
   simplify(): RichTextPagePropertyResponseSimplified {
     return this.rich_text.map((text) => text.toPlainText()).join('')
+  }
+}
+
+export const richText = (
+  text: string
+): DeepPartial<RichTextDatabasePropertyResponse> => {
+  return {
+    type: 'rich_text',
+    rich_text: [
+      {
+        type: 'text',
+        text: {
+          content: text
+        }
+      }
+    ]
   }
 }

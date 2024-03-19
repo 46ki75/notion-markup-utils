@@ -1,5 +1,7 @@
 // @see https://developers.notion.com/reference/page-property-values#date
 
+import { type DeepPartial } from '../utils'
+
 export interface DatePagePropertyResponse {
   id: string
   type: 'date'
@@ -44,4 +46,17 @@ export class DatePageProperty {
   simplify(): DatePagePropertyResponseSimplified {
     return this.date
   }
+}
+
+export const date = (
+  start: string | Date,
+  end?: string | Date
+): DeepPartial<DatePagePropertyResponse> => {
+  return {
+    type: 'date',
+    date: {
+      start: new Date(start).toISOString(),
+      end: end != null ? new Date(end).toISOString() : null
+    }
+  } as any
 }
