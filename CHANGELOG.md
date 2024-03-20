@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.2]
+
+- Temporarily removed the `turndown` module due to a discovered flaw in the `domino` module it depends on. This decision was made to ensure the integrity and security of our software environment. By removing the module, we aim to prevent any potential vulnerabilities from affecting users until a fix is available or an alternative solution is implemented. This action underscores our commitment to maintaining a secure and reliable software ecosystem for our users and developers alike.
+
 ## [v1.4.1]
 
 - Improved documentation for Database client methods and their usage to provide better understanding and ease of use. This enhancement ensures that developers can more effectively utilize database functionalities, leading to more efficient and error-free code. The documentation now includes examples, parameter explanations, return value descriptions, and potential error cases for each database client method. This comprehensive approach aims to facilitate developers in implementing database operations with greater precision and confidence.
