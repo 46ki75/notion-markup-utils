@@ -444,4 +444,15 @@ export interface PageCreateRequest {
   parent: { page_id: string } | { database_id: string }
   properties: Record<string, DeepPartial<PagePropertyResponse>>
   children?: BlockRequest[]
+  archived?: boolean
+  icon?: string
+  cover?: string
+}
+
+export interface PageUpdateRequest {
+  page_id: string
+  properties?: Record<string, DeepPartial<PagePropertyResponse>>
+  archived?: boolean
+  icon?: string
+  cover?: string
 }

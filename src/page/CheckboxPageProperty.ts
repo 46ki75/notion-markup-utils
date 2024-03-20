@@ -32,6 +32,31 @@ export class CheckboxPageProperty {
   }
 }
 
+/**
+ * The Checkbox column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   Name: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     Checkbox: p.checkbox()
+ *   }
+ * })
+ * ```
+ * ### When setting to a checked state:
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     Name: p.title('My Title'),
+ *     Checkbox: p.checkbox(true)
+ *   }
+ * })
+ * ```
+ */
 export const checkbox = (
   isChecked?: boolean
 ): DeepPartial<CheckboxPagePropertyResponse> => {

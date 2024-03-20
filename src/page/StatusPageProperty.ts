@@ -69,6 +69,22 @@ export class StatusPageProperty<T extends string = string> {
   }
 }
 
+/**
+ * The Status column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     statusColumnName: p.status('In progress')
+ *   }
+ * })
+ * ```
+ * @note The `"Status"` column only accepts existing option names and cannot accept new options while setting them simultaneously.
+ */
 export const status = <T extends string = string>(
   name: T,
   color?: ColorFG

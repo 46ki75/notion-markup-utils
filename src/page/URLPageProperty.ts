@@ -44,6 +44,20 @@ export class URLPageProperty {
   }
 }
 
+/**
+ * The URL column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   Name: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     Name: p.title('My Page Title'),
+ *     URL: p.url('https://example.com')
+ *   }
+ * })
+ */
 export const url = (url: string): DeepPartial<URLPagePropertyResponse> => {
   return {
     type: 'url',

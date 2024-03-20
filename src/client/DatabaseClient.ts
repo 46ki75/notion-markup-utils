@@ -30,7 +30,7 @@ export class DatabaseClient extends ClientBase {
    * void (async () => {
    *   // Query by ID. In this case, sorting is done in ascending order of creation time.
    *   const response = await notion.databases.query({
-   *     id: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+   *     id: 'XXXXXXXXXX',
    *     sorts: [sorts.createdTimeAscending()]
    *   })
    *
@@ -45,8 +45,44 @@ export class DatabaseClient extends ClientBase {
    *    description: RichTextPageProperty
    *    tags: MultiSelectPageProperty
    *  }>({
-   *    id: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+   *    id: 'XXXXXXXXXX'
    *  })
+   * ```
+   *
+   * ## Sorting
+   * When you want to sort by a specific property:
+   * ```ts
+   * const { results } = await notion.databases.query<{
+   *   Name: TitlePageProperty
+   *   Description: RichTextPageProperty
+   *   ID: UniqueIDPageProperty
+   * }>({
+   *   id: 'XXXXXXXXXX',
+   *   sorts: [s.descending('ID')]
+   * })
+   * ```
+   *
+   * If you want to perform multiple sorts:
+   * ```ts
+   * const { results } = await notion.databases.query<{
+   *   Name: TitlePageProperty
+   *   Description: RichTextPageProperty
+   *   ID: UniqueIDPageProperty
+   * }>({
+   *   id: 'XXXXXXXXXX',
+   *   sorts: [s.createdTimeAscending(), s.descending('Description')]
+   * })
+   * ```
+   *
+   * ## Filtering
+   * ```ts
+   * const { results } = await notion.databases.query<{
+   *   Name: TitlePageProperty
+   *   Description: RichTextPageProperty
+   * }>({
+   *   id: 'XXXXXXXXXX',
+   *   filter: { and: [f.rich_text('Name').starts_with('Blog')] }
+   * })
    * ```
    *
    * @see https://developers.notion.com/reference/post-database-query

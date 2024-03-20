@@ -310,6 +310,11 @@ export class RichTextRequestBuilder {
     return this
   }
 
+  public color(color: Color): this {
+    this.annotations.color = color
+    return this
+  }
+
   public build(): RichTextResponse {
     return {
       type: 'text',
@@ -320,3 +325,6 @@ export class RichTextRequestBuilder {
     }
   }
 }
+
+export const r = (text: string): RichTextRequestBuilder =>
+  new RichTextRequestBuilder(text)

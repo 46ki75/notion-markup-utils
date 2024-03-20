@@ -10,6 +10,9 @@ import { status } from './StatusPageProperty'
 import { title } from './TitlePageProperty'
 import { url } from './URLPageProperty'
 
+/**
+ * You can use this when editing properties of a Notion database.
+ */
 export const p = {
   title,
   richText,

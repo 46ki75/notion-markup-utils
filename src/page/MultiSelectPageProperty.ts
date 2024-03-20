@@ -57,6 +57,39 @@ export class MultiSelectPageProperty<T extends string = string> {
   }
 }
 
+/**
+ * The Multi-Select column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     multiSelectColumnName: p.multiSelect([{ name: 'Option1' }, { name: 'Option2' }])
+ *   }
+ * })
+ * ```
+ * When no color is specified, the behavior is as follows:
+ * - If an option with the same name already exists: The color will be automatically matched.
+ * - If there is no option with the same name: The color will be determined randomly.
+ *
+ * ### with Color
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     multiSelectColumnName: p.multiSelect([
+ *       { name: 'Option1', color: 'blue' },
+ *       { name: 'Option2', color: 'red' }
+ *     ])
+ *   }
+ * })
+ * ```
+ * @note If an option with the same name already exists, specifying a different color will result in a validation error.
+ */
 export const multiSelect = <T extends string = string>(
   tags: Array<{ name: T; color?: ColorFG }>
 ): DeepPartial<MultiSelectPagePropertyResponse<T>> => {
@@ -65,7 +98,10 @@ export const multiSelect = <T extends string = string>(
       name: tag.name
     } as any
 
-    if (tag.color != null) result.multi_select.color = tag.color
+    if (tag.color != null) {
+      Object.assign(result, { color: tag.color })
+    }
+
     return result
   })
   return {

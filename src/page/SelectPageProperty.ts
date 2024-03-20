@@ -47,6 +47,36 @@ export class SelectPageProperty<T extends string = string> {
   }
 }
 
+/**
+ * The Select column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     selectColumnName: p.select(''In progress'')
+ *   }
+ * })
+ * ```
+ * When no color is specified, the behavior is as follows:
+ * - If an option with the same name already exists: The color will be automatically matched.
+ * - If there is no option with the same name: The color will be determined randomly.
+ *
+ * ### with Color
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     selectColumnName: p.select('Done', 'blue')
+ *   }
+ * })
+ * ```
+ * @note If an option with the same name already exists, specifying a different color will result in a validation error.
+ */
 export const select = <T extends string = string>(
   name: T,
   color?: ColorFG

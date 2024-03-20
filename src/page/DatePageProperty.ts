@@ -48,6 +48,31 @@ export class DatePageProperty {
   }
 }
 
+/**
+ * The Date column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ### Usage
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     date: p.date('2024-01-01')
+ *   }
+ * })
+ * ```
+ * or
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     date: p.date(new Date('2024-01-01'))
+ *   }
+ * })
+ * ```
+ */
 export const date = (
   start: string | Date,
   end?: string | Date

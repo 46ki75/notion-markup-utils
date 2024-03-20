@@ -34,6 +34,20 @@ export class NumberPageProperty {
   }
 }
 
+/**
+ * The Number column can be used when inserting into the database.
+ * The usage is the same for both notion.page.create and notion.page.update.
+ *
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     number: p.number(3.14)
+ *   }
+ * })
+ * ```
+ */
 export const number = (
   number: number
 ): DeepPartial<NumberPagePropertyResponse> => {

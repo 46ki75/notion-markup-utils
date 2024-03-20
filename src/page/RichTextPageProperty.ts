@@ -1,6 +1,10 @@
 // @see https://developers.notion.com/reference/page-property-values#rich-text
 
-import { type RichTextResponse, RichText } from '../block'
+import {
+  type RichTextResponse,
+  RichText,
+  type RichTextRequestBuilder
+} from '../block'
 import { type RichTextDatabasePropertyResponse } from '../database'
 import { type DeepPartial } from '../utils'
 
@@ -38,18 +42,71 @@ export class RichTextPageProperty {
   }
 }
 
+/**
+ *
+ * You can use TitlePagePropertyResponse when creating it.
+ * The argument can be a `string`, `RichTextRequestBuilder`,
+ * or an array of `RichTextRequestBuilder[]`. The specific usage is as follows.
+ *
+ * The usage is the same for notion.page.update as well.
+ *
+ * ### string
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title('My Title'),
+ *     description: p.richText('My Description')
+ *   }
+ * })
+ * ```
+ *
+ * ### RichTextRequestBuilder
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title(r('My Title')),
+ *     description: p.richText([('My Description'))
+ *   }
+ * })
+ * ```
+ *
+ * ### RichTextRequestBuilder[]
+ * ```ts
+ * await notion.pages.create({
+ *   parent: { database_id: 'XXXXXXXXXXXXXXXXXX' },
+ *   properties: {
+ *     title: p.title([r('My').bold(), r(' '), r('Title')]),
+ *     description: p.richText([r('My').bold(), r(' '), r('Description')])
+ *   }
+ * })
+ * ```
+ */
 export const richText = (
-  text: string
+  text: string | RichTextRequestBuilder | RichTextRequestBuilder[]
 ): DeepPartial<RichTextDatabasePropertyResponse> => {
-  return {
-    type: 'rich_text',
-    rich_text: [
-      {
-        type: 'text',
-        text: {
-          content: text
+  if (typeof text === 'string') {
+    return {
+      type: 'rich_text',
+      rich_text: [
+        {
+          type: 'text',
+          text: {
+            content: text
+          }
         }
-      }
-    ]
+      ]
+    }
+  } else if (Array.isArray(text)) {
+    return {
+      type: 'rich_text',
+      rich_text: text.map((text) => text.build())
+    }
+  } else {
+    return {
+      type: 'rich_text',
+      rich_text: [text.build()]
+    }
   }
 }

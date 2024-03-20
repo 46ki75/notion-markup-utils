@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.1]
+
+- Improved documentation for Database client methods and their usage to provide better understanding and ease of use. This enhancement ensures that developers can more effectively utilize database functionalities, leading to more efficient and error-free code. The documentation now includes examples, parameter explanations, return value descriptions, and potential error cases for each database client method. This comprehensive approach aims to facilitate developers in implementing database operations with greater precision and confidence.
+
 ## [v1.4.0]
 
 - Added type generics to database queries, enabling more type-safe database queries.
