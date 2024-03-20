@@ -611,19 +611,19 @@ export const f = {
   },
   select: (propertyName: string) => {
     return {
-      contains: (value: string) => {
+      equals: (value: string) => {
         return {
           property: propertyName,
           select: {
-            contains: value
+            equals: value
           }
         }
       },
-      does_not_contain: (value: string) => {
+      does_not_equal: (value: string) => {
         return {
           property: propertyName,
           select: {
-            does_not_contain: value
+            does_not_equal: value
           }
         }
       },

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.3]
+
+- Fixed a bug in the Notion select property filtering. This correction ensures that select properties are accurately filtered, enhancing the reliability and functionality of the feature. The fix addresses issues where select property filters were not applying correctly, potentially leading to inaccurate data presentation or manipulation within applications utilizing Notion's API. This update underscores our commitment to providing robust and error-free features to our users, further enhancing the overall user experience and trust in our software solutions.
+
 ## [v1.4.2]
 
 - Temporarily removed the `turndown` module due to a discovered flaw in the `domino` module it depends on. This decision was made to ensure the integrity and security of our software environment. By removing the module, we aim to prevent any potential vulnerabilities from affecting users until a fix is available or an alternative solution is implemented. This action underscores our commitment to maintaining a secure and reliable software ecosystem for our users and developers alike.
