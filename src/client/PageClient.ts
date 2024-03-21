@@ -5,6 +5,7 @@ import {
   type BlockRequest,
   type PageUpdateRequest
 } from '../page/Page'
+import { type PageProperty } from '../page/PageProperty'
 import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
 
@@ -52,6 +53,17 @@ export class PageClient extends ClientBase {
    *     Description: p.richText(r('description').bold()),
    *     URL: p.url('https://example.com')
    *   }
+   * })
+   * ```
+   *
+   * ### with type generics
+   * ```ts
+   * const result = await notion.pages.create<{
+   *   Name: TitlePageProperty
+   *   Description: RichTextPageProperty
+   * }>({
+   *   parent: { database_id: 'XXXXXXXXXX' },
+   *   properties: { Name: p.title('My title'), Description: p.richText('') }
    * })
    * ```
    *
@@ -120,7 +132,9 @@ export class PageClient extends ClientBase {
    * @param params - The parameters for creating a new page including the parent (database or page), properties, optional children blocks, archival status, icon, and cover.
    * @returns A promise that resolves with the response data for the created page.
    */
-  async create(params: PageCreateRequest): Promise<PageResponse> {
+  async create<
+    T extends Record<string, PageProperty> = Record<string, PageProperty>
+  >(params: PageCreateRequest): Promise<Page<T>> {
     const url = `/v1/pages`
 
     const request = {}
@@ -170,14 +184,14 @@ export class PageClient extends ClientBase {
         await this.client.patch(url, { children })
       }
 
-      return res.data
+      return new Page<T>(res.data)
     } else {
       const res = await this.client.post<PageResponse>(url, {
         ...request,
         parent: params.parent,
         properties: params.properties
       })
-      return res.data
+      return new Page<T>(res.data)
     }
   }
 
@@ -194,6 +208,17 @@ export class PageClient extends ClientBase {
    *     Description: p.richText('description'),
    *     URL: p.url('https://example.com')
    *   }
+   * })
+   * ```
+   *
+   * ### with type generics
+   * ```ts
+   * const result = await notion.pages.update<{
+   *  Name: TitlePageProperty
+   *  Description: RichTextPageProperty
+   * }>({
+   *   page_id: '669ffc58-9c20-4264-956b-f7f917c58400',
+   *   properties: { Name: p.title('My title'), Description: p.richText('') }
    * })
    * ```
    *
@@ -238,7 +263,9 @@ export class PageClient extends ClientBase {
    * ```
    *
    */
-  async update(params: PageUpdateRequest): Promise<PageResponse> {
+  async update<
+    T extends Record<string, PageProperty> = Record<string, PageProperty>
+  >(params: PageUpdateRequest): Promise<Page> {
     const url = `/v1/pages/${params.page_id}`
 
     const request = {}
@@ -269,6 +296,6 @@ export class PageClient extends ClientBase {
 
     const res = await this.client.patch<PageResponse>(url, request)
 
-    return res.data
+    return new Page<T>(res.data)
   }
 }

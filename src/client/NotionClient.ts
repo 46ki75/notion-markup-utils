@@ -10,7 +10,7 @@ export class NotionClient {
 
   constructor({
     NOTION_API_KEY = process.env.NOTION_API_KEY,
-    stdTTL = 3600
+    stdTTL = 0
   }: NotionClientArgs = {}) {
     this.blocks = new BlockClient({ NOTION_API_KEY, stdTTL })
     this.pages = new PageClient({ NOTION_API_KEY, stdTTL })

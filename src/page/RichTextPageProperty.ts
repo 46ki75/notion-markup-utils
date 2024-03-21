@@ -20,6 +20,10 @@ export class RichTextPageProperty {
   public readonly id: string
   public readonly type = 'rich_text'
 
+  /**
+   * RichText must be within **2000** characters in length.
+   * Additionally, emojis are counted as two characters.
+   */
   public readonly rich_text: RichText[]
 
   constructor(richTextPagePropertyResponse: RichTextPagePropertyResponse) {

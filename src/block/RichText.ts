@@ -326,5 +326,8 @@ export class RichTextRequestBuilder {
   }
 }
 
+/**
+ * @note RichText must be within **2000** characters in length. Additionally, emojis are counted as two characters.
+ */
 export const r = (text: string): RichTextRequestBuilder =>
   new RichTextRequestBuilder(text)

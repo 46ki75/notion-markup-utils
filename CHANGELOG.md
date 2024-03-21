@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.4]
+
+- Add type generics to NotionClient's `pages.update` and `pages.update`
+
 ## [v1.4.3]
 
 - Fixed a bug in the Notion select property filtering. This correction ensures that select properties are accurately filtered, enhancing the reliability and functionality of the feature. The fix addresses issues where select property filters were not applying correctly, potentially leading to inaccurate data presentation or manipulation within applications utilizing Notion's API. This update underscores our commitment to providing robust and error-free features to our users, further enhancing the overall user experience and trust in our software solutions.
