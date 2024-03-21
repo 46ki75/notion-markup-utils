@@ -1,5 +1,6 @@
 // @see https://developers.notion.com/reference/block#embed
 import { type BlockClient } from '../client/BlockClient'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface EmbedBlockResponse extends BlockResponse {
@@ -20,3 +21,8 @@ export class EmbedBlock extends Block {
     this.embed = { url: embedBlockResponse.embed.url }
   }
 }
+
+export const embed = (url: string): DeepPartial<EmbedBlockResponse> => ({
+  type: 'embed',
+  embed: { url }
+})

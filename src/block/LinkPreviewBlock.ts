@@ -9,6 +9,10 @@ export interface LinkPreviewBlockResponse extends BlockResponse {
   }
 }
 
+/**
+ * The link_preview block can only be returned as part of a response.
+ * The API does not support creating or appending link_preview blocks.
+ */
 export class LinkPreviewBlock extends Block {
   public readonly type = 'link_preview'
   public readonly link_preview: {

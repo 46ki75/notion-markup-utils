@@ -1,5 +1,37 @@
 import { type BlockClient } from '../client/BlockClient'
 import { type UserResponse, type ParentResponse, User, Parent } from '../other'
+import { type DeepPartial } from '../utils'
+import { type BookmarkBlockResponse } from './BookmarkBlock'
+import { type BreadcrumbBlockResponse } from './BreadcrumbBlock'
+import { type BulletedListItemBlockResponse } from './BulletedListItemBlock'
+import { type CalloutBlockResponse } from './CalloutBlock'
+import { type ChildDatabaseBlockResponse } from './ChildDatabaseBlock'
+import { type ChildPageBlockResponse } from './ChildPageBlock'
+import { type CodeBlockResponse } from './CodeBlock'
+import { type ColumnListBlockResponse } from './ColumnListBlock'
+import { type DividerBlockResponse } from './DividerBlock'
+import { type EmbedBlockResponse } from './EmbedBlock'
+import { type EquationBlockResponse } from './EquationBlock'
+import { type FileBlockResponse } from './FileBlock'
+import {
+  type Heading1BlockResponse,
+  type Heading2BlockResponse,
+  type Heading3BlockResponse
+} from './HeadingBlock'
+import { type ImageBlockResponse } from './ImageBlock'
+import { type LinkPreviewBlockResponse } from './LinkPreviewBlock'
+import { type MentionBlockResponse } from './MentionBlock'
+import { type NumberedListBlockResponse } from './NumberedListBlock'
+import { type PDFBlockResponse } from './PDFBlock'
+import { type ParagraphBlockResponse } from './ParagraphBlock'
+import { type QuoteBlockResponse } from './QuoteBlock'
+import { type SyncedBlockResponse } from './SyncedBlock'
+import { type TableBlockResponse } from './TableBlock'
+import { type TableOfContentsBlockResponse } from './TableOfContentsBlock'
+import { type TableRowBlockResponse } from './TableRowBlock'
+import { type ToDoBlockResponse } from './ToDoBlock'
+import { type ToggleBlockResponse } from './ToggleBlock'
+import { type VideoBlockResponse } from './VideoBlock'
 
 export interface BlockResponse {
   object: 'block'
@@ -58,3 +90,35 @@ export class Block {
     }
   }
 }
+
+export type DeepPartialBlockResponseArray =
+  | DeepPartial<BlockResponse[]>
+  | DeepPartial<BookmarkBlockResponse[]>
+  | DeepPartial<BreadcrumbBlockResponse[]>
+  | DeepPartial<BulletedListItemBlockResponse[]>
+  | DeepPartial<CalloutBlockResponse[]>
+  | DeepPartial<ChildDatabaseBlockResponse[]>
+  | DeepPartial<ChildPageBlockResponse[]>
+  | DeepPartial<CodeBlockResponse[]>
+  | DeepPartial<ColumnListBlockResponse[]>
+  | DeepPartial<DividerBlockResponse[]>
+  | DeepPartial<EmbedBlockResponse[]>
+  | DeepPartial<EquationBlockResponse[]>
+  | DeepPartial<FileBlockResponse[]>
+  | DeepPartial<Heading1BlockResponse[]>
+  | DeepPartial<Heading2BlockResponse[]>
+  | DeepPartial<Heading3BlockResponse[]>
+  | DeepPartial<ImageBlockResponse[]>
+  | DeepPartial<LinkPreviewBlockResponse[]>
+  | DeepPartial<MentionBlockResponse[]>
+  | DeepPartial<NumberedListBlockResponse[]>
+  | DeepPartial<PDFBlockResponse[]>
+  | DeepPartial<ParagraphBlockResponse[]>
+  | DeepPartial<QuoteBlockResponse[]>
+  | DeepPartial<SyncedBlockResponse[]>
+  | DeepPartial<TableBlockResponse[]>
+  | DeepPartial<TableOfContentsBlockResponse[]>
+  | DeepPartial<TableRowBlockResponse[]>
+  | DeepPartial<ToDoBlockResponse[]>
+  | DeepPartial<ToggleBlockResponse[]>
+  | DeepPartial<VideoBlockResponse[]>

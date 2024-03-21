@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/block#file
 import { type BlockClient } from '../client/BlockClient'
 import { type FileResponse, File } from '../other'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface FileBlockResponse extends BlockResponse {
@@ -18,3 +19,12 @@ export class FileBlock extends Block {
     this.file = new File(fileBlockResponse.file)
   }
 }
+
+export const file = (url: string): DeepPartial<FileBlockResponse> => ({
+  type: 'file',
+  file: {
+    caption: [],
+    type: 'external',
+    external: { url }
+  }
+})

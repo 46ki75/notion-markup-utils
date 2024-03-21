@@ -1,8 +1,18 @@
 // @see https://developers.notion.com/reference/block#headings
 import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
-import { Block, type BlockResponse } from './Block'
-import { RichText, type RichTextResponse } from './RichText'
+import { type DeepPartial } from '../utils'
+import {
+  Block,
+  type DeepPartialBlockResponseArray,
+  type BlockResponse
+} from './Block'
+import {
+  RichText,
+  r,
+  type RichTextRequestBuilder,
+  type RichTextResponse
+} from './RichText'
 
 // Heading 1
 export interface Heading1BlockResponse extends BlockResponse {
@@ -256,5 +266,86 @@ export class Heading3BlockRequestBuilder {
         is_toggleable: this.heading_3.is_toggleable
       }
     }
+  }
+}
+
+/**
+ *
+ * @param text Text of the Headline
+ * @param children Array of Notion blocks to be included inside a toggle block
+ * @returns {DeepPartial<Heading1BlockRequest>}
+ */
+export const heading1 = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder,
+  children?: DeepPartialBlockResponseArray
+): DeepPartial<Heading1BlockRequest> => {
+  return {
+    type: 'heading_1',
+    heading_1: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
+      is_toggleable: children != null,
+      children
+    } as any
+  }
+}
+
+/**
+ *
+ * @param text Text of the Headline
+ * @param children Array of Notion blocks to be included inside a toggle block
+ * @returns {DeepPartial<Heading2BlockRequest>}
+ */
+export const heading2 = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder,
+  children?: DeepPartialBlockResponseArray
+): DeepPartial<Heading2BlockRequest> => {
+  return {
+    type: 'heading_2',
+    heading_2: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
+      is_toggleable: children != null,
+      children
+    } as any
+  }
+}
+
+/**
+ *
+ * @param text Text of the Headline
+ * @param children Array of Notion blocks to be included inside a toggle block
+ * @returns {DeepPartial<Heading3BlockRequest>}
+ */
+export const heading3 = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder,
+  children?: DeepPartialBlockResponseArray
+): DeepPartial<Heading3BlockRequest> => {
+  return {
+    type: 'heading_3',
+    heading_3: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
+      is_toggleable: children != null,
+      children
+    } as any
   }
 }

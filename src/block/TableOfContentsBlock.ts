@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/block#table-of-contents
 import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface TableOfContentsBlockResponse extends BlockResponse {
@@ -26,3 +27,9 @@ export class TableOfContentsBlock extends Block {
     }
   }
 }
+
+export const tableOfContents =
+  (): DeepPartial<TableOfContentsBlockResponse> => ({
+    type: 'table_of_contents',
+    table_of_contents: {}
+  })

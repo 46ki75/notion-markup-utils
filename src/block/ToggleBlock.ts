@@ -1,7 +1,17 @@
 // @see https://developers.notion.com/reference/block#toggle-blocks
 import { type BlockClient } from '../client/BlockClient'
-import { Block, type BlockResponse } from './Block'
-import { RichText, type RichTextResponse } from './RichText'
+import { type DeepPartial } from '../utils'
+import {
+  Block,
+  type DeepPartialBlockResponseArray,
+  type BlockResponse
+} from './Block'
+import {
+  RichText,
+  type RichTextRequestBuilder,
+  r,
+  type RichTextResponse
+} from './RichText'
 
 export interface ToggleBlockResponse extends BlockResponse {
   type: 'toggle'
@@ -48,5 +58,41 @@ export class ToggleBlock extends Block {
 
     const HTML = `<details class='notion-toggle-block'><summary class='notion-toggle-block-header'>${summary.join('')}</summary>${details}</details>`
     return HTML
+  }
+}
+
+/**
+ *
+ * ## Usage:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.toggle('Toggle Headline Title', [b.paragraph('Toggle content')])
+ *   ]
+ * })
+ * ```
+ *
+ * @param {string | RichTextRequestBuilder[] | RichTextRequestBuilder} text
+ * @param {DeepPartialBlockResponseArray} children Array of Notion blocks to be included inside a toggle block
+ * @returns {DeepPartial<ToggleBlockResponse>}
+ */
+export const toggle = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder,
+  children?: DeepPartialBlockResponseArray
+): DeepPartial<ToggleBlockResponse> => {
+  return {
+    type: 'toggle',
+    toggle: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
+      children: children ?? []
+    } as any
   }
 }

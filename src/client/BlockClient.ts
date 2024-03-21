@@ -1,7 +1,13 @@
 import { ClientBase, type NotionClientArgs } from './ClientBase'
 import 'dotenv/config'
-import { BlockList, type BlockListResponse } from '../block'
+import {
+  BlockList,
+  type BlockResponse,
+  type BlockListResponse,
+  Block
+} from '../block'
 import { type BlockRequest } from '../page'
+import { type DeepPartial } from '../utils'
 
 export class BlockClient extends ClientBase {
   constructor({
@@ -54,15 +60,14 @@ export class BlockClient extends ClientBase {
     return new BlockList(data, this)
   }
 
-  /**
-   * @see https://developers.notion.com/reference/patch-block-children
-   * @param params
-   */
+  // TODO: Documentation
   public async append(params: {
     id: string
-    children: BlockRequest[]
-  }): Promise<void> {
+    children: Array<DeepPartial<BlockResponse>>
+  }): Promise<Block[]> {
     const url = `/v1/blocks/${params.id}/children`
+
+    const results: Block[] = []
 
     // Blocks can only add up to 100 pieces per request
     const childrenArray: BlockRequest[][] = []
@@ -71,8 +76,19 @@ export class BlockClient extends ClientBase {
       childrenArray.push(chunk)
     }
     for (const children of childrenArray) {
-      await this.client.patch(url, { children })
+      const { data }: { data: BlockListResponse } = await this.client.patch(
+        url,
+        {
+          children
+        }
+      )
+
+      data.results.forEach((result) => {
+        results.push(new Block(result, this))
+      })
     }
+
+    return results
   }
 
   async getHTML(params: {

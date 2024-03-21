@@ -1,7 +1,12 @@
 // @see https://developers.notion.com/reference/block#table
 import { type BlockClient } from '../client/BlockClient'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
-import { type RichTextResponse } from './RichText'
+import {
+  r,
+  type RichTextRequestBuilder,
+  type RichTextResponse
+} from './RichText'
 import { type TableRowBlockRequest } from './TableRowBlock'
 
 export interface TableBlockResponse extends BlockResponse {
@@ -10,6 +15,10 @@ export interface TableBlockResponse extends BlockResponse {
     table_width: number
     has_column_header: boolean
     has_row_header: boolean
+    children?: Array<{
+      type: 'table_row'
+      table_row: { cells: RichTextResponse[][] }
+    }>
   }
 }
 
@@ -110,6 +119,80 @@ export class TableBlockRequestBuilder {
     return {
       type: this.type,
       table: this.table
+    }
+  }
+}
+
+/**
+ *
+ * ## Usage:
+ *
+ * When you create a cell with RichText, it looks like this.
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.table([
+ *       [[r('A1')], [r('B1')]],
+ *       [[r('A2')], [r('B2')]]
+ *     ])
+ *   ]
+ * })
+ * ```
+ *
+ * When you create a cell with an array of RichText, it looks like this.
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.table([
+ *       [[r('A'), r('1')], [r('B1'),r('1')]],
+ *       [[r('A'), r('2')], [r('B2'),r('2')]]
+ *     ])
+ *   ]
+ * })
+ * ```
+ *
+ * Even without using RichText, you can also use primitive types like String.
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.table([
+ *       [['A1'], ['B1']],
+ *       [['B2'], ['B2']]
+ *     ])
+ *   ]
+ * })
+ * ```
+ *
+ * @param cells
+ * @returns
+ */
+export const table = (
+  cells: RichTextRequestBuilder[][][] | string[][][],
+  hasColumnHeader?: boolean,
+  hasRowHeader?: boolean
+): DeepPartial<TableBlockResponse> => {
+  const children = cells.map((cell) =>
+    cell.map((ce) =>
+      ce.map((c) => {
+        if (typeof c === 'string') return r(c).build()
+        return c.build()
+      })
+    )
+  )
+
+  return {
+    type: 'table',
+    table: {
+      table_width: children[0].length,
+      has_column_header: hasColumnHeader,
+      has_row_header: hasRowHeader,
+      children: children.map((cells) => ({
+        type: 'table_row',
+        table_row: { cells }
+      }))
     }
   }
 }

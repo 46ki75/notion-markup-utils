@@ -1,10 +1,16 @@
 // @see https://developers.notion.com/reference/block#bookmark
 import { type BlockClient } from '../client/BlockClient'
 import { Block, type BlockResponse } from './Block'
-import { RichText, type RichTextResponse } from './RichText'
+import {
+  RichText,
+  r,
+  type RichTextResponse,
+  type RichTextRequestBuilder
+} from './RichText'
 
 import { load } from 'cheerio'
 import axios from 'axios'
+import { type DeepPartial } from '../utils'
 
 export interface BookmarkBlockResponse extends BlockResponse {
   type: 'bookmark'
@@ -99,42 +105,66 @@ export class BookmarkBlock extends Block {
   }
 }
 
-export interface BookmarkBlockRequest {
-  type: 'bookmark'
-  bookmark: {
-    caption: RichTextResponse[]
-    url: string
-  }
-}
-
-export class BookmarkBlockRequestBuilder {
-  private readonly type = 'bookmark'
-  private readonly bookmark: {
-    caption: RichText[]
-    url: string
-  }
-
-  constructor(url: string) {
-    this.bookmark = {
-      caption: [],
+/**
+ * Create a Bookmark Block.
+ *
+ * ###
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.bookmark('https://example.com')]
+ * })
+ * ```
+ *
+ * ### With Caption (string)
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.bookmark('https://example.com', 'My caption')]
+ * })
+ * ```
+ *
+ * ### With Caption (RichText)
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.bookmark('https://example.com', r('My caption').bold())]
+ * })
+ * ```
+ *
+ * ### With Caption Array (RichText)
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.bookmark('https://example.com', [
+ *       r('My ').italic(),
+ *       r('caption').color('blue')
+ *     ])
+ *   ]
+ * })
+ * ```
+ *
+ * @param {string} url URL of the link
+ * @param {string | RichTextRequestBuilder[] | RichTextRequestBuilder} caption Caption displayed under the bookmark
+ * @returns {DeepPartial<BookmarkBlockResponse>} Objects that can be used to create a Notion Block
+ */
+export const bookmark = (
+  url: string,
+  caption?: string | RichTextRequestBuilder[] | RichTextRequestBuilder
+): DeepPartial<BookmarkBlockResponse> => {
+  return {
+    type: 'bookmark',
+    bookmark: {
+      caption:
+        caption != null
+          ? Array.isArray(caption)
+            ? caption.map((text) => text.build())
+            : typeof caption === 'string'
+              ? [r(caption).build()]
+              : [caption.build()]
+          : [],
       url
-    }
-  }
-
-  public caption(richText: RichTextResponse[] | RichTextResponse): this {
-    this.bookmark.caption = Array.isArray(richText)
-      ? richText.map((text) => new RichText(text))
-      : [new RichText(richText)]
-    return this
-  }
-
-  public build(): BookmarkBlockRequest {
-    return {
-      type: this.type,
-      bookmark: {
-        caption: this.bookmark.caption.map((text) => text.toJSON()),
-        url: this.bookmark.url
-      }
     }
   }
 }

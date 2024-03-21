@@ -1,4 +1,5 @@
 // @see https://developers.notion.com/reference/block#breadcrumb
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface BreadcrumbBlockResponse extends BlockResponse {
@@ -11,19 +12,18 @@ export class BreadcrumbBlock extends Block {
   public readonly breadcrumb = {}
 }
 
-export interface BreadcrumbBlockRequest {
-  type: 'breadcrumb'
-  breadcrumb: Record<string, unknown>
-}
-
-export class BreadcrumbBlockRequestBuilder {
-  public readonly type = 'breadcrumb'
-  public readonly breadcrumb = {}
-
-  build(): BreadcrumbBlockRequest {
-    return {
-      type: this.type,
-      breadcrumb: this.breadcrumb
-    }
-  }
-}
+/**
+ * I will create a breadcrumb function. This function takes no arguments.
+ *
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.breadcrumb()]
+ * })
+ * ```
+ * @returns {DeepPartial<BreadcrumbBlockResponse>} Objects that can be used to update a Notion Block
+ */
+export const breadcrumb = (): DeepPartial<BreadcrumbBlockResponse> => ({
+  type: 'breadcrumb',
+  breadcrumb: {}
+})

@@ -1,6 +1,11 @@
 // @see https://developers.notion.com/reference/block#synced-block
 import { type BlockClient } from '../client/BlockClient'
-import { Block, type BlockResponse } from './Block'
+import { type DeepPartial } from '../utils'
+import {
+  Block,
+  type DeepPartialBlockResponseArray,
+  type BlockResponse
+} from './Block'
 
 export interface SyncedBlockResponse extends BlockResponse {
   type: 'synced_block'
@@ -37,5 +42,26 @@ export class SyncedBlock extends Block {
     const HTMLPromises = data.results.map(async (item) => await item.toHTML())
     const HTML = await Promise.all(HTMLPromises)
     return HTML.join('')
+  }
+}
+
+/**
+ * When creating a new synchronization block, please do not pass an id as the second argument.
+ * To synchronize with an existing synchronization block, pass the target id as the second argument.
+ *
+ * @param {DeepPartialBlockResponseArray} children
+ * @param {DeepPartialBlockResponseArray} id
+ * @returns {DeepPartial<SyncedBlockResponse>}
+ */
+export const syncedBlock = (
+  children: DeepPartialBlockResponseArray,
+  id?: string
+): DeepPartial<SyncedBlockResponse> => {
+  return {
+    type: 'synced_block',
+    synced_block: {
+      synced_from: id != null ? { block_id: id } : null,
+      children: children ?? []
+    }
   }
 }

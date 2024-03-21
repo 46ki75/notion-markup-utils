@@ -1,5 +1,6 @@
 // @see https://developers.notion.com/reference/block#equation
 import { type BlockClient } from '../client/BlockClient'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface EquationBlockResponse extends BlockResponse {
@@ -23,3 +24,10 @@ export class EquationBlock extends Block {
     this.equation = { expression: equationBlockResponse.equation.expression }
   }
 }
+
+export const equation = (
+  expression: string
+): DeepPartial<EquationBlockResponse> => ({
+  type: 'equation',
+  equation: { expression }
+})

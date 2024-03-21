@@ -1,9 +1,18 @@
 // @see https://developers.notion.com/reference/block#quote
 import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
-import { type BlockRequest } from '../page'
-import { Block, type BlockResponse } from './Block'
-import { RichText, type RichTextResponse } from './RichText'
+import { type DeepPartial } from '../utils'
+import {
+  Block,
+  type DeepPartialBlockResponseArray,
+  type BlockResponse
+} from './Block'
+import {
+  RichText,
+  r,
+  type RichTextRequestBuilder,
+  type RichTextResponse
+} from './RichText'
 
 export interface QuoteBlockResponse extends BlockResponse {
   type: 'quote'
@@ -44,58 +53,34 @@ export class QuoteBlock extends Block {
   }
 }
 
-export interface QuoteBlockRequest {
-  type: 'quote'
-  quote: {
-    rich_text: RichTextResponse[]
-    color?: Color
-    children: BlockRequest[]
-  }
-}
-
-export class QuoteBlockRequestBuilder {
-  public readonly type = 'quote'
-  public readonly quote: {
-    rich_text: RichText[]
-    color?: Color
-    children: BlockRequest[]
-  }
-
-  constructor(richText?: RichTextResponse[] | RichTextResponse) {
-    this.quote = {
+/**
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.quote('Quote Text', [b.paragraph('Quote content')])]
+ * })
+ * ```
+ *
+ * @param text Text of the Quote
+ * @param children Array of Notion blocks to be included inside a quote block
+ * @returns
+ */
+export const quote = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder,
+  children?: DeepPartialBlockResponseArray
+): DeepPartial<QuoteBlockResponse> => {
+  return {
+    type: 'quote',
+    quote: {
       rich_text:
-        richText != null
-          ? Array.isArray(richText)
-            ? richText.map((text) => new RichText(text))
-            : [new RichText(richText)]
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
           : [],
-      color: 'default',
-      children: []
-    }
-  }
-
-  public children(block: BlockRequest | BlockRequest[]): this {
-    if (Array.isArray(block)) {
-      this.quote.children = block
-    } else {
-      this.quote.children = [block]
-    }
-    return this
-  }
-
-  public color(color: Color): this {
-    this.quote.color = color
-    return this
-  }
-
-  public build(): QuoteBlockRequest {
-    return {
-      type: this.type,
-      quote: {
-        rich_text: this.quote.rich_text.map((text) => text.toJSON()),
-        color: this.quote.color,
-        children: this.quote.children
-      }
+      children: children ?? []
     }
   }
 }

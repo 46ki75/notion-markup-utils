@@ -1,6 +1,7 @@
 // @see https://developers.notion.com/reference/block#image
 import { type BlockClient } from '../client/BlockClient'
 import { File, type FileResponse } from '../other'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
 
 export interface ImageBlockResponse extends BlockResponse {
@@ -39,36 +40,10 @@ export class ImageBlock extends Block {
   }
 }
 
-export interface ImageBlockRequest {
-  type: 'image'
+export const image = (url: string): DeepPartial<ImageBlockResponse> => ({
+  type: 'image',
   image: {
-    type: 'external'
-    external: {
-      url: string
-    }
+    type: 'external',
+    external: { url }
   }
-}
-
-export class ImageBlockRequestBuilder {
-  private readonly type = 'image'
-  private readonly image: {
-    type: 'external'
-    external: {
-      url: string
-    }
-  }
-
-  constructor(url: string) {
-    this.image = {
-      type: 'external',
-      external: { url }
-    }
-  }
-
-  public build(): ImageBlockRequest {
-    return {
-      type: this.type,
-      image: this.image
-    }
-  }
-}
+})

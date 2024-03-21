@@ -1,7 +1,15 @@
 // @see https://developers.notion.com/reference/block#bulleted-list-item
-import { type RichTextResponse, type BlockResponse, Block, RichText } from '.'
+import {
+  type RichTextResponse,
+  type BlockResponse,
+  Block,
+  RichText,
+  r,
+  type RichTextRequestBuilder
+} from '.'
 import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
+import { type DeepPartial } from '../utils'
 
 export interface BulletedListItemBlockResponse extends BlockResponse {
   type: 'bulleted_list_item'
@@ -50,50 +58,51 @@ export class BulletedListItemBlock extends Block {
   }
 }
 
-export interface BulletedListItemBlockRequest {
-  type: 'bulleted_list_item'
-  bulleted_list_item: {
-    rich_text: RichTextResponse[]
-    color: Color
-    children: BlockResponse[]
-  }
-}
-
-export class BulletedListItemBlockRequestBuilder {
-  private readonly type = 'bulleted_list_item'
-  private readonly bulleted_list_item: {
-    rich_text: RichText[]
-    color: Color
-    children: Block[]
-  }
-
-  constructor(richText: RichTextResponse[] | RichTextResponse) {
-    this.bulleted_list_item = {
-      rich_text: Array.isArray(richText)
-        ? richText.map((text) => new RichText(text))
-        : [new RichText(richText)],
-      color: 'default',
+/**
+ *
+ * ### Basic Usage:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ul('Hi')]
+ * })
+ * ```
+ *
+ * ### With RichText:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ul(r('Hi').bold())]
+ * })
+ * ```
+ *
+ * ### With RichText Array:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ul(r('Hello')), b.ul(r('world!'))]
+ * })
+ * ```
+ *
+ *
+ * @param {string | RichTextRequestBuilder[] | RichTextRequestBuilder} text Strings to use in a list.
+ * @returns {DeepPartial<BulletedListItemBlockResponse>} Objects that can be used to create a Notion Block
+ */
+export const ul = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder
+): DeepPartial<BulletedListItemBlockResponse> => {
+  return {
+    type: 'bulleted_list_item',
+    bulleted_list_item: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
       children: []
-    }
-  }
-
-  public color(color: Color): this {
-    this.bulleted_list_item.color = color
-    return this
-  }
-
-  public build(): BulletedListItemBlockRequest {
-    return {
-      type: this.type,
-      bulleted_list_item: {
-        rich_text: this.bulleted_list_item.rich_text.map((text) =>
-          text.toJSON()
-        ),
-        color: this.bulleted_list_item.color,
-        children: this.bulleted_list_item.children.map((block) =>
-          block.toJSON()
-        )
-      }
     }
   }
 }

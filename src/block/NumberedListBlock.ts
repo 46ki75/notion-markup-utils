@@ -1,8 +1,14 @@
 // @see https://developers.notion.com/reference/block#numbered-list-item
 import { type BlockClient } from '../client/BlockClient'
 import { type Color } from '../other'
+import { type DeepPartial } from '../utils'
 import { Block, type BlockResponse } from './Block'
-import { RichText, type RichTextResponse } from './RichText'
+import {
+  RichText,
+  type RichTextRequestBuilder,
+  r,
+  type RichTextResponse
+} from './RichText'
 
 export interface NumberedListBlockResponse extends BlockResponse {
   type: 'numbered_list_item'
@@ -90,6 +96,55 @@ export class NumberedListItemBlockRequestBuilder {
           block.toJSON()
         )
       }
+    }
+  }
+}
+
+/**
+ *
+ * ### Basic Usage:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ol('Hi')]
+ * })
+ * ```
+ *
+ * ### With RichText:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ol(r('Hi').bold())]
+ * })
+ * ```
+ *
+ * ### With RichText Array:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.ol(r('Hello')), b.ol(r('world!'))]
+ * })
+ * ```
+ *
+ *
+ * @param {string | RichTextRequestBuilder[] | RichTextRequestBuilder} text Strings to use in a list.
+ * @returns {DeepPartial<BulletedListItemBlockResponse>} Objects that can be used to create a Notion Block
+ */
+export const ol = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder
+): DeepPartial<NumberedListBlockResponse> => {
+  return {
+    type: 'numbered_list_item',
+    numbered_list_item: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : [],
+      children: []
     }
   }
 }

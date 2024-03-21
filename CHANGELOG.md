@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.5] - 2023-03-22
+
+- Implemented a way to easily create Notion blocks.
+
 ## [v1.4.4]
 
 - Add type generics to NotionClient's `pages.update` and `pages.update`

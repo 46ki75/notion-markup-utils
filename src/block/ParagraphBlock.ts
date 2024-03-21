@@ -1,6 +1,14 @@
 import { type BlockClient } from '../client/BlockClient'
-import { Block, RichText, type BlockResponse, type RichTextResponse } from '.'
+import {
+  Block,
+  RichText,
+  type BlockResponse,
+  type RichTextResponse,
+  type RichTextRequestBuilder,
+  r
+} from '.'
 import { type Color } from '../other'
+import { type DeepPartial } from '../utils'
 
 export interface ParagraphBlockResponse extends BlockResponse {
   type: 'paragraph'
@@ -36,42 +44,46 @@ export class ParagraphBlock extends Block {
   }
 }
 
-export interface ParagraphBlockRequest {
-  type: 'paragraph'
-  paragraph: {
-    rich_text: RichTextResponse[]
-    color?: Color
-  }
-}
-
-export class ParagraphBlockRequestBuilder {
-  public readonly type = 'paragraph'
-  public readonly paragraph: {
-    rich_text: RichText[]
-    color?: Color
-  }
-
-  constructor(richText: RichTextResponse[] | RichTextResponse) {
-    this.paragraph = {
-      rich_text: Array.isArray(richText)
-        ? richText.map((text) => new RichText(text))
-        : [new RichText(richText)],
-      color: 'default'
-    }
-  }
-
-  public color(color: Color): this {
-    this.paragraph.color = color
-    return this
-  }
-
-  public build(): ParagraphBlockRequest {
-    return {
-      type: this.type,
-      paragraph: {
-        rich_text: this.paragraph.rich_text.map((text) => text.toJSON()),
-        color: this.paragraph.color
-      }
+/**
+ * Create a paragraph.
+ *
+ * ## Usage:
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [b.paragraph('Notion)]
+ * })
+ * ```
+ *
+ * ### With RichText Array
+ * ```ts
+ * const data = await notion.blocks.append({
+ *   id: 'XXXXXXXXXX',
+ *   children: [
+ *     b.paragraph([
+ *       r('Notion has changed my life. '),
+ *       r('Notion is my Nation.').bold().color('blue')
+ *     ])
+ *   ]
+ * })
+ *
+ * @param {string | RichTextRequestBuilder[] | RichTextRequestBuilder} text Text of the Paragraph
+ * @returns {DeepPartial<ParagraphBlockResponse>} Paragraph Block
+ */
+export const paragraph = (
+  text: string | RichTextRequestBuilder[] | RichTextRequestBuilder
+): DeepPartial<ParagraphBlockResponse> => {
+  return {
+    type: 'paragraph',
+    paragraph: {
+      rich_text:
+        text != null
+          ? Array.isArray(text)
+            ? text.map((t) => t.build())
+            : typeof text === 'string'
+              ? [r(text).build()]
+              : [text.build()]
+          : []
     }
   }
 }
