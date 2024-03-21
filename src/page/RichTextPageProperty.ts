@@ -5,7 +5,6 @@ import {
   RichText,
   type RichTextRequestBuilder
 } from '../block'
-import { type RichTextDatabasePropertyResponse } from '../database'
 import { type DeepPartial } from '../utils'
 
 export interface RichTextPagePropertyResponse {
@@ -89,7 +88,7 @@ export class RichTextPageProperty {
  */
 export const richText = (
   text: string | RichTextRequestBuilder | RichTextRequestBuilder[]
-): DeepPartial<RichTextDatabasePropertyResponse> => {
+): DeepPartial<RichTextPagePropertyResponse> => {
   if (typeof text === 'string') {
     return {
       type: 'rich_text',

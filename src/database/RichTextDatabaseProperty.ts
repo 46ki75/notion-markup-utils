@@ -1,19 +1,17 @@
 // @see https://developers.notion.com/reference/property-object#rich-text
 
-import { RichText, type RichTextResponse } from '../block'
-
 export interface RichTextDatabasePropertyResponse {
   id: string
   name: string
   type: 'rich_text'
-  rich_text: RichTextResponse[]
+  rich_text: Record<string, unknown> // {}
 }
 
 export class RichTextDatabaseProperty {
   public readonly id: string
   public readonly name: string
   public readonly type: 'rich_text'
-  public readonly rich_text: RichText[]
+  public readonly rich_text: Record<string, unknown> // {}
 
   constructor(
     richTextDatabasePropertyResponse: RichTextDatabasePropertyResponse
@@ -21,9 +19,7 @@ export class RichTextDatabaseProperty {
     this.id = richTextDatabasePropertyResponse.id
     this.name = richTextDatabasePropertyResponse.name
     this.type = richTextDatabasePropertyResponse.type
-    this.rich_text = richTextDatabasePropertyResponse.rich_text.map(
-      (text) => new RichText(text)
-    )
+    this.rich_text = richTextDatabasePropertyResponse.rich_text
   }
 
   toJSON(): RichTextDatabasePropertyResponse {
@@ -31,7 +27,7 @@ export class RichTextDatabaseProperty {
       id: this.id,
       name: this.name,
       type: this.type,
-      rich_text: this.rich_text.map((text) => text.toJSON())
+      rich_text: this.rich_text
     }
   }
 }
