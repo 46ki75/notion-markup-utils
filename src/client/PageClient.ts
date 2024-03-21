@@ -265,7 +265,7 @@ export class PageClient extends ClientBase {
    */
   async update<
     T extends Record<string, PageProperty> = Record<string, PageProperty>
-  >(params: PageUpdateRequest): Promise<Page> {
+  >(params: PageUpdateRequest): Promise<Page<T>> {
     const url = `/v1/pages/${params.page_id}`
 
     const request = {}

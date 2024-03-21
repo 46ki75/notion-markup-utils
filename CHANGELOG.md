@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.6] - 2023-03-22
+
+- Correcting the type generics of PageClient
+
 ## [v1.4.5] - 2023-03-22
 
 - Implemented a way to easily create Notion blocks.
