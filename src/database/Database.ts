@@ -90,7 +90,12 @@ import {
   type URLDatabasePropertyResponse
 } from './URLDatabaseProperty'
 
-export interface DatabaseResponse {
+export interface DatabaseResponse<
+  T extends Record<string, DatabasePropertyResponse> = Record<
+    string,
+    DatabasePropertyResponse
+  >
+> {
   object: 'database'
   id: string
   cover: FileResponse | null
@@ -101,7 +106,7 @@ export interface DatabaseResponse {
   last_edited_by: UserResponse
   title: RichTextResponse[]
   description: RichTextResponse[]
-  properties: Record<string, DatabasePropertyResponse>
+  properties: T
   is_inline: boolean
   parent: ParentResponse
   url: string
@@ -111,7 +116,9 @@ export interface DatabaseResponse {
   request_id: string
 }
 
-export class Database {
+export class Database<
+  T extends Record<string, DatabaseProperty> = Record<string, DatabaseProperty>
+> {
   public readonly object = 'database'
   public readonly id: string
   public readonly cover: File | null
@@ -123,7 +130,7 @@ export class Database {
   public readonly title: RichText[]
   public readonly description: RichText[]
   public readonly is_inline: boolean
-  public readonly properties: Record<string, DatabaseProperty> = {}
+  public readonly properties: T
   public readonly parent: Parent
   public readonly url: string
   public readonly public_url: string | null
@@ -159,18 +166,20 @@ export class Database {
     this.developer_survey = databaseResponse.developer_survey
     this.request_id = databaseResponse.request_id
 
+    this.properties = databaseResponse.properties as any
+
     const keys = Object.keys(databaseResponse.properties)
     for (const key of keys) {
       switch (databaseResponse.properties[key].type) {
         case 'checkbox': {
-          this.properties[key] = new CheckboxDatabaseProperty(
+          ;(this.properties as any)[key] = new CheckboxDatabaseProperty(
             databaseResponse.properties[key] as CheckboxDatabasePropertyResponse
           )
           break
         }
 
         case 'created_by': {
-          this.properties[key] = new CreatedByDatabaseProperty(
+          ;(this.properties as any)[key] = new CreatedByDatabaseProperty(
             databaseResponse.properties[
               key
             ] as CreatedByDatabasePropertyResponse
@@ -179,7 +188,7 @@ export class Database {
         }
 
         case 'created_time': {
-          this.properties[key] = new CreatedTimeDatabaseProperty(
+          ;(this.properties as any)[key] = new CreatedTimeDatabaseProperty(
             databaseResponse.properties[
               key
             ] as CreatedTimeDatabasePropertyResponse
@@ -188,35 +197,35 @@ export class Database {
         }
 
         case 'date': {
-          this.properties[key] = new DateDatabaseProperty(
+          ;(this.properties as any)[key] = new DateDatabaseProperty(
             databaseResponse.properties[key] as DateDatabasePropertyResponse
           )
           break
         }
 
         case 'email': {
-          this.properties[key] = new EmailDatabaseProperty(
+          ;(this.properties as any)[key] = new EmailDatabaseProperty(
             databaseResponse.properties[key] as EmailDatabasePropertyResponse
           )
           break
         }
 
         case 'files': {
-          this.properties[key] = new FilesDatabaseProperty(
+          ;(this.properties as any)[key] = new FilesDatabaseProperty(
             databaseResponse.properties[key] as FilesDatabasePropertyResponse
           )
           break
         }
 
         case 'formula': {
-          this.properties[key] = new FormulaDatabaseProperty(
+          ;(this.properties as any)[key] = new FormulaDatabaseProperty(
             databaseResponse.properties[key] as FormulaDatabasePropertyResponse
           )
           break
         }
 
         case 'last_edited_time': {
-          this.properties[key] = new LastEditedTimeDatabaseProperty(
+          ;(this.properties as any)[key] = new LastEditedTimeDatabaseProperty(
             databaseResponse.properties[
               key
             ] as LastEditedTimeDatabasePropertyResponse
@@ -225,7 +234,7 @@ export class Database {
         }
 
         case 'multi_select': {
-          this.properties[key] = new MultiSelectDatabaseProperty(
+          ;(this.properties as any)[key] = new MultiSelectDatabaseProperty(
             databaseResponse.properties[
               key
             ] as MultiSelectDatabasePropertyResponse
@@ -234,14 +243,14 @@ export class Database {
         }
 
         case 'number': {
-          this.properties[key] = new NumberDatabaseProperty(
+          ;(this.properties as any)[key] = new NumberDatabaseProperty(
             databaseResponse.properties[key] as NumberDatabasePropertyResponse
           )
           break
         }
 
         case 'phone_number': {
-          this.properties[key] = new PhoneNumberDatabaseProperty(
+          ;(this.properties as any)[key] = new PhoneNumberDatabaseProperty(
             databaseResponse.properties[
               key
             ] as PhoneNumberDatabasePropertyResponse
@@ -250,56 +259,56 @@ export class Database {
         }
 
         case 'people': {
-          this.properties[key] = new PeopleDatabaseProperty(
+          ;(this.properties as any)[key] = new PeopleDatabaseProperty(
             databaseResponse.properties[key] as PeopleDatabasePropertyResponse
           )
           break
         }
 
         case 'relation': {
-          this.properties[key] = new RelationDatabaseProperty(
+          ;(this.properties as any)[key] = new RelationDatabaseProperty(
             databaseResponse.properties[key] as RelationDatabasePropertyResponse
           )
           break
         }
 
         case 'rich_text': {
-          this.properties[key] = new RichTextDatabaseProperty(
+          ;(this.properties as any)[key] = new RichTextDatabaseProperty(
             databaseResponse.properties[key] as RichTextDatabasePropertyResponse
           )
           break
         }
 
         case 'rollup': {
-          this.properties[key] = new RollupDatabaseProperty(
+          ;(this.properties as any)[key] = new RollupDatabaseProperty(
             databaseResponse.properties[key] as RollupDatabasePropertyResponse
           )
           break
         }
 
         case 'select': {
-          this.properties[key] = new SelectDatabaseProperty(
+          ;(this.properties as any)[key] = new SelectDatabaseProperty(
             databaseResponse.properties[key] as SelectDatabasePropertyResponse
           )
           break
         }
 
         case 'status': {
-          this.properties[key] = new StatusDatabaseProperty(
+          ;(this.properties as any)[key] = new StatusDatabaseProperty(
             databaseResponse.properties[key] as StatusDatabasePropertyResponse
           )
           break
         }
 
         case 'title': {
-          this.properties[key] = new TitleDatabaseProperty(
+          ;(this.properties as any)[key] = new TitleDatabaseProperty(
             databaseResponse.properties[key] as TitleDatabasePropertyResponse
           )
           break
         }
 
         case 'url': {
-          this.properties[key] = new URLDatabaseProperty(
+          ;(this.properties as any)[key] = new URLDatabaseProperty(
             databaseResponse.properties[key] as URLDatabasePropertyResponse
           )
           break

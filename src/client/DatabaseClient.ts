@@ -3,7 +3,7 @@ import 'dotenv/config'
 import { type PageListResponse, PageList } from '../database/PageList'
 import { type DatabaseResponse, Database } from '../database/Database'
 import { type QueryFilter } from '../database/QueryFilter'
-import { type QuerySort } from '../database'
+import { type DatabaseProperty, type QuerySort } from '../database'
 import { type PageProperty } from '../page'
 
 export class DatabaseClient extends ClientBase {
@@ -275,29 +275,46 @@ export class DatabaseClient extends ClientBase {
 
   /**
    *
+   *
+   * ## Usage:
+   * const data = await notion.databases.retrieve(
+   *   'XXXXXXXXXX'
+   * )
+   *
+   * ### With Types
+   * const data = await notion.databases.retrieve<{
+   *   title: TitleDatabaseProperty
+   *   tags: MultiSelectDatabaseProperty
+   * }>('XXXXXXXXXX')
+   *
    * @param id
    * @param options
-   * @returns
+   * @returns {Promise<Database<T>>} Database schema
    */
-  async retrieve(
+  async retrieve<
+    T extends Record<string, DatabaseProperty> = Record<
+      string,
+      DatabaseProperty
+    >
+  >(
     id: string,
     options: {
       forceRefresh?: boolean
     } = {
       forceRefresh: false
     }
-  ): Promise<Database> {
+  ): Promise<Database<T>> {
     const url = `/v1/databases/${id}`
 
     if (!(options?.forceRefresh ?? false)) {
-      const cacheRes = this.cache.get<DatabaseResponse>(url)
-      if (cacheRes != null) return new Database(cacheRes)
+      const cacheRes = this.cache.get<DatabaseResponse<T>>(url)
+      if (cacheRes != null) return new Database<T>(cacheRes)
     }
 
     const res = await this.client.get(url)
     const { data }: { data: DatabaseResponse } = res
 
     this.set(url, data)
-    return new Database(data)
+    return new Database<T>(data)
   }
 }
