@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.7] - 2023-03-22
+
+- Add type generics to the database client's retrieve method.
+
 ## [v1.4.6] - 2023-03-22
 
 - Correcting the type generics of PageClient
