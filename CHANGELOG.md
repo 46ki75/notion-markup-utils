@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.10] - 2023-03-24
+
+- Add OGP fetch logic
+
 ## [v1.4.8] - 2023-03-24
 
 - Add functionality to convert Notion blocks to JSON for React

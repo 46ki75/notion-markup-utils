@@ -58,4 +58,9 @@ export interface DOMJSON {
   language?: Language
   color?: Color
   table?: RichTextDOMJSON[][][]
+  bookmark?: {
+    title: string
+    description: string
+    image: string
+  }
 }

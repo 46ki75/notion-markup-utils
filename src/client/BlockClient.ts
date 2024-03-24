@@ -289,12 +289,16 @@ export class BlockClient extends ClientBase {
       if (!('type' in block)) continue
       switch (block.type) {
         case 'bookmark': {
+          const { title, description, image } = await block.fetchOGP(
+            block.bookmark.url
+          )
           root.children.push({
             type: 'bookmark',
             url: block.bookmark.url,
             rich_text: block.bookmark.caption.map((text) => text.toDOMJSON()),
             caption: [],
-            children: []
+            children: [],
+            bookmark: { title, description, image }
           })
           break
         }
