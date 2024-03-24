@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.8] - 2023-03-24
+
+- Add functionality to convert Notion blocks to JSON for React
+
 ## [v1.4.7] - 2023-03-22
 
 - Add type generics to the database client's retrieve method.
