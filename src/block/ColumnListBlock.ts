@@ -87,6 +87,10 @@ export class ColumnBlock extends Block {
     super(columnBlockResponse, notion)
     this.column = columnBlockResponse.column
   }
+
+  async toHTML(): Promise<string> {
+    return ''
+  }
 }
 
 // column_list -> column -> normal block

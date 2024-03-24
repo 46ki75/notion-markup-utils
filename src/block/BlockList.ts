@@ -87,6 +87,7 @@ export class BlockList {
     | ChildPageBlock[]
     | CodeBlock[]
     | ColumnListBlock[]
+    | ColumnBlock[]
     | DividerBlock[]
     | EmbedBlock[]
     | EquationBlock[]

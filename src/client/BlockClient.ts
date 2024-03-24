@@ -8,6 +8,7 @@ import {
 } from '../block'
 import { type BlockRequest } from '../page'
 import { type DeepPartial } from '../utils'
+import { type DOMJSON } from '../block/DOMJSON'
 
 export class BlockClient extends ClientBase {
   constructor({
@@ -272,5 +273,390 @@ export class BlockClient extends ClientBase {
     // }
     // return elements
     return []
+  }
+
+  public async getDOMJSON({ id }: { id: string }): Promise<DOMJSON[]> {
+    const root: DOMJSON = {
+      type: 'root',
+      rich_text: [],
+      caption: [],
+      children: []
+    }
+
+    const { results } = await this.children({ id })
+
+    for (const block of results) {
+      if (!('type' in block)) continue
+      switch (block.type) {
+        case 'bookmark': {
+          root.children.push({
+            type: 'bookmark',
+            url: block.bookmark.url,
+            rich_text: block.bookmark.caption.map((text) => text.toDOMJSON()),
+            caption: [],
+            children: []
+          })
+          break
+        }
+
+        case 'breadcrumb': {
+          root.children.push({
+            type: 'breadcrumb',
+            rich_text: [],
+            caption: [],
+            children: []
+          })
+          break
+        }
+
+        case 'bulleted_list_item': {
+          const data: DOMJSON = {
+            type: 'bulleted_list_item',
+            rich_text: block.bulleted_list_item.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: []
+          }
+          data.children = await this.getDOMJSON({ id: block.id })
+          root.children.push(data)
+          break
+        }
+
+        case 'callout': {
+          const data: DOMJSON = {
+            type: 'callout',
+            rich_text: block.callout.rich_text.map((text) => text.toDOMJSON()),
+            caption: [],
+            children: [],
+            color: block.callout.color
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'child_database': {
+          const data: DOMJSON = {
+            type: 'child_database',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'child_page': {
+          const data: DOMJSON = {
+            type: 'child_page',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'code': {
+          const data: DOMJSON = {
+            type: 'code',
+            rich_text: block.code.rich_text.map((text) => text.toDOMJSON()),
+            caption: block.code.caption.map((text) => text.toDOMJSON()),
+            children: [],
+            language: block.code.language
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'column_list': {
+          const data: DOMJSON = {
+            type: 'column_list',
+            rich_text: [],
+            caption: [],
+            children: await this.getDOMJSON({ id: block.id })
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'column': {
+          const data: DOMJSON = {
+            type: 'column',
+            rich_text: [],
+            caption: [],
+            children: await this.getDOMJSON({ id: block.id })
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'divider': {
+          const data: DOMJSON = {
+            type: 'divider',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'embed': {
+          const data: DOMJSON = {
+            type: 'embed',
+            rich_text: [],
+            caption: [],
+            children: [],
+            url: block.embed.url
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'equation': {
+          const data: DOMJSON = {
+            type: 'equation',
+            rich_text: [],
+            caption: [],
+            children: [],
+            expression: block.equation.expression
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'file': {
+          const data: DOMJSON = {
+            type: 'file',
+            rich_text: [],
+            caption: [],
+            children: [],
+            url: block.file.external?.url ?? block.file.file?.url
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'heading_1': {
+          const data: DOMJSON = {
+            type: 'heading_1',
+            rich_text: block.heading_1.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: block.has_children
+              ? await this.getDOMJSON({ id: block.id })
+              : []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'heading_2': {
+          const data: DOMJSON = {
+            type: 'heading_2',
+            rich_text: block.heading_2.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: block.has_children
+              ? await this.getDOMJSON({ id: block.id })
+              : []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'heading_3': {
+          const data: DOMJSON = {
+            type: 'heading_3',
+            rich_text: block.heading_3.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: block.has_children
+              ? await this.getDOMJSON({ id: block.id })
+              : []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'image': {
+          const data: DOMJSON = {
+            type: 'image',
+            rich_text: [],
+            caption: block.image.caption?.map((text) => text.toDOMJSON()) ?? [],
+            children: [],
+            url: block.image.file?.url ?? block.image.external?.url
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'link_preview': {
+          const data: DOMJSON = {
+            type: 'link_preview',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'mention': {
+          const data: DOMJSON = {
+            type: 'mention',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'numbered_list_item': {
+          const data: DOMJSON = {
+            type: 'numbered_list_item',
+            rich_text: block.numbered_list_item.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: []
+          }
+          data.children = await this.getDOMJSON({ id: block.id })
+          root.children.push(data)
+          break
+        }
+
+        case 'paragraph': {
+          const data: DOMJSON = {
+            type: 'paragraph',
+            rich_text: block.paragraph.rich_text.map((text) =>
+              text.toDOMJSON()
+            ),
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'pdf': {
+          const data: DOMJSON = {
+            type: 'pdf',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'quote': {
+          const data: DOMJSON = {
+            type: 'quote',
+            rich_text: block.quote.rich_text.map((text) => text.toDOMJSON()),
+            caption: [],
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'synced_block': {
+          const data: DOMJSON = {
+            type: 'synced_block',
+            rich_text: [],
+            caption: [],
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'table': {
+          const row = await this.children({ id: block.id })
+          const cells = []
+          for (const block of row.results) {
+            if ('type' in block && block.type === 'table_row') {
+              cells.push(block.table_row.cells)
+            }
+          }
+          const cellsDOM = cells.map((cell) =>
+            cell.map((texts) => texts.map((text) => text.toDOMJSON()))
+          )
+
+          const data: DOMJSON = {
+            type: 'table',
+            rich_text: [],
+            caption: [],
+            children: [],
+            table: cellsDOM
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'table_of_contents': {
+          const data: DOMJSON = {
+            type: 'table_of_contents',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'table_row': {
+          const data: DOMJSON = {
+            type: 'table_row',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'to_do': {
+          const data: DOMJSON = {
+            type: 'to_do',
+            rich_text: block.to_do.rich_text.map((text) => text.toDOMJSON()),
+            caption: [],
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'toggle': {
+          const data: DOMJSON = {
+            type: 'toggle',
+            rich_text: block.toggle.rich_text.map((text) => text.toDOMJSON()),
+            caption: [],
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
+          }
+          root.children.push(data)
+          break
+        }
+
+        case 'video': {
+          const data: DOMJSON = {
+            type: 'video',
+            rich_text: [],
+            caption: [],
+            children: []
+          }
+          root.children.push(data)
+          break
+        }
+      }
+    }
+
+    return root.children
   }
 }

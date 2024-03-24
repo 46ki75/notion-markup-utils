@@ -51,6 +51,19 @@ export class RichText {
     }
   }
 
+  toDOMJSON(): RichTextDOMJSON {
+    return {
+      text: this.plain_text,
+      bold: this.annotations.bold,
+      italic: this.annotations.italic,
+      strikethrough: this.annotations.strikethrough,
+      underline: this.annotations.underline,
+      code: this.annotations.code,
+      color: this.annotations.color,
+      link: this.href ?? this.text?.link ?? null
+    }
+  }
+
   toJSON(): RichTextResponse {
     const baseResponse: RichTextResponseBase = {
       annotations: this.annotations,
@@ -331,3 +344,14 @@ export class RichTextRequestBuilder {
  */
 export const r = (text: string): RichTextRequestBuilder =>
   new RichTextRequestBuilder(text)
+
+export interface RichTextDOMJSON {
+  text: string
+  bold: boolean
+  italic: boolean
+  strikethrough: boolean
+  underline: boolean
+  code: boolean
+  color: Color
+  link: string | null
+}
