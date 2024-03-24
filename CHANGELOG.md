@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.4.11] - 2023-03-24
+
+- Combine bullet and numbered lists into one feature
+
 ## [v1.4.10] - 2023-03-24
 
 - Add OGP fetch logic

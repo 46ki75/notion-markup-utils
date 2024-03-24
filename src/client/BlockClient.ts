@@ -276,6 +276,9 @@ export class BlockClient extends ClientBase {
   }
 
   public async getDOMJSON({ id }: { id: string }): Promise<DOMJSON[]> {
+    let olFlag = false
+    let ulFlag = false
+
     const root: DOMJSON = {
       type: 'root',
       rich_text: [],
@@ -287,6 +290,10 @@ export class BlockClient extends ClientBase {
 
     for (const block of results) {
       if (!('type' in block)) continue
+
+      if (block.type !== 'bulleted_list_item') ulFlag = false
+      if (block.type !== 'numbered_list_item') olFlag = false
+
       switch (block.type) {
         case 'bookmark': {
           const { title, description, image } = await block.fetchOGP(
@@ -320,10 +327,19 @@ export class BlockClient extends ClientBase {
               text.toDOMJSON()
             ),
             caption: [],
-            children: []
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
           }
-          data.children = await this.getDOMJSON({ id: block.id })
-          root.children.push(data)
+          if (ulFlag) {
+            root.children[root.children.length - 1].children.push(data)
+          } else {
+            root.children.push({
+              type: 'ul',
+              rich_text: [],
+              caption: [],
+              children: [data]
+            })
+            ulFlag = true
+          }
           break
         }
 
@@ -528,10 +544,19 @@ export class BlockClient extends ClientBase {
               text.toDOMJSON()
             ),
             caption: [],
-            children: []
+            children: (await this.getDOMJSON({ id: block.id })) ?? []
           }
-          data.children = await this.getDOMJSON({ id: block.id })
-          root.children.push(data)
+          if (olFlag) {
+            root.children[root.children.length - 1].children.push(data)
+          } else {
+            root.children.push({
+              type: 'ol',
+              rich_text: [],
+              caption: [],
+              children: [data]
+            })
+            olFlag = true
+          }
           break
         }
 
